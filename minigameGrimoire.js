@@ -265,8 +265,7 @@ M.launch=function()
 			var towers=Math.max(M.parent.amount,1);
 			var lvl=Math.max(M.parent.level,1);
 			M.magicM=Math.floor(4+Math.pow(towers,0.6)+Math.log((towers+(lvl-1)*10)/15+1)*15);
-			//old formula :
-			/*
+			//old formula: 			/*
 			M.magicM=8+Math.min(M.parent.amount,M.parent.level*5)+Math.ceil(M.parent.amount/10);
 			if (M.magicM>200)
 			{
@@ -463,7 +462,7 @@ M.launch=function()
 	M.load=function(str)
 	{
 		//interpret str; called after .init
-		//note : not actually called in the Game's load; see "minigameSave" in main.js
+		//note: not actually called in the Game's load; see "minigameSave" in main.js
 		if (!str) return false;
 		var i=0;
 		var spl=str.split(' ');

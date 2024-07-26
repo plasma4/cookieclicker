@@ -1,8 +1,7 @@
 /*
 Orteil's sloppy Cookie Clicker dungeons
 
-Optimizations to do (not mentioning the dozens of missing features) :
--use canvas instead
+Optimizations to do (not mentioning the dozens of missing features): -use canvas instead
 -only compute AI for mobs with 2 tiles of view
 */
 var LaunchDungeons=function()
@@ -102,15 +101,14 @@ var LaunchDungeons=function()
 	=======================================================================================*/
 	
 	/*
-	An explanation of stats :
-		-hp : health points
-		-speed : determines who attacks first in a fight; bypasses dodging; determines how fast heroes auto-run dungeons
-		-might : determines how much damage is done to opponents
-		-guard : lowers incoming damage
-		-dodge : chance of avoiding incoming attacks completely (affected by the opponent's speed)
-		-luck : heroes only, determines drops and rare encounters
-		-rarity : monsters only, determines how often a monster is added to the spawn table
-		-level : monsters only, determines which average room depth the monster is more likely to spawn in (also determines the loot amount)
+	An explanation of stats: 		-hp: health points
+		-speed: determines who attacks first in a fight; bypasses dodging; determines how fast heroes auto-run dungeons
+		-might: determines how much damage is done to opponents
+		-guard: lowers incoming damage
+		-dodge: chance of avoiding incoming attacks completely (affected by the opponent's speed)
+		-luck: heroes only, determines drops and rare encounters
+		-rarity: monsters only, determines how often a monster is added to the spawn table
+		-level: monsters only, determines which average room depth the monster is more likely to spawn in (also determines the loot amount)
 	*/
 	Game.monsterIconY=10;//offset for dungeonItems.png monsters
 	Game.Monsters=[];
@@ -172,7 +170,7 @@ var LaunchDungeons=function()
 	ENTITY MECHANICS
 	=======================================================================================*/
 	
-	Game.Entity=function(type,subtype,dungeon,pic,stats)//objects you could find on the map : doors, mobs, interactables, items, player, exits...
+	Game.Entity=function(type,subtype,dungeon,pic,stats)//objects you could find on the map: doors, mobs, interactables, items, player, exits...
 	{
 		this.type=type;
 		this.subtype=subtype||'';
@@ -255,7 +253,7 @@ var LaunchDungeons=function()
 		{
 			if (this.type=='monster')
 			{
-				if (Game.Monsters[this.subtype].quotes[what]) this.dungeon.Log(this.subtype+' : "<span style="color:#f96;">'+choose(Game.Monsters[this.subtype].quotes[what].split('|'))+'</span>"');
+				if (Game.Monsters[this.subtype].quotes[what]) this.dungeon.Log(this.subtype+': "<span style="color:#f96;">'+choose(Game.Monsters[this.subtype].quotes[what].split('|'))+'</span>"');
 			}
 		}
 		this.Draw=function()//return the string to draw this
@@ -298,7 +296,7 @@ var LaunchDungeons=function()
 			{
 				this.targets=[];
 				if (this.x==x) this.targets.push([1,0],[-1,0]);//somehow this feels inverted... but it doesn't work the other way
-				if (this.y==y) this.targets.push([0,1],[0,-1]);//hypothesis : *MAGIC*
+				if (this.y==y) this.targets.push([0,1],[0,-1]);//hypothesis: *MAGIC*
 				this.Move();
 			}
 		}
@@ -313,7 +311,7 @@ var LaunchDungeons=function()
 			{
 				this.targets=[];
 				if (this.x==x) this.targets.push([1,0],[-1,0]);//somehow this feels inverted... but it doesn't work the other way
-				if (this.y==y) this.targets.push([0,1],[0,-1]);//hypothesis : *MAGIC*
+				if (this.y==y) this.targets.push([0,1],[0,-1]);//hypothesis: *MAGIC*
 				this.Move();
 			}
 		}
@@ -834,7 +832,7 @@ var LaunchDungeons=function()
 		}
 		this.FailLevel=function()
 		{
-			this.Log('Cookies made this run : '+Beautify(this.cookiesMadeThisRun)+' | Monsters defeated this run : '+Beautify(this.monstersKilledThisRun));
+			this.Log('Cookies made this run: '+Beautify(this.cookiesMadeThisRun)+' | Monsters defeated this run: '+Beautify(this.monstersKilledThisRun));
 			this.cookiesMadeThisRun=0;
 			this.monstersKilledThisRun=0;
 			this.level=0;
@@ -1023,7 +1021,7 @@ var LaunchDungeons=function()
 		
 		this.Say=function(what)
 		{
-			if (this.dialogue[what]) Game.Dungeons[this.inDungeon].Log(this.name+' : "<span style="color:#99f;">'+choose(this.dialogue[what].split('|'))+'</span>"');
+			if (this.dialogue[what]) Game.Dungeons[this.inDungeon].Log(this.name+': "<span style="color:#99f;">'+choose(this.dialogue[what].split('|'))+'</span>"');
 		}
 		
 		this.save=function()

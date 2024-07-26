@@ -237,8 +237,7 @@ var Beautify=function(val,floats)
 }
 var shortenNumber=function(val)
 {
-	//if no scientific notation, return as is, else :
-	//keep only the 5 first digits (plus dot), round the rest
+	//if no scientific notation, return as is, else: 	//keep only the 5 first digits (plus dot), round the rest
 	//may or may not work properly
 	if (val>=1000000 && isFinite(val))
 	{
@@ -287,7 +286,7 @@ var locName='none';
 var locPatches=[];
 var locPlur='nplurals=2;plural=(n!=1);';//see http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
 var locPlurFallback=locPlur;
-//note : plural index will be downgraded to the last matching, ie. in this case, if we get "0" but don't have a 3rd option, use the 2nd option (or 1st, lacking that too)
+//note: plural index will be downgraded to the last matching, ie. in this case, if we get "0" but don't have a 3rd option, use the 2nd option (or 1st, lacking that too)
 var locStringsByPart={};
 var FindLocStringByPart=function(match)
 {
@@ -318,7 +317,7 @@ var Langs={
 	'RU':{file:'RU',nameEN:'Russian',name:'&#x420;&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;',changeLanguage:'&#1071;&#1079;&#1099;&#1082;',icon:0,w:1.2},
 };
 
-//note : baseline should be the original english text
+//note: baseline should be the original english text
 //in several instances, the english text will be quite different from the other languages, as this game was initially never meant to be translated and the translation process doesn't always play well with complex sentence structures
 /*use:
 	loc('Plain text')
@@ -485,7 +484,7 @@ var AddLanguage=function(id,name,json,mod)
 			if (!pf_re.test(plural_form))
 			throw new Error('The plural form "'+plural_form+'" is not valid');
 			return new Function('n','var plural, nplurals; '+ plural_form +' return plural;');
-			//return new Function('n','var plural, nplurals; '+ plural_form +' return { nplurals: nplurals, plural: (plural === true ? 1 : (plural ? plural : 0)) };');
+			//return new Function('n','var plural, nplurals; '+ plural_form +' return { nplurals: nplurals, plural: (plural === true ? 1: (plural ? plural: 0)) };');
 		})(locPlur);
 		
 		locPatches=[];
@@ -701,7 +700,7 @@ var saveAs=saveAs||function(view){"use strict";if(typeof navigator!=="undefined"
 
 function bind(scope,fn)
 {
-	//use : bind(this,function(){this.x++;}) - returns a function where "this" refers to the scoped this
+	//use: bind(this,function(){this.x++;}) - returns a function where "this" refers to the scoped this
 	return function() {fn.apply(scope,arguments);};
 }
 
@@ -883,14 +882,14 @@ var SoundInsts=[];
 var SoundI=0;
 for (var i=0;i<12;i++){SoundInsts[i]=new Audio();}
 var pitchSupport=false;
-//note : Chrome turns out to not support webkitPreservesPitch despite the specifications claiming otherwise, and Firefox clips some short sounds when changing playbackRate, so i'm turning the feature off completely until browsers get it together
+//note: Chrome turns out to not support webkitPreservesPitch despite the specifications claiming otherwise, and Firefox clips some short sounds when changing playbackRate, so i'm turning the feature off completely until browsers get it together
 //if (SoundInsts[0].preservesPitch || SoundInsts[0].mozPreservesPitch || SoundInsts[0].webkitPreservesPitch) pitchSupport=true;
 
 var PlaySound=function(url,vol,pitchVar)
 {
-	//url : the url of the sound to play (will be cached so it only loads once)
-	//vol : volume between 0 and 1 (multiplied by game volume setting); defaults to 1 (full volume)
-	//(DISABLED) pitchVar : pitch variance in browsers that support it (Firefox only at the moment); defaults to 0.05 (which means pitch can be up to -5% or +5% anytime the sound plays)
+	//url: the url of the sound to play (will be cached so it only loads once)
+	//vol: volume between 0 and 1 (multiplied by game volume setting); defaults to 1 (full volume)
+	//(DISABLED) pitchVar: pitch variance in browsers that support it (Firefox only at the moment); defaults to 0.05 (which means pitch can be up to -5% or +5% anytime the sound plays)
 	var volume=1;
 	var volumeSetting=Game.volume;
 	if (typeof vol!=='undefined') volume=vol;
@@ -972,7 +971,7 @@ Timer.track=function(label)
 	var now=Date.now();
 	if (!Timer.smoothed[label]) Timer.smoothed[label]=0;
 	Timer.smoothed[label]+=((now-Timer.t)-Timer.smoothed[label])*0.1;
-	Timer.labels[label]='<div style="padding-left:8px;">'+label+' : '+Math.round(Timer.smoothed[label])+'ms</div>';
+	Timer.labels[label]='<div style="padding-left:8px;">'+label+': '+Math.round(Timer.smoothed[label])+'ms</div>';
 	Timer.t=now;
 }
 Timer.clean=function()
@@ -1222,7 +1221,7 @@ var Game={};
 		});
 	}
 	
-	//replacing an existing canvas picture with a new one at runtime : Game.Loader.Replace('perfectCookie.png','imperfectCookie.png');
+	//replacing an existing canvas picture with a new one at runtime: Game.Loader.Replace('perfectCookie.png','imperfectCookie.png');
 	//upgrades and achievements can use other pictures than icons.png; declare their icon with [posX,posY,'http://example.com/myIcons.png']
 	//check out the "UNLOCKING STUFF" section to see how unlocking achievs and upgrades is done
 })();
@@ -1241,7 +1240,7 @@ if (App) Game.local=true;
 Game.resPath='';
 if (!App && !Game.local && window.location.href.indexOf('orteil.dashnet.org')!=-1)
 {
-	Game.resPath=('//'+location.host+location.pathname).replace('orteil.dashnet.org','cdn.dashnet.org');
+	Game.resPath=('https://'+location.host+location.pathname).replace('orteil.dashnet.org','cdn.dashnet.org');
 	if (Game.resPath.substr(-1)!='/') Game.resPath+='/';
 }
 
@@ -1312,7 +1311,7 @@ Game.Launch=function()
 	'<div class="subsection">'+
 	'<div class="title">'+loc("About")+'</div>'+
 	(App?'<div class="listing" style="font-weight:bold;font-style:italic;opacity:0.5;">'+loc("Note: links will open in your web browser.")+'</div>':'')+
-	'<div class="listing">'+loc("Cookie Clicker is a javascript game by %1 and %2.",['<a href="//orteil.dashnet.org" target="_blank">Orteil</a>','<a href="//dashnet.org" target="_blank">Opti</a>'])+'</div>'+
+	'<div class="listing">'+loc("Cookie Clicker is a javascript game by %1 and %2.",['<a href="https://orteil.dashnet.org" target="_blank">Orteil</a>','<a href="https://dashnet.org" target="_blank">Opti</a>'])+'</div>'+
 	(App?'<div class="listing">'+loc("Music by %1.",'<a href="https://twitter.com/C418" target="_blank">C418</a>')+'</div>':'')+
 	//'<div class="listing">We have an <a href="https://discordapp.com/invite/cookie" target="_blank">official Discord</a>, as well as a <a href="http://forum.dashnet.org" target="_blank">forum</a>; '+
 	'<div class="listing">'+(EN?
@@ -1450,12 +1449,12 @@ Game.Launch=function()
 	'<div class="listing">&bull; game has been renamed to "Cookie Clicker" to avoid confusion</div>'+
 	'<div class="listing">&bull; can now click the big cookie to generate cookies for free</div>'+
 	'<div class="listing">&bull; removed fall damage</div>'+
-	//'<div class="listing">&bull; fixed various typos : player\'s name is now correctly spelled as "[bakeryName]"</div>'+
+	//'<div class="listing">&bull; fixed various typos: player\'s name is now correctly spelled as "[bakeryName]"</div>'+
 	'<div class="listing">&bull; removed all references to computer-animated movie <i style="font-style:italic;">Hoodwinked!</i> (2005)</div>'+
 	'<div class="listing">&bull; went back in time and invented cookies and computer mice, ensuring Cookie Clicker would one day come to exist</div>'+
 	'<div class="listing">&bull; game now fully compliant with Geneva Conventions</div>'+
 	'<div class="listing">&bull; dropped support for TI-84 version</div>'+
-	'<div class="listing">&bull; released a low-res retro version of the game, playable here : <a href="//orteil.dashnet.org/experiments/cookie/" target="_blank">orteil.dashnet.org/experiments/cookie</a></div>'+
+	'<div class="listing">&bull; released a low-res retro version of the game, playable here: <a href="https://orteil.dashnet.org/experiments/cookie/" target="_blank">orteil.dashnet.org/experiments/cookie</a></div>'+
 	'<div class="listing">&bull; updated version number</div>'+
 	
 	'</div><div class="subsection update small">'+
@@ -1563,7 +1562,7 @@ Game.Launch=function()
 	
 	'</div><div class="subsection update">'+
 	'<div class="title">08/08/2017 - 4 more years</div>'+
-	'<div class="listing">&bull; new building : Chancemakers</div>'+
+	'<div class="listing">&bull; new building: Chancemakers</div>'+
 	'<div class="listing">&bull; new milk, new kittens, new dragon aura, new cookie, new upgrade tier</div>'+
 	'<div class="listing">&bull; buffs no longer affect offline CpS</div>'+
 	'<div class="listing">&bull; Godzamok\'s hunger was made less potent (this is a nerf, very sorry)</div>'+
@@ -1599,21 +1598,21 @@ Game.Launch=function()
 	'</div><div class="subsection update">'+
 	'<div class="title">08/02/2016 - legacy</div>'+
 	'<div class="listing"><b>Everything that was implemented during the almost 2-year-long beta has been added to the live game. To recap :</b></div>'+
-	'<div class="listing">&bull; 3 new buildings : banks, temples, and wizard towers; these have been added in-between existing buildings and as such, may disrupt some building-related achievements</div>'+
+	'<div class="listing">&bull; 3 new buildings: banks, temples, and wizard towers; these have been added in-between existing buildings and as such, may disrupt some building-related achievements</div>'+
 	'<div class="listing">&bull; the ascension system has been redone from scratch, with a new heavenly upgrade tree</div>'+
 	'<div class="listing">&bull; mysterious new features such as angel-powered offline progression, challenge runs, and a cookie dragon</div>'+
 	'<div class="listing">&bull; sounds have been added (can be disabled in the options)</div>'+
 	'<div class="listing">&bull; heaps of rebalancing and bug fixes</div>'+
 	'<div class="listing">&bull; a couple more upgrades and achievements, probably</div>'+
 	'<div class="listing">&bull; fresh new options to further customize your cookie-clicking experience</div>'+
-	'<div class="listing">&bull; quality-of-life improvements : better bulk-buy, better switches etc</div>'+
+	'<div class="listing">&bull; quality-of-life improvements: better bulk-buy, better switches etc</div>'+
 	'<div class="listing">&bull; added some <a href="http://en.wikipedia.org/wiki/'+choose(['Krzysztof_Arciszewski','Eustachy_Sanguszko','Maurycy_Hauke','Karol_Turno','Tadeusz_Kutrzeba','Kazimierz_Fabrycy','Florian_Siwicki'])+'" target="_blank">general polish</a></div>'+/* i liked this dumb pun too much to let it go unnoticed */
 	'<div class="listing">&bull; tons of other little things we can\'t even remember right now</div>'+
-	'<div class="listing">Miss the old version? Your old save was automatically exported <a href="//orteil.dashnet.org/cookieclicker/v10466/" target="_blank">here</a>!</div>'+
+	'<div class="listing">Miss the old version? Your old save was automatically exported <a href="https://orteil.dashnet.org/cookieclicker/v10466/" target="_blank">here</a>!</div>'+
 	
 	'</div><div class="subsection update small">'+
 	'<div class="title">05/02/2016 - legacy beta, more fixes</div>'+
-	'<div class="listing">&bull; added challenge modes, which can be selected when ascending (only 1 for now : "Born again")</div>'+
+	'<div class="listing">&bull; added challenge modes, which can be selected when ascending (only 1 for now: "Born again")</div>'+
 	'<div class="listing">&bull; changed the way bulk-buying and bulk-selling works</div>'+
 	'<div class="listing">&bull; more bugs ironed out</div>'+
 	
@@ -1682,7 +1681,7 @@ Game.Launch=function()
 	'<div class="listing">&bull; added some <a href="http://en.wikipedia.org/wiki/'+choose(['Krzysztof_Arciszewski','Eustachy_Sanguszko','Maurycy_Hauke','Karol_Turno','Tadeusz_Kutrzeba','Kazimierz_Fabrycy','Florian_Siwicki'])+'" target="_blank">general polish</a></div>'+
 	'<div class="listing">&bull; tons of other miscellaneous fixes and additions</div>'+
 	'<div class="listing">&bull; Cookie Clicker is now 1 year old! (Thank you guys for all the support!)</div>'+
-	'<div class="listing warning">&bull; Note : this is a beta; you are likely to encounter bugs and oversights. Feel free to send me feedback if you find something fishy!</div>'+
+	'<div class="listing warning">&bull; Note: this is a beta; you are likely to encounter bugs and oversights. Feel free to send me feedback if you find something fishy!</div>'+
 	
 	'</div><div class="subsection update small">'+
 	'<div class="title">18/05/2014 - better late than easter</div>'+
@@ -1690,7 +1689,7 @@ Game.Launch=function()
 	'<div class="listing">&bull; prompts now have keyboard shortcuts like system prompts would</div>'+
 	'<div class="listing">&bull; naming your bakery? you betcha</div>'+
 	'<div class="listing">&bull; "Fast notes" option to make all notifications close faster; new button to close all notifications</div>'+
-	'<div class="listing">&bull; the dungeons beta is now available on <a href="//orteil.dashnet.org/cookieclicker/betadungeons" target="_blank">/betadungeons</a></div>'+
+	'<div class="listing">&bull; the dungeons beta is now available on <a href="https://orteil.dashnet.org/cookieclicker/betadungeons" target="_blank">/betadungeons</a></div>'+
 	
 	'</div><div class="subsection update small">'+
 	'<div class="title">09/04/2014 - nightmare in heaven</div>'+
@@ -1706,7 +1705,7 @@ Game.Launch=function()
 	'<div class="listing">&bull; implemented a simplified version of the <a href="https://github.com/Icehawk78/FrozenCookies" target="_blank">Frozen Cookies</a> add-on\'s short number formatting</div>'+
 	'<div class="listing">&bull; you can now buy 10 and sell all of a building at a time</div>'+
 	'<div class="listing">&bull; tons of optimizations and subtler changes</div>'+
-	'<div class="listing">&bull; you can now <a href="//orteil.dashnet.org/cookies2cash/" target="_blank">convert your cookies to cash</a>!</div>'+
+	'<div class="listing">&bull; you can now <a href="https://orteil.dashnet.org/cookies2cash/" target="_blank">convert your cookies to cash</a>!</div>'+
 	
 	'</div><div class="subsection update small">'+
 	'<div class="title">05/04/2014 - pity the fool</div>'+
@@ -1715,13 +1714,13 @@ Game.Launch=function()
 	'<div class="listing">&bull; miscellaneous fixes and tiny additions</div>'+
 	'<div class="listing">&bull; added a few very rudimentary mod hooks</div>'+
 	'<div class="listing">&bull; the game should work again in Opera</div>'+
-	'<div class="listing">&bull; don\'t forget to check out <a href="//orteil.dashnet.org/randomgen/" target="_blank">RandomGen</a>, our all-purpose random generator maker!</div>'+
+	'<div class="listing">&bull; don\'t forget to check out <a href="https://orteil.dashnet.org/randomgen/" target="_blank">RandomGen</a>, our all-purpose random generator maker!</div>'+
 	
 	'</div><div class="subsection update small">'+
 	'<div class="title">01/04/2014 - fooling around</div>'+
-	'<div class="listing">&bull; it\'s about time : Cookie Clicker has turned into the much more realistic Cookie Baker</div>'+
+	'<div class="listing">&bull; it\'s about time: Cookie Clicker has turned into the much more realistic Cookie Baker</div>'+
 	'<div class="listing">&bull; season triggers are cheaper and properly unlock again when they run out</div>'+
-	'<div class="listing">&bull; buildings should properly unlock (reminder : building unlocking is completely cosmetic and does not change the gameplay)</div>'+
+	'<div class="listing">&bull; buildings should properly unlock (reminder: building unlocking is completely cosmetic and does not change the gameplay)</div>'+
 	
 	'</div><div class="subsection update small">'+
 	'<div class="title">14/02/2014 - lovely rainbowcalypse</div>'+
@@ -1730,7 +1729,7 @@ Game.Launch=function()
 	'<div class="listing">&bull; new ultra-expensive batch of seasonal cookie upgrades you\'ll love to hate</div>'+
 	'<div class="listing">&bull; new timer bars for golden cookie buffs</div>'+
 	'<div class="listing">&bull; buildings are now hidden when you start out and appear as they become available</div>'+
-	'<div class="listing">&bull; technical stuff : the game is now saved through localstorage instead of browser cookies, therefore ruining a perfectly good pun</div>'+
+	'<div class="listing">&bull; technical stuff: the game is now saved through localstorage instead of browser cookies, therefore ruining a perfectly good pun</div>'+
 	
 	'</div><div class="subsection update small">'+
 	'<div class="title">22/12/2013 - merry fixmas</div>'+
@@ -1764,7 +1763,7 @@ Game.Launch=function()
 	'<div class="listing">&bull; heavenly upgrades are now way, way cheaper</div>'+
 	'<div class="listing">&bull; tier 5 building upgrades are 5 times cheaper</div>'+
 	'<div class="listing">&bull; cursors now just plain disappear with Fancy Graphics off, I might add a proper option to toggle only the cursors later</div>'+
-	'<div class="listing">&bull; warning : the Cookie Monster add-on seems to be buggy with this update, you might want to wait until its programmer updates it</div>'+
+	'<div class="listing">&bull; warning: the Cookie Monster add-on seems to be buggy with this update, you might want to wait until its programmer updates it</div>'+
 	
 	'</div><div class="subsection update small">'+
 	'<div class="title">15/10/2013 - a couple fixes</div>'+
@@ -1791,11 +1790,11 @@ Game.Launch=function()
 	'<div class="listing">&bull; antimatter condensers are back to their previous price</div>'+
 	'<div class="listing">&bull; heavenly chips now give +2% CpS again (they will be extensively reworked in the future)</div>'+
 	'<div class="listing">&bull; farms have been buffed a bit (to popular demand)</div>'+
-	'<div class="listing">&bull; dungeons still need a bit more work and will be released soon - we want them to be just right! (you can test an unfinished version in <a href="//orteil.dashnet.org/cookieclicker/betadungeons/" target="_blank">the beta</a>)</div>'+
+	'<div class="listing">&bull; dungeons still need a bit more work and will be released soon - we want them to be just right! (you can test an unfinished version in <a href="https://orteil.dashnet.org/cookieclicker/betadungeons/" target="_blank">the beta</a>)</div>'+
 	
 	'</div><div class="subsection update">'+
 	'<div class="title">28/09/2013 - dungeon beta</div>'+
-	'<div class="listing">&bull; from now on, big updates will come through a beta stage first (you can <a href="//orteil.dashnet.org/cookieclicker/betadungeons/" target="_blank">try it here</a>)</div>'+
+	'<div class="listing">&bull; from now on, big updates will come through a beta stage first (you can <a href="https://orteil.dashnet.org/cookieclicker/betadungeons/" target="_blank">try it here</a>)</div>'+
 	'<div class="listing">&bull; first dungeons! (you need 50 factories to unlock them!)</div>'+
 	'<div class="listing">&bull; cookie chains can be longer</div>'+
 	'<div class="listing">&bull; antimatter condensers are a bit more expensive</div>'+
@@ -1807,7 +1806,7 @@ Game.Launch=function()
 	'<div class="listing">&bull; ran out of regular matter to make your cookies? Try our new antimatter condensers!</div>'+
 	'<div class="listing">&bull; renamed Hard-reset to "Wipe save" to avoid confusion</div>'+
 	'<div class="listing">&bull; reset achievements are now regular achievements and require cookies baked all time, not cookies in bank</div>'+
-	'<div class="listing">&bull; heavenly chips have been nerfed a bit (and are now awarded following a geometric progression : 1 trillion for the first, 2 for the second, etc); the prestige system will be extensively reworked in a future update (after dungeons)</div>'+
+	'<div class="listing">&bull; heavenly chips have been nerfed a bit (and are now awarded following a geometric progression: 1 trillion for the first, 2 for the second, etc); the prestige system will be extensively reworked in a future update (after dungeons)</div>'+
 	'<div class="listing">&bull; golden cookie clicks are no longer reset by soft-resets</div>'+
 	'<div class="listing">&bull; you can now see how long you\'ve been playing in the stats</div>'+
 	
@@ -1835,7 +1834,7 @@ Game.Launch=function()
 	'<div class="listing">&bull; base64 encoding has been redone; this might make saving possible again on some older browsers</div>'+
 	'<div class="listing">&bull; shadow achievements now have their own section</div>'+
 	'<div class="listing">&bull; raspberry juice is now named raspberry milk, despite raspberry juice being delicious and going unquestionably well with cookies</div>'+
-	'<div class="listing">&bull; HOTFIX : cursors now click; fancy graphics button renamed; cookies amount now more visible against cursors</div>'+
+	'<div class="listing">&bull; HOTFIX: cursors now click; fancy graphics button renamed; cookies amount now more visible against cursors</div>'+
 	
 	'</div><div class="subsection update small">'+
 	'<div class="title">01/09/2013 - sorting things out</div>'+
@@ -1928,7 +1927,7 @@ Game.Launch=function()
 		l('offGameMessage').innerHTML=
 		'<div class="title">Oops. Wrong address!</div>'+
 		'<div>It looks like you\'re accessing Cookie Clicker from another URL than the official one.<br>'+
-		'You can <a href="//orteil.dashnet.org/cookieclicker/" target="_blank">play Cookie Clicker over here</a>!<br>'+
+		'You can <a href="https://orteil.dashnet.org/cookieclicker/" target="_blank">play Cookie Clicker over here</a>!<br>'+
 		'<small>(If for any reason, you are unable to access the game on the official URL, we are currently working on a second domain.)</small></div>';
 	}
 	Game.timedout=false;
@@ -2150,10 +2149,10 @@ Game.Launch=function()
 		Game.prefs=[];
 		Game.DefaultPrefs=function()
 		{
-			Game.prefs.particles=1;//particle effects : falling cookies etc
+			Game.prefs.particles=1;//particle effects: falling cookies etc
 			Game.prefs.numbers=1;//numbers that pop up when clicking the cookie
 			Game.prefs.autosave=1;//save the game every minute or so
-			Game.prefs.autoupdate=1;//send an AJAX request to the server every 30 minutes (note : ignored)
+			Game.prefs.autoupdate=1;//send an AJAX request to the server every 30 minutes (note: ignored)
 			Game.prefs.milk=1;//display milk
 			Game.prefs.fancy=1;//CSS shadow effects (might be heavy on some browsers)
 			Game.prefs.warn=0;//warn before closing the window
@@ -2336,7 +2335,7 @@ Game.Launch=function()
 				if (Game.onCrate)
 				{
 					var rect=Game.onCrate.getBounds();
-					if (rect.left==0 && rect.top==0)//if we get that bug where we get stuck in the top-left, move to the mouse (REVISION : just do nothing)
+					if (rect.left==0 && rect.top==0)//if we get that bug where we get stuck in the top-left, move to the mouse (REVISION: just do nothing)
 					{return false;/*rect.left=Game.mouseX-24;rect.right=Game.mouseX+24;rect.top=Game.mouseY-24;rect.bottom=Game.mouseY+24;*/}
 					if (this.origin=='left')
 					{
@@ -2616,6 +2615,12 @@ Game.Launch=function()
 		Game.Prompt('<id ImportSave><h3>'+loc("Import save")+'</h3><div class="block">'+loc("Please paste in the code that was given to you on save export.")+'<div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div></div><div class="block"><textarea id="textareaPrompt" style="width:100%;height:128px;">'+(def||'')+'</textarea></div>',[[loc("Load"),'if (l(\'textareaPrompt\').value.length==0){return false;}if (Game.ImportSaveCode(l(\'textareaPrompt\').value)){Game.ClosePrompt();}else{l(\'importError\').innerHTML=\'(\'+loc("Error importing save")+\')\';}'],loc("Nevermind")]);//prompt('Please paste in the text that was given to you on save export.','');
 			l('textareaPrompt').focus();
 		}
+		Game.InjectMod=function(def)
+		{
+			//if (App) return false;
+		Game.Prompt('<id InjectMod><h3>'+loc("Inject script")+'</h3><div class="block">'+loc("Please paste in the script to use to load the mod. This mod will be unloaded upon reloading!")+'<div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div></div><div class="block"><textarea id="textareaPrompt" style="width:100%;height:128px;">'+(def||'')+'</textarea></div>',[[loc("Load"),'if (l(\'textareaPrompt\').value.length==0){return false;}try{eval(l(\'textareaPrompt\').value);Game.ClosePrompt()}catch(e){l(\'importError\').innerHTML=\'(\'+loc("Error importing script")+\')\';}'],loc("Nevermind")]);
+			l('textareaPrompt').focus();
+		}
 		Game.ImportSaveCode=function(save)
 		{
 			var out=false;
@@ -2663,12 +2668,12 @@ Game.Launch=function()
 			str+='|';//just in case we need some more stuff here
 			if (type==3) str+='\n\nRun details';
 			str+=//save stats
-			(type==3?'\n	run start date : ':'')+parseInt(Game.startDate)+';'+
-			(type==3?'\n	legacy start date : ':'')+parseInt(Game.fullDate)+';'+
-			(type==3?'\n	date when we last opened the game : ':'')+parseInt(Game.lastDate)+';'+
-			(type==3?'\n	bakery name : ':'')+(Game.bakeryName)+';'+
-			(type==3?'\n	seed : ':'')+(Game.seed)+';'+
-			(type==3?'\n	appearance : ':'')+(Game.YouCustomizer.save())+
+			(type==3?'\n	run start date: ':'')+parseInt(Game.startDate)+';'+
+			(type==3?'\n	legacy start date: ':'')+parseInt(Game.fullDate)+';'+
+			(type==3?'\n	date when we last opened the game: ':'')+parseInt(Game.lastDate)+';'+
+			(type==3?'\n	bakery name: ':'')+(Game.bakeryName)+';'+
+			(type==3?'\n	seed: ':'')+(Game.seed)+';'+
+			(type==3?'\n	appearance: ':'')+(Game.YouCustomizer.save())+
 			'|';
 			if (type==3) str+='\n\nPacked preferences bitfield\n	';
 			var str2=//prefs
@@ -2690,7 +2695,7 @@ Game.Launch=function()
 			(Game.prefs.crates?'1':'0')+
 			(Game.prefs.showBackupWarning?'1':'0')+
 			(Game.prefs.extraButtons?'1':'0')+
-			(Game.prefs.askLumps?'1':'0')+
+			(Game.prefs.mobileMode*2+Game.prefs.askLumps)+ // slide stuff in here
 			(Game.prefs.customGrandmas?'1':'0')+
 			(Game.prefs.timeout?'1':'0')+
 			(Game.prefs.cloudSave?'1':'0')+
@@ -2704,67 +2709,67 @@ Game.Launch=function()
 			str+=str2+'|';
 			if (type==3) str+='\n\nMisc game data';
 			str+=
-			(type==3?'\n	cookies : ':'')+parseFloat(Game.cookies).toString()+';'+
-			(type==3?'\n	total cookies earned : ':'')+parseFloat(Game.cookiesEarned).toString()+';'+
-			(type==3?'\n	cookie clicks : ':'')+parseInt(Math.floor(Game.cookieClicks))+';'+
-			(type==3?'\n	golden cookie clicks : ':'')+parseInt(Math.floor(Game.goldenClicks))+';'+
-			(type==3?'\n	cookies made by clicking : ':'')+parseFloat(Game.handmadeCookies).toString()+';'+
-			(type==3?'\n	golden cookies missed : ':'')+parseInt(Math.floor(Game.missedGoldenClicks))+';'+
-			(type==3?'\n	background type : ':'')+parseInt(Math.floor(Game.bgType))+';'+
-			(type==3?'\n	milk type : ':'')+parseInt(Math.floor(Game.milkType))+';'+
-			(type==3?'\n	cookies from past runs : ':'')+parseFloat(Game.cookiesReset).toString()+';'+
-			(type==3?'\n	elder wrath : ':'')+parseInt(Math.floor(Game.elderWrath))+';'+
-			(type==3?'\n	pledges : ':'')+parseInt(Math.floor(Game.pledges))+';'+
-			(type==3?'\n	pledge time left : ':'')+parseInt(Math.floor(Game.pledgeT))+';'+
-			(type==3?'\n	currently researching : ':'')+parseInt(Math.floor(Game.nextResearch))+';'+
-			(type==3?'\n	research time left : ':'')+parseInt(Math.floor(Game.researchT))+';'+
-			(type==3?'\n	ascensions : ':'')+parseInt(Math.floor(Game.resets))+';'+
-			(type==3?'\n	golden cookie clicks (this run) : ':'')+parseInt(Math.floor(Game.goldenClicksLocal))+';'+
-			(type==3?'\n	cookies sucked by wrinklers : ':'')+parseFloat(Game.cookiesSucked).toString()+';'+
-			(type==3?'\n	wrinkles popped : ':'')+parseInt(Math.floor(Game.wrinklersPopped))+';'+
-			(type==3?'\n	santa level : ':'')+parseInt(Math.floor(Game.santaLevel))+';'+
-			(type==3?'\n	reindeer clicked : ':'')+parseInt(Math.floor(Game.reindeerClicked))+';'+
-			(type==3?'\n	season time left : ':'')+parseInt(Math.floor(Game.seasonT))+';'+
-			(type==3?'\n	season switcher uses : ':'')+parseInt(Math.floor(Game.seasonUses))+';'+
-			(type==3?'\n	current season : ':'')+(Game.season?Game.season:'')+';';
+			(type==3?'\n	cookies: ':'')+parseFloat(Game.cookies).toString()+';'+
+			(type==3?'\n	total cookies earned: ':'')+parseFloat(Game.cookiesEarned).toString()+';'+
+			(type==3?'\n	cookie clicks: ':'')+parseInt(Math.floor(Game.cookieClicks))+';'+
+			(type==3?'\n	golden cookie clicks: ':'')+parseInt(Math.floor(Game.goldenClicks))+';'+
+			(type==3?'\n	cookies made by clicking: ':'')+parseFloat(Game.handmadeCookies).toString()+';'+
+			(type==3?'\n	golden cookies missed: ':'')+parseInt(Math.floor(Game.missedGoldenClicks))+';'+
+			(type==3?'\n	background type: ':'')+parseInt(Math.floor(Game.bgType))+';'+
+			(type==3?'\n	milk type: ':'')+parseInt(Math.floor(Game.milkType))+';'+
+			(type==3?'\n	cookies from past runs: ':'')+parseFloat(Game.cookiesReset).toString()+';'+
+			(type==3?'\n	elder wrath: ':'')+parseInt(Math.floor(Game.elderWrath))+';'+
+			(type==3?'\n	pledges: ':'')+parseInt(Math.floor(Game.pledges))+';'+
+			(type==3?'\n	pledge time left: ':'')+parseInt(Math.floor(Game.pledgeT))+';'+
+			(type==3?'\n	currently researching: ':'')+parseInt(Math.floor(Game.nextResearch))+';'+
+			(type==3?'\n	research time left: ':'')+parseInt(Math.floor(Game.researchT))+';'+
+			(type==3?'\n	ascensions: ':'')+parseInt(Math.floor(Game.resets))+';'+
+			(type==3?'\n	golden cookie clicks (this run): ':'')+parseInt(Math.floor(Game.goldenClicksLocal))+';'+
+			(type==3?'\n	cookies sucked by wrinklers: ':'')+parseFloat(Game.cookiesSucked).toString()+';'+
+			(type==3?'\n	wrinkles popped: ':'')+parseInt(Math.floor(Game.wrinklersPopped))+';'+
+			(type==3?'\n	santa level: ':'')+parseInt(Math.floor(Game.santaLevel))+';'+
+			(type==3?'\n	reindeer clicked: ':'')+parseInt(Math.floor(Game.reindeerClicked))+';'+
+			(type==3?'\n	season time left: ':'')+parseInt(Math.floor(Game.seasonT))+';'+
+			(type==3?'\n	season switcher uses: ':'')+parseInt(Math.floor(Game.seasonUses))+';'+
+			(type==3?'\n	current season: ':'')+(Game.season?Game.season:'')+';';
 			var wrinklers=Game.SaveWrinklers();
 			str+=
-			(type==3?'\n	amount of cookies contained in wrinklers : ':'')+parseFloat(Math.floor(wrinklers.amount))+';'+
-			(type==3?'\n	number of wrinklers : ':'')+parseInt(Math.floor(wrinklers.number))+';'+
-			(type==3?'\n	prestige level : ':'')+parseFloat(Game.prestige).toString()+';'+
-			(type==3?'\n	heavenly chips : ':'')+parseFloat(Game.heavenlyChips).toString()+';'+
-			(type==3?'\n	heavenly chips spent : ':'')+parseFloat(Game.heavenlyChipsSpent).toString()+';'+
-			(type==3?'\n	heavenly cookies : ':'')+parseFloat(Game.heavenlyCookies).toString()+';'+
-			(type==3?'\n	ascension mode : ':'')+parseInt(Math.floor(Game.ascensionMode))+';'+
-			(type==3?'\n	permanent upgrades : ':'')+parseInt(Math.floor(Game.permanentUpgrades[0]))+';'+parseInt(Math.floor(Game.permanentUpgrades[1]))+';'+parseInt(Math.floor(Game.permanentUpgrades[2]))+';'+parseInt(Math.floor(Game.permanentUpgrades[3]))+';'+parseInt(Math.floor(Game.permanentUpgrades[4]))+';'+
-			(type==3?'\n	dragon level : ':'')+parseInt(Math.floor(Game.dragonLevel))+';'+
-			(type==3?'\n	dragon aura : ':'')+parseInt(Math.floor(Game.dragonAura))+';'+
-			(type==3?'\n	dragon aura 2 : ':'')+parseInt(Math.floor(Game.dragonAura2))+';'+
-			(type==3?'\n	chime type : ':'')+parseInt(Math.floor(Game.chimeType))+';'+
-			(type==3?'\n	volume : ':'')+parseInt(Math.floor(Game.volume))+';'+
-			(type==3?'\n	number of shiny wrinklers : ':'')+parseInt(Math.floor(wrinklers.shinies))+';'+
-			(type==3?'\n	amount of cookies contained in shiny wrinklers : ':'')+parseFloat(Math.floor(wrinklers.amountShinies))+';'+
-			(type==3?'\n	current amount of sugar lumps : ':'')+parseFloat(Math.floor(Game.lumps))+';'+
-			(type==3?'\n	total amount of sugar lumps made : ':'')+parseFloat(Math.floor(Game.lumpsTotal))+';'+
-			(type==3?'\n	time when current sugar lump started : ':'')+parseFloat(Math.floor(Game.lumpT))+';'+
-			(type==3?'\n	time when last refilled a minigame with a sugar lump : ':'')+parseFloat(Math.floor(Game.lumpRefill))+';'+
-			(type==3?'\n	sugar lump type : ':'')+parseInt(Math.floor(Game.lumpCurrentType))+';'+
-			(type==3?'\n	vault : ':'')+Game.vault.join(',')+';'+
-			(type==3?'\n	heralds : ':'')+parseInt(Game.heralds)+';'+
-			(type==3?'\n	golden cookie fortune : ':'')+parseInt(Game.fortuneGC)+';'+
-			(type==3?'\n	CpS fortune : ':'')+parseInt(Game.fortuneCPS)+';'+
-			(type==3?'\n	highest raw CpS : ':'')+parseFloat(Game.cookiesPsRawHighest)+';'+
-			(type==3?'\n	music volume : ':'')+parseInt(Math.floor(Game.volumeMusic))+';'+
-			(type==3?'\n	cookies sent : ':'')+parseInt(Math.floor(Game.cookiesSent))+';'+
-			(type==3?'\n	cookies received : ':'')+parseInt(Math.floor(Game.cookiesReceived))+';'+
+			(type==3?'\n	amount of cookies contained in wrinklers: ':'')+parseFloat(Math.floor(wrinklers.amount))+';'+
+			(type==3?'\n	number of wrinklers: ':'')+parseInt(Math.floor(wrinklers.number))+';'+
+			(type==3?'\n	prestige level: ':'')+parseFloat(Game.prestige).toString()+';'+
+			(type==3?'\n	heavenly chips: ':'')+parseFloat(Game.heavenlyChips).toString()+';'+
+			(type==3?'\n	heavenly chips spent: ':'')+parseFloat(Game.heavenlyChipsSpent).toString()+';'+
+			(type==3?'\n	heavenly cookies: ':'')+parseFloat(Game.heavenlyCookies).toString()+';'+
+			(type==3?'\n	ascension mode: ':'')+parseInt(Math.floor(Game.ascensionMode))+';'+
+			(type==3?'\n	permanent upgrades: ':'')+parseInt(Math.floor(Game.permanentUpgrades[0]))+';'+parseInt(Math.floor(Game.permanentUpgrades[1]))+';'+parseInt(Math.floor(Game.permanentUpgrades[2]))+';'+parseInt(Math.floor(Game.permanentUpgrades[3]))+';'+parseInt(Math.floor(Game.permanentUpgrades[4]))+';'+
+			(type==3?'\n	dragon level: ':'')+parseInt(Math.floor(Game.dragonLevel))+';'+
+			(type==3?'\n	dragon aura: ':'')+parseInt(Math.floor(Game.dragonAura))+';'+
+			(type==3?'\n	dragon aura 2: ':'')+parseInt(Math.floor(Game.dragonAura2))+';'+
+			(type==3?'\n	chime type: ':'')+parseInt(Math.floor(Game.chimeType))+';'+
+			(type==3?'\n	volume: ':'')+parseInt(Math.floor(Game.volume))+';'+
+			(type==3?'\n	number of shiny wrinklers: ':'')+parseInt(Math.floor(wrinklers.shinies))+';'+
+			(type==3?'\n	amount of cookies contained in shiny wrinklers: ':'')+parseFloat(Math.floor(wrinklers.amountShinies))+';'+
+			(type==3?'\n	current amount of sugar lumps: ':'')+parseFloat(Math.floor(Game.lumps))+';'+
+			(type==3?'\n	total amount of sugar lumps made: ':'')+parseFloat(Math.floor(Game.lumpsTotal))+';'+
+			(type==3?'\n	time when current sugar lump started: ':'')+parseFloat(Math.floor(Game.lumpT))+';'+
+			(type==3?'\n	time when last refilled a minigame with a sugar lump: ':'')+parseFloat(Math.floor(Game.lumpRefill))+';'+
+			(type==3?'\n	sugar lump type: ':'')+parseInt(Math.floor(Game.lumpCurrentType))+';'+
+			(type==3?'\n	vault: ':'')+Game.vault.join(',')+';'+
+			(type==3?'\n	heralds: ':'')+parseInt(Game.heralds)+';'+
+			(type==3?'\n	golden cookie fortune: ':'')+parseInt(Game.fortuneGC)+';'+
+			(type==3?'\n	CpS fortune: ':'')+parseInt(Game.fortuneCPS)+';'+
+			(type==3?'\n	highest raw CpS: ':'')+parseFloat(Game.cookiesPsRawHighest)+';'+
+			(type==3?'\n	music volume: ':'')+parseInt(Math.floor(Game.volumeMusic))+';'+
+			(type==3?'\n	cookies sent: ':'')+parseInt(Math.floor(Game.cookiesSent))+';'+
+			(type==3?'\n	cookies received: ':'')+parseInt(Math.floor(Game.cookiesReceived))+';'+
 			
 			'|';//cookies and lots of other stuff
 			
-			if (type==3) str+='\n\nBuildings : amount, bought, cookies produced, level, minigame data';
+			if (type==3) str+='\n\nBuildings: amount, bought, cookies produced, level, minigame data';
 			for (var i in Game.Objects)//buildings
 			{
 				var me=Game.Objects[i];
-				if (type==3) str+='\n	'+me.name+' : ';
+				if (type==3) str+='\n	'+me.name+': ';
 				if (me.vanilla)
 				{
 					str+=me.amount+','+me.bought+','+parseFloat(Math.floor(me.totalCookies))+','+parseInt(me.level);
@@ -2798,13 +2803,13 @@ Game.Launch=function()
 			str+=toCompress;
 			
 			str+='|';
-			if (type==3) str+='\n\nBuffs : type, maxTime, time, arg1, arg2, arg3';
+			if (type==3) str+='\n\nBuffs: type, maxTime, time, arg1, arg2, arg3';
 			for (var i in Game.buffs)
 			{
 				var me=Game.buffs[i];
 				if (me.type)
 				{
-					if (type==3) str+='\n	'+me.type.name+' : ';
+					if (type==3) str+='\n	'+me.type.name+': ';
 					if (me.type.vanilla)
 					{
 						str+=me.type.id+','+me.maxTime+','+me.time;
@@ -2993,7 +2998,8 @@ Game.Launch=function()
 						Game.prefs.crates=spl[15]?parseInt(spl[15]):0;
 						Game.prefs.showBackupWarning=spl[16]?parseInt(spl[16]):1;
 						Game.prefs.extraButtons=spl[17]?parseInt(spl[17]):1;if (!Game.prefs.extraButtons) Game.removeClass('extraButtons'); else if (Game.prefs.extraButtons) Game.addClass('extraButtons');
-						Game.prefs.askLumps=spl[18]?parseInt(spl[18]):0;
+						Game.prefs.mobileMode=spl[18]?Math.floor(parseInt(spl[18])/2):0;
+						Game.prefs.askLumps=spl[18]?parseInt(spl[18])%2:0;
 						Game.prefs.customGrandmas=spl[19]?parseInt(spl[19]):1;
 						Game.prefs.timeout=spl[20]?parseInt(spl[20]):0;
 						Game.prefs.cloudSave=spl[21]?parseInt(spl[21]):1;
@@ -3301,7 +3307,7 @@ Game.Launch=function()
 							Game.heavenlyChips=Game.prestige;
 							Game.heavenlyChipsSpent=0;
 							
-							setTimeout(function(){Game.Prompt('<h3>Beta patch</h3><div class="block">We\'ve tweaked some things and fixed some others, please check the update notes!<div class="line"></div>Of note : due to changes in prestige balancing, all your heavenly upgrades have been removed and your heavenly chips refunded; you\'ll be able to reallocate them next time you ascend.<div class="line"></div>Thank you again for beta-testing Cookie Clicker!</div>',[['Alright then!','Game.ClosePrompt();']]);},200);
+							setTimeout(function(){Game.Prompt('<h3>Beta patch</h3><div class="block">We\'ve tweaked some things and fixed some others, please check the update notes!<div class="line"></div>Of note: due to changes in prestige balancing, all your heavenly upgrades have been removed and your heavenly chips refunded; you\'ll be able to reallocate them next time you ascend.<div class="line"></div>Thank you again for beta-testing Cookie Clicker!</div>',[['Alright then!','Game.ClosePrompt();']]);},200);
 						}
 						if (version<=1.0466)//are we loading from the old live version? reset HCs
 						{
@@ -5576,7 +5582,7 @@ Game.Launch=function()
 						var nextMoni=Math.max(digit,Math.min(Math.floor(1/9*Math.pow(10,this.chain+1)*digit*mult),maxPayout));
 						this.totalFromChain+=moni;
 
-						//break the chain if we're above 5 digits AND it's more than 50% of our bank, it grants more than 6 hours of our CpS, or just a 1% chance each digit (update : removed digit limit)
+						//break the chain if we're above 5 digits AND it's more than 50% of our bank, it grants more than 6 hours of our CpS, or just a 1% chance each digit (update: removed digit limit)
 						if (Math.random()<0.01 || nextMoni>=maxPayout)
 						{
 							this.chain=0;
@@ -6619,6 +6625,7 @@ Game.Launch=function()
 							'<div class="listing"><a class="option smallFancyButton" '+Game.clickStr+'="Game.toSave=true;PlaySound(\'snd/tick.mp3\');">'+loc("Save")+'</a><label>'+loc("Save manually (the game autosaves every 60 seconds; shortcut: ctrl+S)")+'</label></div>'+
 							'<div class="listing"><a class="option smallFancyButton" '+Game.clickStr+'="Game.ExportSave();PlaySound(\'snd/tick.mp3\');">'+loc("Export save")+'</a><a class="option smallFancyButton" '+Game.clickStr+'="Game.ImportSave();PlaySound(\'snd/tick.mp3\');">'+loc("Import save")+'</a><label>'+loc("You can use this to backup your save or to transfer it to another computer (shortcut for import: ctrl+O)")+'</label></div>'+
 							(!App?('<div class="listing"><a class="option smallFancyButton" '+Game.clickStr+'="Game.FileSave();PlaySound(\'snd/tick.mp3\');">'+loc("Save to file")+'</a><a class="option smallFancyButton" style="position:relative;"><input id="FileLoadInput" type="file" style="cursor:pointer;opacity:0;position:absolute;left:0px;top:0px;width:100%;height:100%;" onchange="Game.FileLoad(event);" '+Game.clickStr+'="PlaySound(\'snd/tick.mp3\');"/>'+loc("Load from file")+'</a><label>'+loc("Use this to keep backups on your computer")+'</label></div>'):'')+
+							'<div class="listing"><a class="option smallFancyButton" '+Game.clickStr+'="Game.InjectMod();PlaySound(\'snd/tick.mp3\');">'+loc("Inject script")+'</a><label>'+loc("Inject a script; can be used for modding")+'</label></div>'+
 							'<div class="listing" style="text-align:right;"><label>'+loc("Delete all your progress, including your achievements")+'</label><a class="option smallFancyButton warning" '+Game.clickStr+'="Game.HardReset();PlaySound(\'snd/tick.mp3\');">'+loc("Wipe save")+'</a></div>'+
 							
 						'</div>'+
@@ -6635,6 +6642,7 @@ Game.Launch=function()
 							'<br>'+
 							(App?Game.WritePrefButton('bgMusic','bgMusicButton',loc("Music in background")+ON,loc("Music in background")+OFF,'')+'<label>('+loc("music will keep playing even when the game window isn't focused")+')</label><br>':'')+
 							(App?Game.WritePrefButton('fullscreen','fullscreenButton',loc("Fullscreen")+ON,loc("Fullscreen")+OFF,'Game.ToggleFullscreen();')+'<br>':'')+
+							Game.WritePrefButton('mobileMode','mobileModeButton',loc("Mobile mode")+ON,loc("Mobile mode")+OFF)+'<label>('+loc("the game will be treated as mobile")+')</label><br>'+
 							Game.WritePrefButton('fancy','fancyButton',loc("Fancy graphics")+ON,loc("Fancy graphics")+OFF,'Game.ToggleFancy();')+'<label>('+loc("visual improvements; disabling may improve performance")+')</label><br>'+
 							Game.WritePrefButton('filters','filtersButton',loc("CSS filters")+ON,loc("CSS filters")+OFF,'Game.ToggleFilters();')+'<label>('+(EN?'cutting-edge visual improvements; disabling may improve performance':loc("visual improvements; disabling may improve performance"))+')</label><br>'+
 							Game.WritePrefButton('particles','particlesButton',loc("Particles")+ON,loc("Particles")+OFF)+(EN?'<label>(cookies falling down, etc; disabling may improve performance)</label>':'')+'<br>'+
@@ -6987,7 +6995,7 @@ Game.Launch=function()
 			if (Game.TickerAge<=0) Game.getNewTicker();
 			else if (Game.Ticker=='') Game.getNewTicker(true);
 		}
-		Game.getNewTicker=function(manual)//note : "manual" is true if the ticker was clicked, but may also be true on startup etc
+		Game.getNewTicker=function(manual)//note: "manual" is true if the ticker was clicked, but may also be true on startup etc
 		{
 			var list=[];
 			
@@ -7028,186 +7036,186 @@ Game.Launch=function()
 					else
 					{
 						if (Game.Objects['Farm'].amount>0) list.push(choose([
-						'News : cookie farms suspected of employing undeclared elderly workforce!',
-						'News : cookie farms release harmful chocolate in our rivers, says scientist!',
-						'News : genetically-modified chocolate controversy strikes cookie farmers!',
-						'News : free-range farm cookies popular with today\'s hip youth, says specialist.',
-						'News : farm cookies deemed unfit for vegans, says nutritionist.'
+						'News: cookie farms suspected of employing undeclared elderly workforce!',
+						'News: cookie farms release harmful chocolate in our rivers, says scientist!',
+						'News: genetically-modified chocolate controversy strikes cookie farmers!',
+						'News: free-range farm cookies popular with today\'s hip youth, says specialist.',
+						'News: farm cookies deemed unfit for vegans, says nutritionist.'
 						]));
 						
 						if (Game.Objects['Mine'].amount>0) list.push(choose([
-						'News : is our planet getting lighter? Experts examine the effects of intensive chocolate mining.',
-						'News : '+Math.floor(Math.random()*1000+2)+' miners trapped in collapsed chocolate mine!',
-						'News : chocolate mines found to cause earthquakes and sinkholes!',
-						'News : chocolate mine goes awry, floods village in chocolate!',
-						'News : depths of chocolate mines found to house "peculiar, chocolaty beings"!'
+						'News: is our planet getting lighter? Experts examine the effects of intensive chocolate mining.',
+						'News: '+Math.floor(Math.random()*1000+2)+' miners trapped in collapsed chocolate mine!',
+						'News: chocolate mines found to cause earthquakes and sinkholes!',
+						'News: chocolate mine goes awry, floods village in chocolate!',
+						'News: depths of chocolate mines found to house "peculiar, chocolaty beings"!'
 						]));
 						
 						if (Game.Objects['Factory'].amount>0) list.push(choose([
-						'News : cookie factories linked to global warming!',
-						'News : cookie factories involved in chocolate weather controversy!',
-						'News : cookie factories on strike, robotic minions employed to replace workforce!',
-						'News : cookie factories on strike - workers demand to stop being paid in cookies!',
-						'News : factory-made cookies linked to obesity, says study.'
+						'News: cookie factories linked to global warming!',
+						'News: cookie factories involved in chocolate weather controversy!',
+						'News: cookie factories on strike, robotic minions employed to replace workforce!',
+						'News: cookie factories on strike - workers demand to stop being paid in cookies!',
+						'News: factory-made cookies linked to obesity, says study.'
 						]));
 						
 						if (Game.Objects['Bank'].amount>0) list.push(choose([
-						'News : cookie loans on the rise as people can no longer afford them with regular money.',
-						'News : cookies slowly creeping up their way as a competitor to traditional currency!',
-						'News : most bakeries now fitted with ATMs to allow for easy cookie withdrawals and deposits.',
-						'News : cookie economy now strong enough to allow for massive vaults doubling as swimming pools!',
-						'News : "Tomorrow\'s wealthiest people will be calculated by their worth in cookies", predict economists.'
+						'News: cookie loans on the rise as people can no longer afford them with regular money.',
+						'News: cookies slowly creeping up their way as a competitor to traditional currency!',
+						'News: most bakeries now fitted with ATMs to allow for easy cookie withdrawals and deposits.',
+						'News: cookie economy now strong enough to allow for massive vaults doubling as swimming pools!',
+						'News: "Tomorrow\'s wealthiest people will be calculated by their worth in cookies", predict economists.'
 						]));
 						
 						if (Game.Objects['Temple'].amount>0) list.push(choose([
-						'News : explorers bring back ancient artifact from abandoned temple; archeologists marvel at the centuries-old '+choose(['magic','carved','engraved','sculpted','royal','imperial','mummified','ritual','golden','silver','stone','cursed','plastic','bone','blood','holy','sacred','sacrificial','electronic','singing','tapdancing'])+' '+choose(['spoon','fork','pizza','washing machine','calculator','hat','piano','napkin','skeleton','gown','dagger','sword','shield','skull','emerald','bathtub','mask','rollerskates','litterbox','bait box','cube','sphere','fungus'])+'!',
-						'News : recently-discovered chocolate temples now sparking new cookie-related cult; thousands pray to Baker in the sky!',
-						'News : just how extensive is the cookie pantheon? Theologians speculate about possible '+choose(['god','goddess'])+' of '+choose([choose(animals),choose(['kazoos','web design','web browsers','kittens','atheism','handbrakes','hats','aglets','elevator music','idle games','the letter "P"','memes','hamburgers','bad puns','kerning','stand-up comedy','failed burglary attempts','clickbait','one weird tricks'])])+'.',
-						'News : theists of the world discover new cookie religion - "Oh boy, guess we were wrong all along!"',
-						'News : cookie heaven allegedly "sports elevator instead of stairway"; cookie hell "paved with flagstone, as good intentions make for poor building material".'
+						'News: explorers bring back ancient artifact from abandoned temple; archeologists marvel at the centuries-old '+choose(['magic','carved','engraved','sculpted','royal','imperial','mummified','ritual','golden','silver','stone','cursed','plastic','bone','blood','holy','sacred','sacrificial','electronic','singing','tapdancing'])+' '+choose(['spoon','fork','pizza','washing machine','calculator','hat','piano','napkin','skeleton','gown','dagger','sword','shield','skull','emerald','bathtub','mask','rollerskates','litterbox','bait box','cube','sphere','fungus'])+'!',
+						'News: recently-discovered chocolate temples now sparking new cookie-related cult; thousands pray to Baker in the sky!',
+						'News: just how extensive is the cookie pantheon? Theologians speculate about possible '+choose(['god','goddess'])+' of '+choose([choose(animals),choose(['kazoos','web design','web browsers','kittens','atheism','handbrakes','hats','aglets','elevator music','idle games','the letter "P"','memes','hamburgers','bad puns','kerning','stand-up comedy','failed burglary attempts','clickbait','one weird tricks'])])+'.',
+						'News: theists of the world discover new cookie religion - "Oh boy, guess we were wrong all along!"',
+						'News: cookie heaven allegedly "sports elevator instead of stairway"; cookie hell "paved with flagstone, as good intentions make for poor building material".'
 						]));
 						
 						if (Game.Objects['Wizard tower'].amount>0) list.push(choose([
-						'News : all '+choose([choose(animals),choose(['public restrooms','clouds','politicians','moustaches','hats','shoes','pants','clowns','encyclopedias','websites','potted plants','lemons','household items','bodily fluids','cutlery','national landmarks','yogurt','rap music','underwear'])])+' turned into '+choose([choose(animals),choose(['public restrooms','clouds','politicians','moustaches','hats','shoes','pants','clowns','encyclopedias','websites','potted plants','lemons','household items','bodily fluids','cutlery','national landmarks','yogurt','rap music','underwear'])])+' in freak magic catastrophe!',
-						'News : heavy dissent rages between the schools of '+choose(['water','fire','earth','air','lightning','acid','song','battle','peace','pencil','internet','space','time','brain','nature','techno','plant','bug','ice','poison','crab','kitten','dolphin','bird','punch','fart'])+' magic and '+choose(['water','fire','earth','air','lightning','acid','song','battle','peace','pencil','internet','space','time','brain','nature','techno','plant','bug','ice','poison','crab','kitten','dolphin','bird','punch','fart'])+' magic!',
-						'News : get your new charms and curses at the yearly National Spellcrafting Fair! Exclusive prices on runes and spellbooks.',
-						'News : cookie wizards deny involvement in shockingly ugly newborn - infant is "honestly grody-looking, but natural", say doctors.',
-						'News : "Any sufficiently crude magic is indistinguishable from technology", claims renowned technowizard.'
+						'News: all '+choose([choose(animals),choose(['public restrooms','clouds','politicians','moustaches','hats','shoes','pants','clowns','encyclopedias','websites','potted plants','lemons','household items','bodily fluids','cutlery','national landmarks','yogurt','rap music','underwear'])])+' turned into '+choose([choose(animals),choose(['public restrooms','clouds','politicians','moustaches','hats','shoes','pants','clowns','encyclopedias','websites','potted plants','lemons','household items','bodily fluids','cutlery','national landmarks','yogurt','rap music','underwear'])])+' in freak magic catastrophe!',
+						'News: heavy dissent rages between the schools of '+choose(['water','fire','earth','air','lightning','acid','song','battle','peace','pencil','internet','space','time','brain','nature','techno','plant','bug','ice','poison','crab','kitten','dolphin','bird','punch','fart'])+' magic and '+choose(['water','fire','earth','air','lightning','acid','song','battle','peace','pencil','internet','space','time','brain','nature','techno','plant','bug','ice','poison','crab','kitten','dolphin','bird','punch','fart'])+' magic!',
+						'News: get your new charms and curses at the yearly National Spellcrafting Fair! Exclusive prices on runes and spellbooks.',
+						'News: cookie wizards deny involvement in shockingly ugly newborn - infant is "honestly grody-looking, but natural", say doctors.',
+						'News: "Any sufficiently crude magic is indistinguishable from technology", claims renowned technowizard.'
 						]));
 						
 						if (Game.Objects['Shipment'].amount>0) list.push(choose([
-						'News : new chocolate planet found, becomes target of cookie-trading spaceships!',
-						'News : massive chocolate planet found with 99.8% certified pure dark chocolate core!',
-						'News : space tourism booming as distant planets attract more bored millionaires!',
-						'News : chocolate-based organisms found on distant planet!',
-						'News : ancient baking artifacts found on distant planet; "terrifying implications", experts say.'
+						'News: new chocolate planet found, becomes target of cookie-trading spaceships!',
+						'News: massive chocolate planet found with 99.8% certified pure dark chocolate core!',
+						'News: space tourism booming as distant planets attract more bored millionaires!',
+						'News: chocolate-based organisms found on distant planet!',
+						'News: ancient baking artifacts found on distant planet; "terrifying implications", experts say.'
 						]));
 						
 						if (Game.Objects['Alchemy lab'].amount>0) list.push(choose([
-						'News : national gold reserves dwindle as more and more of the precious mineral is turned to cookies!',
-						'News : chocolate jewelry found fashionable, gold and diamonds "just a fad", says specialist.',
-						'News : silver found to also be transmutable into white chocolate!',
-						'News : defective alchemy lab shut down, found to convert cookies to useless gold.',
-						'News : alchemy-made cookies shunned by purists!'
+						'News: national gold reserves dwindle as more and more of the precious mineral is turned to cookies!',
+						'News: chocolate jewelry found fashionable, gold and diamonds "just a fad", says specialist.',
+						'News: silver found to also be transmutable into white chocolate!',
+						'News: defective alchemy lab shut down, found to convert cookies to useless gold.',
+						'News: alchemy-made cookies shunned by purists!'
 						]));
 						
 						if (Game.Objects['Portal'].amount>0) list.push(choose([
-						'News : nation worried as more and more unsettling creatures emerge from dimensional portals!',
-						'News : dimensional portals involved in city-engulfing disaster!',
-						'News : tourism to cookieverse popular with bored teenagers! Casualty rate as high as 73%!',
-						'News : cookieverse portals suspected to cause fast aging and obsession with baking, says study.',
-						'News : "do not settle near portals," says specialist; "your children will become strange and corrupted inside."'
+						'News: nation worried as more and more unsettling creatures emerge from dimensional portals!',
+						'News: dimensional portals involved in city-engulfing disaster!',
+						'News: tourism to cookieverse popular with bored teenagers! Casualty rate as high as 73%!',
+						'News: cookieverse portals suspected to cause fast aging and obsession with baking, says study.',
+						'News: "do not settle near portals," says specialist; "your children will become strange and corrupted inside."'
 						]));
 						
 						if (Game.Objects['Time machine'].amount>0) list.push(choose([
-						'News : time machines involved in history-rewriting scandal! Or are they?',
-						'News : time machines used in unlawful time tourism!',
-						'News : cookies brought back from the past "unfit for human consumption", says historian.',
-						'News : various historical figures inexplicably replaced with talking lumps of dough!',
-						'News : "I have seen the future," says time machine operator, "and I do not wish to go there again."'
+						'News: time machines involved in history-rewriting scandal! Or are they?',
+						'News: time machines used in unlawful time tourism!',
+						'News: cookies brought back from the past "unfit for human consumption", says historian.',
+						'News: various historical figures inexplicably replaced with talking lumps of dough!',
+						'News: "I have seen the future," says time machine operator, "and I do not wish to go there again."'
 						]));
 						
 						if (Game.Objects['Antimatter condenser'].amount>0) list.push(choose([
-						'News : whole town seemingly swallowed by antimatter-induced black hole; more reliable sources affirm town "never really existed"!',
-						'News : "explain to me again why we need particle accelerators to bake cookies?" asks misguided local woman.',
-						'News : first antimatter condenser successfully turned on, doesn\'t rip apart reality!',
-						'News : researchers conclude that what the cookie industry needs, first and foremost, is "more magnets".',
-						'News : "unravelling the fabric of reality just makes these cookies so much tastier", claims scientist.'
+						'News: whole town seemingly swallowed by antimatter-induced black hole; more reliable sources affirm town "never really existed"!',
+						'News: "explain to me again why we need particle accelerators to bake cookies?" asks misguided local woman.',
+						'News: first antimatter condenser successfully turned on, doesn\'t rip apart reality!',
+						'News: researchers conclude that what the cookie industry needs, first and foremost, is "more magnets".',
+						'News: "unravelling the fabric of reality just makes these cookies so much tastier", claims scientist.'
 						]));
 						
 						if (Game.Objects['Prism'].amount>0) list.push(choose([
-						'News : new cookie-producing prisms linked to outbreak of rainbow-related viral videos.',
-						'News : scientists warn against systematically turning light into matter - "One day, we\'ll end up with all matter and no light!"',
-						'News : cookies now being baked at the literal speed of light thanks to new prismatic contraptions.',
-						'News : "Can\'t you sense the prism watching us?", rambles insane local man. "No idea what he\'s talking about", shrugs cookie magnate/government official.',
-						'News : world citizens advised "not to worry" about frequent atmospheric flashes.',
+						'News: new cookie-producing prisms linked to outbreak of rainbow-related viral videos.',
+						'News: scientists warn against systematically turning light into matter - "One day, we\'ll end up with all matter and no light!"',
+						'News: cookies now being baked at the literal speed of light thanks to new prismatic contraptions.',
+						'News: "Can\'t you sense the prism watching us?", rambles insane local man. "No idea what he\'s talking about", shrugs cookie magnate/government official.',
+						'News: world citizens advised "not to worry" about frequent atmospheric flashes.',
 						]));
 						
 						if (Game.Objects['Chancemaker'].amount>0) list.push(choose([
-						'News : strange statistical anomalies continue as weather forecast proves accurate an unprecedented 3 days in a row!',
-						'News : local casino ruined as all gamblers somehow hit a week-long winning streak! "We might still be okay", says owner before being hit by lightning 47 times.',
-						'News : neighboring nation somehow elects president with sensible policies in freak accident of random chance!',
-						'News : million-to-one event sees gritty movie reboot turning out better than the original! "We have no idea how this happened", say movie execs.',
-						'News : all scratching tickets printed as winners, prompting national economy to crash and, against all odds, recover overnight.',
+						'News: strange statistical anomalies continue as weather forecast proves accurate an unprecedented 3 days in a row!',
+						'News: local casino ruined as all gamblers somehow hit a week-long winning streak! "We might still be okay", says owner before being hit by lightning 47 times.',
+						'News: neighboring nation somehow elects president with sensible policies in freak accident of random chance!',
+						'News: million-to-one event sees gritty movie reboot turning out better than the original! "We have no idea how this happened", say movie execs.',
+						'News: all scratching tickets printed as winners, prompting national economy to crash and, against all odds, recover overnight.',
 						]));
 						
 						if (Game.Objects['Fractal engine'].amount>0) list.push(choose([
-						'News : local man "done with Cookie Clicker", finds the constant self-references "grating and on-the-nose".',
-						'News : local man sails around the world to find himself - right where he left it.',
-						'News : local guru claims "there\'s a little bit of ourselves in everyone", under investigation for alleged cannibalism.',
-						'News : news writer finds herself daydreaming about new career. Or at least a raise.',
-						'News : polls find idea of cookies made of cookies "acceptable" - "at least we finally know what\'s in them", says interviewed citizen.',
+						'News: local man "done with Cookie Clicker", finds the constant self-references "grating and on-the-nose".',
+						'News: local man sails around the world to find himself - right where he left it.',
+						'News: local guru claims "there\'s a little bit of ourselves in everyone", under investigation for alleged cannibalism.',
+						'News: news writer finds herself daydreaming about new career. Or at least a raise.',
+						'News: polls find idea of cookies made of cookies "acceptable" - "at least we finally know what\'s in them", says interviewed citizen.',
 						]));
 						
 						if (Game.Objects['Javascript console'].amount>0) list.push(choose([
-						'News : strange fad has parents giving their newborns names such as Emma.js or Liam.js. At least one Baby.js reported.',
-						'News : coding is hip! More and more teenagers turn to technical fields like programming, ensuring a future robot apocalypse and the doom of all mankind.',
-						'News : developers unsure what to call their new javascript libraries as all combinations of any 3 dictionary words have already been taken.',
-						'News : nation holds breath as nested ifs about to hatch.',
-						'News : clueless copywriter forgets to escape a quote, ends news line prematurely; last words reported to be "Huh, why isn',
+						'News: strange fad has parents giving their newborns names such as Emma.js or Liam.js. At least one Baby.js reported.',
+						'News: coding is hip! More and more teenagers turn to technical fields like programming, ensuring a future robot apocalypse and the doom of all mankind.',
+						'News: developers unsure what to call their new javascript libraries as all combinations of any 3 dictionary words have already been taken.',
+						'News: nation holds breath as nested ifs about to hatch.',
+						'News: clueless copywriter forgets to escape a quote, ends news line prematurely; last words reported to be "Huh, why isn',
 						]));
 						
 						if (Game.Objects['Idleverse'].amount>0) list.push(choose([
-						'News : is another you living out their dreams in an alternate universe? Probably, you lazy bum!',
-						'News : public recoils at the notion of a cosmos made of infinite idle games. "I kinda hoped there\'d be more to it", says distraught citizen.',
-						'News : with an infinity of parallel universes, people turn to reassuring alternate dimensions, which only number "in the high 50s".',
-						'News : "I find solace in the knowledge that at least some of my alternate selves are probably doing fine out there", says citizen\'s last remaining exemplar in the multiverse.',
-						'News : comic book writers point to actual multiverse in defense of dubious plot points. "See? I told you it wasn\'t \'hackneyed and contrived\'!"'
+						'News: is another you living out their dreams in an alternate universe? Probably, you lazy bum!',
+						'News: public recoils at the notion of a cosmos made of infinite idle games. "I kinda hoped there\'d be more to it", says distraught citizen.',
+						'News: with an infinity of parallel universes, people turn to reassuring alternate dimensions, which only number "in the high 50s".',
+						'News: "I find solace in the knowledge that at least some of my alternate selves are probably doing fine out there", says citizen\'s last remaining exemplar in the multiverse.',
+						'News: comic book writers point to actual multiverse in defense of dubious plot points. "See? I told you it wasn\'t \'hackneyed and contrived\'!"'
 						]));
 						
 						if (Game.Objects['Cortex baker'].amount>0) list.push(choose([
-						'News : cortex baker wranglers kindly remind employees that cortex bakers are the bakery\'s material property and should not be endeared with nicknames.',
-						'News : space-faring employees advised to ignore unusual thoughts and urges experienced within 2 parsecs of gigantic cortex bakers, say guidelines.',
-						'News : astronomers warn of cortex baker trajectory drift, fear future head-on collisions resulting in costly concussions.',
-						'News : runt cortex baker identified with an IQ of only quintuple digits: "just a bit of a dummy", say specialists.',
-						'News : are you smarter than a cortex baker? New game show deemed "unfair" by contestants.'
+						'News: cortex baker wranglers kindly remind employees that cortex bakers are the bakery\'s material property and should not be endeared with nicknames.',
+						'News: space-faring employees advised to ignore unusual thoughts and urges experienced within 2 parsecs of gigantic cortex bakers, say guidelines.',
+						'News: astronomers warn of cortex baker trajectory drift, fear future head-on collisions resulting in costly concussions.',
+						'News: runt cortex baker identified with an IQ of only quintuple digits: "just a bit of a dummy", say specialists.',
+						'News: are you smarter than a cortex baker? New game show deemed "unfair" by contestants.'
 						]));
 						
 						if (Game.Objects['You'].amount>0) list.push(choose([
-						'News : the person of the year is, this year again, '+Game.bakeryName+'! How unexpected!',
-						'News : criminals caught sharing pirated copies of '+Game.bakeryName+'\'s genome may be exposed to fines and up to 17 billion years prison, reminds constable.',
-						'News : could local restaurants be serving you bootleg '+Game.bakeryName+' clone meat? Our delicious investigation follows after tonight\'s news.',
-						'News : beloved cookie magnate '+Game.bakeryName+', erroneously reported as trampled to death by crazed fans, thankfully found to be escaped clone mistaken for original.',
-						'News : "Really, we\'re just looking for some basic societal acceptance and compassion", mumbles incoherent genetic freak '+Game.bakeryName+'-Clone #59014.'
+						'News: the person of the year is, this year again, '+Game.bakeryName+'! How unexpected!',
+						'News: criminals caught sharing pirated copies of '+Game.bakeryName+'\'s genome may be exposed to fines and up to 17 billion years prison, reminds constable.',
+						'News: could local restaurants be serving you bootleg '+Game.bakeryName+' clone meat? Our delicious investigation follows after tonight\'s news.',
+						'News: beloved cookie magnate '+Game.bakeryName+', erroneously reported as trampled to death by crazed fans, thankfully found to be escaped clone mistaken for original.',
+						'News: "Really, we\'re just looking for some basic societal acceptance and compassion", mumbles incoherent genetic freak '+Game.bakeryName+'-Clone #59014.'
 						]));
 						
 						if (Game.season=='halloween' && Game.cookiesEarned>=1000) list.push(choose([
-						'News : strange twisting creatures amass around cookie factories, nibble at assembly lines.',
-						'News : ominous wrinkly monsters take massive bites out of cookie production; "this can\'t be hygienic", worries worker.',
-						'News : pagan rituals on the rise as children around the world dress up in strange costumes and blackmail homeowners for candy.',
-						'News : new-age terrorism strikes suburbs as houses find themselves covered in eggs and toilet paper.',
-						'News : children around the world "lost and confused" as any and all Halloween treats have been replaced by cookies.'
+						'News: strange twisting creatures amass around cookie factories, nibble at assembly lines.',
+						'News: ominous wrinkly monsters take massive bites out of cookie production; "this can\'t be hygienic", worries worker.',
+						'News: pagan rituals on the rise as children around the world dress up in strange costumes and blackmail homeowners for candy.',
+						'News: new-age terrorism strikes suburbs as houses find themselves covered in eggs and toilet paper.',
+						'News: children around the world "lost and confused" as any and all Halloween treats have been replaced by cookies.'
 						]));
 						
 						if (Game.season=='christmas' && Game.cookiesEarned>=1000) list.push(choose([
-						'News : bearded maniac spotted speeding on flying sleigh! Investigation pending.',
-						'News : Santa Claus announces new brand of breakfast treats to compete with cookie-flavored cereals! "They\'re ho-ho-horrible!" says Santa.',
-						'News : "You mean he just gives stuff away for free?!", concerned moms ask. "Personally, I don\'t trust his beard."',
-						'News : obese jolly lunatic still on the loose, warn officials. "Keep your kids safe and board up your chimneys. We mean it."',
-						'News : children shocked as they discover Santa Claus isn\'t just their dad in a costume after all!<br>"I\'m reassessing my life right now", confides Laura, aged 6.',
-						'News : mysterious festive entity with quantum powers still wrecking havoc with army of reindeer, officials say.',
-						'News : elves on strike at toy factory! "We will not be accepting reindeer chow as payment anymore. And stop calling us elves!"',
-						'News : elves protest around the nation; wee little folks in silly little outfits spread mayhem, destruction; rabid reindeer running rampant through streets.',
-						'News : scholars debate regarding the plural of reindeer(s) in the midst of elven world war.',
-						'News : elves "unrelated to gnomes despite small stature and merry disposition", find scientists.',
-						'News : elves sabotage radioactive frosting factory, turn hundreds blind in vicinity - "Who in their right mind would do such a thing?" laments outraged mayor.',
-						'News : drama unfolds at North Pole as rumors crop up around Rudolph\'s red nose; "I may have an addiction or two", admits reindeer.'
+						'News: bearded maniac spotted speeding on flying sleigh! Investigation pending.',
+						'News: Santa Claus announces new brand of breakfast treats to compete with cookie-flavored cereals! "They\'re ho-ho-horrible!" says Santa.',
+						'News: "You mean he just gives stuff away for free?!", concerned moms ask. "Personally, I don\'t trust his beard."',
+						'News: obese jolly lunatic still on the loose, warn officials. "Keep your kids safe and board up your chimneys. We mean it."',
+						'News: children shocked as they discover Santa Claus isn\'t just their dad in a costume after all!<br>"I\'m reassessing my life right now", confides Laura, aged 6.',
+						'News: mysterious festive entity with quantum powers still wrecking havoc with army of reindeer, officials say.',
+						'News: elves on strike at toy factory! "We will not be accepting reindeer chow as payment anymore. And stop calling us elves!"',
+						'News: elves protest around the nation; wee little folks in silly little outfits spread mayhem, destruction; rabid reindeer running rampant through streets.',
+						'News: scholars debate regarding the plural of reindeer(s) in the midst of elven world war.',
+						'News: elves "unrelated to gnomes despite small stature and merry disposition", find scientists.',
+						'News: elves sabotage radioactive frosting factory, turn hundreds blind in vicinity - "Who in their right mind would do such a thing?" laments outraged mayor.',
+						'News: drama unfolds at North Pole as rumors crop up around Rudolph\'s red nose; "I may have an addiction or two", admits reindeer.'
 						]));
 						
 						if (Game.season=='valentines' && Game.cookiesEarned>=1000) list.push(choose([
-						'News : organ-shaped confectioneries being traded in schools all over the world; gruesome practice undergoing investigation.',
-						'News : heart-shaped candies overtaking sweets business, offering competition to cookie empire. "It\'s the economy, cupid!"',
-						'News : love\'s in the air, according to weather specialists. Face masks now offered in every city to stunt airborne infection.',
-						'News : marrying a cookie - deranged practice, or glimpse of the future?',
-						'News : boyfriend dumped after offering his lover cookies for Valentine\'s Day, reports say. "They were off-brand", shrugs ex-girlfriend.'
+						'News: organ-shaped confectioneries being traded in schools all over the world; gruesome practice undergoing investigation.',
+						'News: heart-shaped candies overtaking sweets business, offering competition to cookie empire. "It\'s the economy, cupid!"',
+						'News: love\'s in the air, according to weather specialists. Face masks now offered in every city to stunt airborne infection.',
+						'News: marrying a cookie - deranged practice, or glimpse of the future?',
+						'News: boyfriend dumped after offering his lover cookies for Valentine\'s Day, reports say. "They were off-brand", shrugs ex-girlfriend.'
 						]));
 						
 						if (Game.season=='easter' && Game.cookiesEarned>=1000) list.push(choose([
-						'News : long-eared critters with fuzzy tails invade suburbs, spread terror and chocolate!',
-						'News : eggs have begun to materialize in the most unexpected places; "no place is safe", warn experts.',
-						'News : packs of rampaging rabbits cause billions in property damage; new strain of myxomatosis being developed.',
-						'News : egg-laying rabbits "not quite from this dimension", warns biologist; advises against petting, feeding, or cooking the creatures.',
-						'News : mysterious rabbits found to be egg-layers, but mammalian, hinting at possible platypus ancestry.'
+						'News: long-eared critters with fuzzy tails invade suburbs, spread terror and chocolate!',
+						'News: eggs have begun to materialize in the most unexpected places; "no place is safe", warn experts.',
+						'News: packs of rampaging rabbits cause billions in property damage; new strain of myxomatosis being developed.',
+						'News: egg-laying rabbits "not quite from this dimension", warns biologist; advises against petting, feeding, or cooking the creatures.',
+						'News: mysterious rabbits found to be egg-layers, but mammalian, hinting at possible platypus ancestry.'
 						]));
 					}
 				}
@@ -7224,42 +7232,42 @@ Game.Launch=function()
 				{
 					if (Math.random()<0.05)
 					{
-						if (Game.HasAchiev('Base 10')) list.push('News : cookie manufacturer completely forgoes common sense, lets strange obsession with round numbers drive building decisions!');
-						if (Game.HasAchiev('From scratch')) list.push('News : follow the tear-jerking, riches-to-rags story about a local cookie manufacturer who decided to give it all up!');
-						if (Game.HasAchiev('A world filled with cookies')) list.push('News : known universe now jammed with cookies! No vacancies!');
-						if (Game.HasAchiev('Last Chance to See')) list.push('News : incredibly rare albino wrinkler on the brink of extinction poached by cookie-crazed pastry magnate!');
-						if (Game.Has('Serendipity')) list.push('News : local cookie manufacturer becomes luckiest being alive!');
-						if (Game.Has('Season switcher')) list.push('News : seasons are all out of whack! "We need to get some whack back into them seasons", says local resident.');
+						if (Game.HasAchiev('Base 10')) list.push('News: cookie manufacturer completely forgoes common sense, lets strange obsession with round numbers drive building decisions!');
+						if (Game.HasAchiev('From scratch')) list.push('News: follow the tear-jerking, riches-to-rags story about a local cookie manufacturer who decided to give it all up!');
+						if (Game.HasAchiev('A world filled with cookies')) list.push('News: known universe now jammed with cookies! No vacancies!');
+						if (Game.HasAchiev('Last Chance to See')) list.push('News: incredibly rare albino wrinkler on the brink of extinction poached by cookie-crazed pastry magnate!');
+						if (Game.Has('Serendipity')) list.push('News: local cookie manufacturer becomes luckiest being alive!');
+						if (Game.Has('Season switcher')) list.push('News: seasons are all out of whack! "We need to get some whack back into them seasons", says local resident.');
 						
-						if (Game.Has('Kitten helpers')) list.push('News : faint meowing heard around local cookie facilities; suggests new ingredient being tested.');
-						if (Game.Has('Kitten workers')) list.push('News : crowds of meowing kittens with little hard hats reported near local cookie facilities.');
-						if (Game.Has('Kitten engineers')) list.push('News : surroundings of local cookie facilities now overrun with kittens in adorable little suits. Authorities advise to stay away from the premises.');
-						if (Game.Has('Kitten overseers')) list.push('News : locals report troupe of bossy kittens meowing adorable orders at passersby.');
-						if (Game.Has('Kitten managers')) list.push('News : local office cubicles invaded with armies of stern-looking kittens asking employees "what\'s happening, meow".');
-						if (Game.Has('Kitten accountants')) list.push('News : tiny felines show sudden and amazing proficiency with fuzzy mathematics and pawlinomials, baffling scientists and pet store owners.');
-						if (Game.Has('Kitten specialists')) list.push('News : new kitten college opening next week, offers courses on cookie-making and catnip studies.');
-						if (Game.Has('Kitten experts')) list.push('News : unemployment rates soaring as woefully adorable little cats nab jobs on all levels of expertise, says study.');
-						if (Game.Has('Kitten consultants')) list.push('News : "In the future, your job will most likely be done by a cat", predicts suspiciously furry futurologist.');
-						if (Game.Has('Kitten assistants to the regional manager')) list.push('News : strange kittens with peculiar opinions on martial arts spotted loitering on local beet farms!');
-						if (Game.Has('Kitten marketeers')) list.push('News : nonsensical kitten billboards crop up all over countryside, trying to sell people the cookies they already get for free!');
-						if (Game.Has('Kitten analysts')) list.push('News : are your spending habits sensible? For a hefty fee, these kitten analysts will tell you!');
-						if (Game.Has('Kitten executives')) list.push('News : kittens strutting around in hot little business suits shouting cut-throat orders at their assistants, possibly the cutest thing this reporter has ever seen!');
-						if (Game.Has('Kitten admins')) list.push('News : all systems nominal, claim kitten admins obviously in way over their heads.');
-						if (Game.Has('Kitten strategists')) list.push('News : overpaid kittens scratching their fuzzy little heads trying to find new ways to get cookies in your shopping cart!');
-						if (Game.Has('Kitten angels')) list.push('News : "Try to ignore any ghostly felines that may be purring inside your ears," warn scientists. "They\'ll just lure you into making poor life choices."');
-						if (Game.Has('Kitten wages')) list.push('News : kittens break glass ceiling! Do they have any idea how expensive those are!');
-						if (Game.HasAchiev('Jellicles')) list.push('News : local kittens involved in misguided musical production, leave audience perturbed and unnerved.');
+						if (Game.Has('Kitten helpers')) list.push('News: faint meowing heard around local cookie facilities; suggests new ingredient being tested.');
+						if (Game.Has('Kitten workers')) list.push('News: crowds of meowing kittens with little hard hats reported near local cookie facilities.');
+						if (Game.Has('Kitten engineers')) list.push('News: surroundings of local cookie facilities now overrun with kittens in adorable little suits. Authorities advise to stay away from the premises.');
+						if (Game.Has('Kitten overseers')) list.push('News: locals report troupe of bossy kittens meowing adorable orders at passersby.');
+						if (Game.Has('Kitten managers')) list.push('News: local office cubicles invaded with armies of stern-looking kittens asking employees "what\'s happening, meow".');
+						if (Game.Has('Kitten accountants')) list.push('News: tiny felines show sudden and amazing proficiency with fuzzy mathematics and pawlinomials, baffling scientists and pet store owners.');
+						if (Game.Has('Kitten specialists')) list.push('News: new kitten college opening next week, offers courses on cookie-making and catnip studies.');
+						if (Game.Has('Kitten experts')) list.push('News: unemployment rates soaring as woefully adorable little cats nab jobs on all levels of expertise, says study.');
+						if (Game.Has('Kitten consultants')) list.push('News: "In the future, your job will most likely be done by a cat", predicts suspiciously furry futurologist.');
+						if (Game.Has('Kitten assistants to the regional manager')) list.push('News: strange kittens with peculiar opinions on martial arts spotted loitering on local beet farms!');
+						if (Game.Has('Kitten marketeers')) list.push('News: nonsensical kitten billboards crop up all over countryside, trying to sell people the cookies they already get for free!');
+						if (Game.Has('Kitten analysts')) list.push('News: are your spending habits sensible? For a hefty fee, these kitten analysts will tell you!');
+						if (Game.Has('Kitten executives')) list.push('News: kittens strutting around in hot little business suits shouting cut-throat orders at their assistants, possibly the cutest thing this reporter has ever seen!');
+						if (Game.Has('Kitten admins')) list.push('News: all systems nominal, claim kitten admins obviously in way over their heads.');
+						if (Game.Has('Kitten strategists')) list.push('News: overpaid kittens scratching their fuzzy little heads trying to find new ways to get cookies in your shopping cart!');
+						if (Game.Has('Kitten angels')) list.push('News: "Try to ignore any ghostly felines that may be purring inside your ears," warn scientists. "They\'ll just lure you into making poor life choices."');
+						if (Game.Has('Kitten wages')) list.push('News: kittens break glass ceiling! Do they have any idea how expensive those are!');
+						if (Game.HasAchiev('Jellicles')) list.push('News: local kittens involved in misguided musical production, leave audience perturbed and unnerved.');
 					}
 					
 					if (Game.HasAchiev('Dude, sweet') && Math.random()<0.2) list.push(choose([
-					'News : major sugar-smuggling ring dismantled by authorities; '+Math.floor(Math.random()*30+3)+' tons of sugar lumps seized, '+Math.floor(Math.random()*48+2)+' suspects apprehended.',
-					'News : authorities warn tourists not to buy bootleg sugar lumps from street peddlers - "You think you\'re getting a sweet deal, but what you\'re being sold is really just ordinary cocaine", says agent.',
-					'News : pro-diabetes movement protests against sugar-shaming. "I\'ve eaten nothing but sugar lumps for the past '+Math.floor(Math.random()*10+4)+' years and I\'m feeling great!", says woman with friable skin.',
-					'News : experts in bitter disagreement over whether sugar consumption turns children sluggish or hyperactive.',
-					'News : fishermen deplore upturn in fish tooth decay as sugar lumps-hauling cargo sinks into the ocean.',
-					'News : rare black sugar lump that captivated millions in unprecedented auction revealed to be common toxic fungus.',
-					'News : "Back in my day, sugar lumps were these little cubes you\'d put in your tea, not those fist-sized monstrosities people eat for lunch", whines curmudgeon with failing memory.',
-					'News : sugar lump-snacking fad sweeps the nation; dentists everywhere rejoice.'
+					'News: major sugar-smuggling ring dismantled by authorities; '+Math.floor(Math.random()*30+3)+' tons of sugar lumps seized, '+Math.floor(Math.random()*48+2)+' suspects apprehended.',
+					'News: authorities warn tourists not to buy bootleg sugar lumps from street peddlers - "You think you\'re getting a sweet deal, but what you\'re being sold is really just ordinary cocaine", says agent.',
+					'News: pro-diabetes movement protests against sugar-shaming. "I\'ve eaten nothing but sugar lumps for the past '+Math.floor(Math.random()*10+4)+' years and I\'m feeling great!", says woman with friable skin.',
+					'News: experts in bitter disagreement over whether sugar consumption turns children sluggish or hyperactive.',
+					'News: fishermen deplore upturn in fish tooth decay as sugar lumps-hauling cargo sinks into the ocean.',
+					'News: rare black sugar lump that captivated millions in unprecedented auction revealed to be common toxic fungus.',
+					'News: "Back in my day, sugar lumps were these little cubes you\'d put in your tea, not those fist-sized monstrosities people eat for lunch", whines curmudgeon with failing memory.',
+					'News: sugar lump-snacking fad sweeps the nation; dentists everywhere rejoice.'
 					]));
 					
 					if (Math.random()<0.001)//apologies to Will Wright
@@ -7268,14 +7276,14 @@ Game.Launch=function()
 						'You have been chosen. They will come soon.',
 						'They\'re coming soon. Maybe you should think twice about opening the door.',
 						'The end is near. Make preparations.',
-						'News : broccoli tops for moms, last for kids; dads indifferent.',
-						'News : middle age a hoax, declares study; turns out to be bad posture after all.',
-						'News : kitties want answers in possible Kitty Kibble shortage.'
+						'News: broccoli tops for moms, last for kids; dads indifferent.',
+						'News: middle age a hoax, declares study; turns out to be bad posture after all.',
+						'News: kitties want answers in possible Kitty Kibble shortage.'
 						);
 					}
 					
 					if (Game.cookiesEarned>=10000) list.push(
-					'News : '+choose([
+					'News: '+choose([
 						'cookies found to '+choose(['increase lifespan','sensibly increase intelligence','reverse aging','decrease hair loss','prevent arthritis','cure blindness'])+' in '+choose(animals)+'!',
 						'cookies found to make '+choose(animals)+' '+choose(['more docile','more handsome','nicer','less hungry','more pragmatic','tastier'])+'!',
 						'cookies tested on '+choose(animals)+', found to have no ill effects.',
@@ -7289,7 +7297,7 @@ Game.Launch=function()
 						'doctors advise against new cookie-free fad diet.',
 						'doctors warn mothers about the dangers of "home-made cookies".'
 						]),
-					'News : "'+choose([
+					'News: "'+choose([
 						'I\'m all about cookies',
 						'I just can\'t stop eating cookies. I think I seriously need help',
 						'I guess I have a cookie problem',
@@ -7301,76 +7309,76 @@ Game.Launch=function()
 						'cookies are the secret behind my perfect skin',
 						'cookies helped me stay sane while filming my upcoming movie',
 						'cookies helped me stay thin and healthy',
-						'I\'ll say one word, just one : cookies',
+						'I\'ll say one word, just one: cookies',
 						'alright, I\'ll say it - I\'ve never eaten a single cookie in my life'
 						])+'", reveals celebrity.',
 					choose([
-						'News : scientist predicts imminent cookie-related "end of the world"; becomes joke among peers.',
-						'News : man robs bank, buys cookies.',
-						'News : scientists establish that the deal with airline food is, in fact, a critical lack of cookies.',
-						'News : hundreds of tons of cookies dumped into starving country from airplanes; thousands dead, nation grateful.',
-						'News : new study suggests cookies neither speed up nor slow down aging, but instead "take you in a different direction".',
-						'News : overgrown cookies found in fishing nets, raise questions about hormone baking.',
-						'News : "all-you-can-eat" cookie restaurant opens in big city; waiters trampled in minutes.',
-						'News : man dies in cookie-eating contest; "a less-than-impressive performance", says judge.',
-						'News : what makes cookies taste so right? "Probably all the [*****] they put in them", says anonymous tipper.',
-						'News : man found allergic to cookies; "what a weirdo", says family.',
-						'News : foreign politician involved in cookie-smuggling scandal.',
-						'News : cookies now more popular than '+choose(['cough drops','broccoli','smoked herring','cheese','video games','stable jobs','relationships','time travel','cat videos','tango','fashion','television','nuclear warfare','whatever it is we ate before','politics','oxygen','lamps'])+', says study.',
-						'News : obesity epidemic strikes nation; experts blame '+choose(['twerking','that darn rap music','video-games','lack of cookies','mysterious ghostly entities','aliens','parents','schools','comic-books','cookie-snorting fad'])+'.',
-						'News : cookie shortage strikes town, people forced to eat cupcakes; "just not the same", concedes mayor.',
-						'News : "you gotta admit, all this cookie stuff is a bit ominous", says confused idiot.',
-						//'News : scientists advise getting used to cookies suffusing every aspect of life; "this is the new normal", expert says.',
-						//'News : doctors advise against wearing face masks when going outside. "You never know when you might need a cookie... a mask would just get in the way."',//these were written back when covid hadn't really done much damage yet but they just feel in poor taste now
-						'News : is there life on Mars? Various chocolate bar manufacturers currently under investigation for bacterial contaminants.',
-						'News : "so I guess that\'s a thing now", scientist comments on cookie particles now present in virtually all steel manufactured since cookie production ramped up worldwide.',
-						'News : trace amounts of cookie particles detected in most living creatures, some of which adapting them as part of new and exotic metabolic processes.',
+						'News: scientist predicts imminent cookie-related "end of the world"; becomes joke among peers.',
+						'News: man robs bank, buys cookies.',
+						'News: scientists establish that the deal with airline food is, in fact, a critical lack of cookies.',
+						'News: hundreds of tons of cookies dumped into starving country from airplanes; thousands dead, nation grateful.',
+						'News: new study suggests cookies neither speed up nor slow down aging, but instead "take you in a different direction".',
+						'News: overgrown cookies found in fishing nets, raise questions about hormone baking.',
+						'News: "all-you-can-eat" cookie restaurant opens in big city; waiters trampled in minutes.',
+						'News: man dies in cookie-eating contest; "a less-than-impressive performance", says judge.',
+						'News: what makes cookies taste so right? "Probably all the [*****] they put in them", says anonymous tipper.',
+						'News: man found allergic to cookies; "what a weirdo", says family.',
+						'News: foreign politician involved in cookie-smuggling scandal.',
+						'News: cookies now more popular than '+choose(['cough drops','broccoli','smoked herring','cheese','video games','stable jobs','relationships','time travel','cat videos','tango','fashion','television','nuclear warfare','whatever it is we ate before','politics','oxygen','lamps'])+', says study.',
+						'News: obesity epidemic strikes nation; experts blame '+choose(['twerking','that darn rap music','video-games','lack of cookies','mysterious ghostly entities','aliens','parents','schools','comic-books','cookie-snorting fad'])+'.',
+						'News: cookie shortage strikes town, people forced to eat cupcakes; "just not the same", concedes mayor.',
+						'News: "you gotta admit, all this cookie stuff is a bit ominous", says confused idiot.',
+						//'News: scientists advise getting used to cookies suffusing every aspect of life; "this is the new normal", expert says.',
+						//'News: doctors advise against wearing face masks when going outside. "You never know when you might need a cookie... a mask would just get in the way."',//these were written back when covid hadn't really done much damage yet but they just feel in poor taste now
+						'News: is there life on Mars? Various chocolate bar manufacturers currently under investigation for bacterial contaminants.',
+						'News: "so I guess that\'s a thing now", scientist comments on cookie particles now present in virtually all steel manufactured since cookie production ramped up worldwide.',
+						'News: trace amounts of cookie particles detected in most living creatures, some of which adapting them as part of new and exotic metabolic processes.',
 					]),
 					choose([
-						'News : movie cancelled from lack of actors; "everybody\'s at home eating cookies", laments director.',
-						'News : comedian forced to cancel cookie routine due to unrelated indigestion.',
-						'News : new cookie-based religion sweeps the nation.',
-						'News : fossil records show cookie-based organisms prevalent during Cambrian explosion, scientists say.',
-						'News : mysterious illegal cookies seized; "tastes terrible", says police.',
-						'News : man found dead after ingesting cookie; investigators favor "mafia snitch" hypothesis.',
-						'News : "the universe pretty much loops on itself," suggests researcher; "it\'s cookies all the way down."',
-						'News : minor cookie-related incident turns whole town to ashes; neighboring cities asked to chip in for reconstruction.',
-						'News : is our media controlled by the cookie industry? This could very well be the case, says crackpot conspiracy theorist.',
-						'News : '+choose(['cookie-flavored popcorn pretty damn popular; "we kinda expected that", say scientists.','cookie-flavored cereals break all known cereal-related records','cookies popular among all age groups, including fetuses, says study.','cookie-flavored popcorn sales exploded during screening of Grandmothers II : The Moistening.']),
-						'News : all-cookie restaurant opening downtown. Dishes such as braised cookies, cookie thermidor, and for dessert : crepes.',
-						'News : "Ook", says interviewed orangutan.',
-						'News : cookies could be the key to '+choose(['eternal life','infinite riches','eternal youth','eternal beauty','curing baldness','world peace','solving world hunger','ending all wars world-wide','making contact with extraterrestrial life','mind-reading','better living','better eating','more interesting TV shows','faster-than-light travel','quantum baking','chocolaty goodness','gooder thoughtness'])+', say scientists.',
-						'News : flavor text '+choose(['not particularly flavorful','kind of unsavory','"rather bland"','pretty spicy lately'])+', study finds.',
+						'News: movie cancelled from lack of actors; "everybody\'s at home eating cookies", laments director.',
+						'News: comedian forced to cancel cookie routine due to unrelated indigestion.',
+						'News: new cookie-based religion sweeps the nation.',
+						'News: fossil records show cookie-based organisms prevalent during Cambrian explosion, scientists say.',
+						'News: mysterious illegal cookies seized; "tastes terrible", says police.',
+						'News: man found dead after ingesting cookie; investigators favor "mafia snitch" hypothesis.',
+						'News: "the universe pretty much loops on itself," suggests researcher; "it\'s cookies all the way down."',
+						'News: minor cookie-related incident turns whole town to ashes; neighboring cities asked to chip in for reconstruction.',
+						'News: is our media controlled by the cookie industry? This could very well be the case, says crackpot conspiracy theorist.',
+						'News: '+choose(['cookie-flavored popcorn pretty damn popular; "we kinda expected that", say scientists.','cookie-flavored cereals break all known cereal-related records','cookies popular among all age groups, including fetuses, says study.','cookie-flavored popcorn sales exploded during screening of Grandmothers II: The Moistening.']),
+						'News: all-cookie restaurant opening downtown. Dishes such as braised cookies, cookie thermidor, and for dessert: crepes.',
+						'News: "Ook", says interviewed orangutan.',
+						'News: cookies could be the key to '+choose(['eternal life','infinite riches','eternal youth','eternal beauty','curing baldness','world peace','solving world hunger','ending all wars world-wide','making contact with extraterrestrial life','mind-reading','better living','better eating','more interesting TV shows','faster-than-light travel','quantum baking','chocolaty goodness','gooder thoughtness'])+', say scientists.',
+						'News: flavor text '+choose(['not particularly flavorful','kind of unsavory','"rather bland"','pretty spicy lately'])+', study finds.',
 					]),
 					choose([
-						'News : what do golden cookies taste like? Study reveals a flavor "somewhere between spearmint and liquorice".',
-						'News : what do wrath cookies taste like? Study reveals a flavor "somewhere between blood sausage and seawater".',
-						'News : '+Game.bakeryName+'-brand cookies "'+choose(['much less soggy','much tastier','relatively less crappy','marginally less awful','less toxic','possibly more edible','more fashionable','slightly nicer','trendier','arguably healthier','objectively better choice','slightly less terrible','decidedly cookier','a tad cheaper'])+' than competitors", says consumer survey.',
-						'News : "'+Game.bakeryName+'" set to be this year\'s most popular baby name.',
-						'News : new popularity survey says '+Game.bakeryName+'\'s the word when it comes to cookies.',
-						'News : major city being renamed '+Game.bakeryName+'ville after world-famous cookie manufacturer.',
-						'News : '+choose(['street','school','nursing home','stadium','new fast food chain','new planet','new disease','flesh-eating bacteria','deadly virus','new species of '+choose(animals),'new law','baby','programming language'])+' to be named after '+Game.bakeryName+', the world-famous cookie manufacturer.',
-						'News : don\'t miss tonight\'s biopic on '+Game.bakeryName+'\'s irresistible rise to success!',
-						'News : don\'t miss tonight\'s interview of '+Game.bakeryName+' by '+choose(['Bloprah','Blavid Bletterman','Blimmy Blimmel','Blellen Blegeneres','Blimmy Blallon','Blonan Blo\'Brien','Blay Bleno','Blon Blewart','Bleven Blolbert','Lord Toxikhron of dimension 7-B19',Game.bakeryName+'\'s own evil clone'])+'!',
-						'News : people all over the internet still scratching their heads over nonsensical reference : "Okay, but why an egg?"',
-						'News : viral video "Too Many Cookies" could be "a grim commentary on the impending crisis our world is about to face", says famous economist.',
-						'News : "memes from last year somehow still relevant", deplore experts.',
-						'News : cookie emoji most popular among teenagers, far ahead of "judgmental OK hand sign" and "shifty-looking dark moon", says study.',
+						'News: what do golden cookies taste like? Study reveals a flavor "somewhere between spearmint and liquorice".',
+						'News: what do wrath cookies taste like? Study reveals a flavor "somewhere between blood sausage and seawater".',
+						'News: '+Game.bakeryName+'-brand cookies "'+choose(['much less soggy','much tastier','relatively less crappy','marginally less awful','less toxic','possibly more edible','more fashionable','slightly nicer','trendier','arguably healthier','objectively better choice','slightly less terrible','decidedly cookier','a tad cheaper'])+' than competitors", says consumer survey.',
+						'News: "'+Game.bakeryName+'" set to be this year\'s most popular baby name.',
+						'News: new popularity survey says '+Game.bakeryName+'\'s the word when it comes to cookies.',
+						'News: major city being renamed '+Game.bakeryName+'ville after world-famous cookie manufacturer.',
+						'News: '+choose(['street','school','nursing home','stadium','new fast food chain','new planet','new disease','flesh-eating bacteria','deadly virus','new species of '+choose(animals),'new law','baby','programming language'])+' to be named after '+Game.bakeryName+', the world-famous cookie manufacturer.',
+						'News: don\'t miss tonight\'s biopic on '+Game.bakeryName+'\'s irresistible rise to success!',
+						'News: don\'t miss tonight\'s interview of '+Game.bakeryName+' by '+choose(['Bloprah','Blavid Bletterman','Blimmy Blimmel','Blellen Blegeneres','Blimmy Blallon','Blonan Blo\'Brien','Blay Bleno','Blon Blewart','Bleven Blolbert','Lord Toxikhron of dimension 7-B19',Game.bakeryName+'\'s own evil clone'])+'!',
+						'News: people all over the internet still scratching their heads over nonsensical reference: "Okay, but why an egg?"',
+						'News: viral video "Too Many Cookies" could be "a grim commentary on the impending crisis our world is about to face", says famous economist.',
+						'News: "memes from last year somehow still relevant", deplore experts.',
+						'News: cookie emoji most popular among teenagers, far ahead of "judgmental OK hand sign" and "shifty-looking dark moon", says study.',
 					]),
 					choose([
-						'News : births of suspiciously bald babies on the rise; ancient alien cabal denies involvement.',
-						'News : "at this point, cookies permeate the economy", says economist. "If we start eating anything else, we\'re all dead."',
-						'News : pun in headline infuriates town, causes riot. 21 wounded, 5 dead; mayor still missing.',
-						'Nws : ky btwn W and R brokn, plas snd nw typwritr ASAP.',
-						'Neeeeews : "neeeew EEEEEE keeeeey working fineeeeeeeee", reeeports gleeeeeeeeful journalist.',
-						'News : cookies now illegal in some backwards country nobody cares about. Political tensions rising; war soon, hopefully.',
-						'News : irate radio host rambles about pixelated icons. "None of the cookies are aligned! Can\'t anyone else see it? I feel like I\'m taking crazy pills!"',
-						'News : nation cheers as legislators finally outlaw '+choose(['cookie criticism','playing other games than Cookie Clicker','pineapple on pizza','lack of cheerfulness','mosquitoes','broccoli','the human spleen','bad weather','clickbait','dabbing','the internet','memes','millennials'])+'!',
-						'News : '+choose(['local','area'])+' '+choose(['man','woman'])+' goes on journey of introspection, finds cookies : "I honestly don\'t know what I was expecting."',
-						'News : '+choose(['man','woman'])+' wakes up from coma, '+choose(['tries cookie for the first time, dies.','regrets it instantly.','wonders "why everything is cookies now".','babbles incoherently about some supposed "non-cookie food" we used to eat.','cites cookies as main motivator.','asks for cookies.']),
-						'News : pet '+choose(animals)+', dangerous fad or juicy new market?',
-						'News : person typing these wouldn\'t mind someone else breaking the news to THEM, for a change.',
-						'News : "average person bakes '+Beautify(Math.ceil(Game.cookiesEarned/8000000000))+' cookie'+(Math.ceil(Game.cookiesEarned/8000000000)==1?'':'s')+' a year" factoid actually just statistical error; '+Game.bakeryName+', who has produced '+Beautify(Game.cookiesEarned)+' cookies in their lifetime, is an outlier and should not have been counted.'
+						'News: births of suspiciously bald babies on the rise; ancient alien cabal denies involvement.',
+						'News: "at this point, cookies permeate the economy", says economist. "If we start eating anything else, we\'re all dead."',
+						'News: pun in headline infuriates town, causes riot. 21 wounded, 5 dead; mayor still missing.',
+						'Nws: ky btwn W and R brokn, plas snd nw typwritr ASAP.',
+						'Neeeeews: "neeeew EEEEEE keeeeey working fineeeeeeeee", reeeports gleeeeeeeeful journalist.',
+						'News: cookies now illegal in some backwards country nobody cares about. Political tensions rising; war soon, hopefully.',
+						'News: irate radio host rambles about pixelated icons. "None of the cookies are aligned! Can\'t anyone else see it? I feel like I\'m taking crazy pills!"',
+						'News: nation cheers as legislators finally outlaw '+choose(['cookie criticism','playing other games than Cookie Clicker','pineapple on pizza','lack of cheerfulness','mosquitoes','broccoli','the human spleen','bad weather','clickbait','dabbing','the internet','memes','millennials'])+'!',
+						'News: '+choose(['local','area'])+' '+choose(['man','woman'])+' goes on journey of introspection, finds cookies: "I honestly don\'t know what I was expecting."',
+						'News: '+choose(['man','woman'])+' wakes up from coma, '+choose(['tries cookie for the first time, dies.','regrets it instantly.','wonders "why everything is cookies now".','babbles incoherently about some supposed "non-cookie food" we used to eat.','cites cookies as main motivator.','asks for cookies.']),
+						'News: pet '+choose(animals)+', dangerous fad or juicy new market?',
+						'News: person typing these wouldn\'t mind someone else breaking the news to THEM, for a change.',
+						'News: "average person bakes '+Beautify(Math.ceil(Game.cookiesEarned/8000000000))+' cookie'+(Math.ceil(Game.cookiesEarned/8000000000)==1?'':'s')+' a year" factoid actually just statistical error; '+Game.bakeryName+', who has produced '+Beautify(Game.cookiesEarned)+' cookies in their lifetime, is an outlier and should not have been counted.'
 						])
 					);
 				}
@@ -7400,25 +7408,25 @@ Game.Launch=function()
 			{
 				list=[];
 				if (Game.elderWrath==1) list.push(EN?choose([
-					'News : millions of old ladies reported missing!',
-					'News : processions of old ladies sighted around cookie facilities!',
-					'News : families around the continent report agitated, transfixed grandmothers!',
-					'News : doctors swarmed by cases of old women with glassy eyes and a foamy mouth!',
-					'News : nurses report "strange scent of cookie dough" around female elderly patients!'
+					'News: millions of old ladies reported missing!',
+					'News: processions of old ladies sighted around cookie facilities!',
+					'News: families around the continent report agitated, transfixed grandmothers!',
+					'News: doctors swarmed by cases of old women with glassy eyes and a foamy mouth!',
+					'News: nurses report "strange scent of cookie dough" around female elderly patients!'
 				]):(NEWS+choose(loc("Ticker (grandma invasion start)"))));
 				if (Game.elderWrath==2) list.push(EN?choose([
-					'News : town in disarray as strange old ladies break into homes to abduct infants and baking utensils!',
-					'News : sightings of old ladies with glowing eyes terrify local population!',
-					'News : retirement homes report "female residents slowly congealing in their seats"!',
-					'News : whole continent undergoing mass exodus of old ladies!',
-					'News : old women freeze in place in streets, ooze warm sugary syrup!'
+					'News: town in disarray as strange old ladies break into homes to abduct infants and baking utensils!',
+					'News: sightings of old ladies with glowing eyes terrify local population!',
+					'News: retirement homes report "female residents slowly congealing in their seats"!',
+					'News: whole continent undergoing mass exodus of old ladies!',
+					'News: old women freeze in place in streets, ooze warm sugary syrup!'
 				]):(NEWS+choose(loc("Ticker (grandma invasion rise)"))));
 				if (Game.elderWrath==3) list.push(EN?choose([
-					'News : large "flesh highways" scar continent, stretch between various cookie facilities!',
-					'News : wrinkled "flesh tendrils" visible from space!',
-					'News : remains of "old ladies" found frozen in the middle of growing fleshy structures!', 
-					'News : all hope lost as writhing mass of flesh and dough engulfs whole city!',
-					'News : nightmare continues as wrinkled acres of flesh expand at alarming speeds!'
+					'News: large "flesh highways" scar continent, stretch between various cookie facilities!',
+					'News: wrinkled "flesh tendrils" visible from space!',
+					'News: remains of "old ladies" found frozen in the middle of growing fleshy structures!', 
+					'News: all hope lost as writhing mass of flesh and dough engulfs whole city!',
+					'News: nightmare continues as wrinkled acres of flesh expand at alarming speeds!'
 				]):(NEWS+choose(loc("Ticker (grandma invasion full)"))));
 			}
 			
@@ -7584,11 +7592,11 @@ Game.Launch=function()
 					{
 						if (EN)
 						{
-							me=me.dname.substring(me.name.indexOf('#'))+' : '+me.baseDesc.substring(me.baseDesc.indexOf('<q>')+3);
+							me=me.dname.substring(me.name.indexOf('#'))+': '+me.baseDesc.substring(me.baseDesc.indexOf('<q>')+3);
 							me=me.substring(0,me.length-4);
 						}
-						else if (me.buildingTie) me=me.dname+' : '+loc(choose(["Never forget your %1.","Pay close attention to the humble %1.","You've been neglecting your %1.","Remember to visit your %1 sometimes."]),me.buildingTie.single);
-						else me=me.dname+' : '+loc(choose(["You don't know what you have until you've lost it.","Remember to take breaks.","Hey, what's up. I'm a fortune cookie.","You think you have it bad? Look at me."]));
+						else if (me.buildingTie) me=me.dname+': '+loc(choose(["Never forget your %1.","Pay close attention to the humble %1.","You've been neglecting your %1.","Remember to visit your %1 sometimes."]),me.buildingTie.single);
+						else me=me.dname+': '+loc(choose(["You don't know what you have until you've lost it.","Remember to take breaks.","Hey, what's up. I'm a fortune cookie.","You think you have it bad? Look at me."]));
 					}
 					me='<span class="fortune"><div class="icon" style="vertical-align:middle;display:inline-block;background-position:'+(-29*48)+'px '+(-8*48)+'px;transform:scale(0.5);margin:-16px;position:relative;left:-4px;top:-2px;"></div>'+me+'</span>';
 					list=[me];
@@ -8004,14 +8012,14 @@ Game.Launch=function()
 					desc='???';
 					icon=[0,7];
 				}
-				//if (l('rowInfo'+me.id) && Game.drawT%10==0) l('rowInfoContent'+me.id).innerHTML='&bull; '+me.amount+' '+(me.amount==1?me.single:me.plural)+'<br>&bull; producing '+Beautify(me.storedTotalCps,1)+' '+(me.storedTotalCps==1?'cookie':'cookies')+' per second<br>&bull; total : '+Beautify(me.totalCookies)+' '+(Math.floor(me.totalCookies)==1?'cookie':'cookies')+' '+me.actionName;
+				//if (l('rowInfo'+me.id) && Game.drawT%10==0) l('rowInfoContent'+me.id).innerHTML='&bull; '+me.amount+' '+(me.amount==1?me.single:me.plural)+'<br>&bull; producing '+Beautify(me.storedTotalCps,1)+' '+(me.storedTotalCps==1?'cookie':'cookies')+' per second<br>&bull; total: '+Beautify(me.totalCookies)+' '+(Math.floor(me.totalCookies)==1?'cookie':'cookies')+' '+me.actionName;
 				
 				var canBuy=false;
 				var price=me.bulkPrice;
 				if ((Game.buyMode==1 && Game.cookies>=price) || (Game.buyMode==-1 && me.amount>0)) canBuy=true;
 				
 				var synergiesStr='';
-				//note : might not be entirely accurate, math may need checking
+				//note: might not be entirely accurate, math may need checking
 				if (me.amount>0)
 				{
 					var synergiesWith={};
@@ -8245,15 +8253,15 @@ Game.Launch=function()
 					//ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 					ctx.globalAlpha=1;
 					
-					//pic : a loaded picture or a function returning a loaded picture
-					//bg : a loaded picture or a function returning a loaded picture - tiled as the background, 128x128
-					//xV : the pictures will have a random horizontal shift by this many pixels
-					//yV : the pictures will have a random vertical shift by this many pixels
-					//w : how many pixels between each picture (or row of pictures)
-					//x : horizontal offset
-					//y : vertical offset (+32)
-					//rows : if >1, arrange the pictures in rows containing this many pictures
-					//frames : if present, slice the pic in [frames] horizontal slices and pick one at random
+					//pic: a loaded picture or a function returning a loaded picture
+					//bg: a loaded picture or a function returning a loaded picture - tiled as the background, 128x128
+					//xV: the pictures will have a random horizontal shift by this many pixels
+					//yV: the pictures will have a random vertical shift by this many pixels
+					//w: how many pixels between each picture (or row of pictures)
+					//x: horizontal offset
+					//y: vertical offset (+32)
+					//rows: if >1, arrange the pictures in rows containing this many pictures
+					//frames: if present, slice the pic in [frames] horizontal slices and pick one at random
 					
 					var pic=this.art.pic;
 					if (this.id==19) pic='canvasAdd';
@@ -9374,7 +9382,7 @@ Game.Launch=function()
 			this.desc=desc;
 			this.baseDesc=this.desc;
 			this.basePrice=price;
-			this.priceLumps=0;//note : doesn't do much on its own, you still need to handle the buying yourself
+			this.priceLumps=0;//note: doesn't do much on its own, you still need to handle the buying yourself
 			this.icon=icon;
 			this.iconFunction=0;
 			this.buyFunction=buyFunction;
@@ -9774,7 +9782,7 @@ Game.Launch=function()
 		}
 		
 		Game.UnlockAt=[];//this contains an array of every upgrade with a cookie requirement in the form of {cookies:(amount of cookies earned required),name:(name of upgrade or achievement to unlock)} (and possibly require:(name of upgrade of achievement to own))
-		//note : the cookie will not be added to the list if it contains locked:1 (use for seasonal cookies and such)
+		//note: the cookie will not be added to the list if it contains locked:1 (use for seasonal cookies and such)
 		
 		var strCookieProductionMultiplierPlus=loc("Cookie production multiplier <b>+%1%</b>.",'[x]');
 		var getStrCookieProductionMultiplierPlus=function(x)
@@ -9860,9 +9868,8 @@ Game.Launch=function()
 		Game.SynergyUpgrade=function(name,desc,building1,building2,tier)
 		{
 			/*
-				creates a new upgrade that :
-				-unlocks when you have tier.unlock of building1 and building2
-				-is priced at (building1.price*10+building2.price*1)*tier.price (formerly : Math.sqrt(building1.price*building2.price)*tier.price)
+				creates a new upgrade that: 				-unlocks when you have tier.unlock of building1 and building2
+				-is priced at (building1.price*10+building2.price*1)*tier.price (formerly: Math.sqrt(building1.price*building2.price)*tier.price)
 				-gives +(0.1*building1)% cps to building2 and +(5*building2)% cps to building1
 				-if building2 is below building1 in worth, swap them
 			*/
@@ -9924,7 +9931,7 @@ Game.Launch=function()
 		var power=0;
 		
 		//define upgrades
-		//WARNING : do NOT add new upgrades in between, this breaks the saves. Add them at the end !
+		//WARNING: do NOT add new upgrades in between, this breaks the saves. Add them at the end !
 		var order=100;//this is used to set the order in which the items are listed
 		new Game.Upgrade('Reinforced index finger',loc("The mouse and cursors are <b>twice</b> as efficient.")+'<q>prod prod</q>',100,[0,0]);Game.MakeTiered(Game.last,1,0);
 		new Game.Upgrade('Carpal tunnel prevention cream',loc("The mouse and cursors are <b>twice</b> as efficient.")+'<q>it... it hurts to click...</q>',500,[0,1]);Game.MakeTiered(Game.last,2,0);
@@ -9956,7 +9963,7 @@ Game.Launch=function()
 		Game.TieredUpgrade('Ultradrill','<q>Finally caved in?</q>','Mine',3);
 		
 		order=600;
-		Game.TieredUpgrade('Vanilla nebulae','<q>If you removed your space helmet, you could probably smell it!<br>(Note : don\'t do that.)</q>','Shipment',1);
+		Game.TieredUpgrade('Vanilla nebulae','<q>If you removed your space helmet, you could probably smell it!<br>(Note: don\'t do that.)</q>','Shipment',1);
 		Game.TieredUpgrade('Wormholes','<q>By using these as shortcuts, your ships can travel much faster.</q>','Shipment',2);
 		Game.TieredUpgrade('Frequent flyer','<q>Come back soon!</q>','Shipment',3);
 		
@@ -10062,7 +10069,7 @@ Game.Launch=function()
 		new Game.Upgrade('Ritual rolling pins',loc("%1 are <b>twice</b> as efficient.",cap(Game.Objects['Grandma'].plural))+'<q>The result of years of scientific research!</q>',4000000000000000,[2,9],function(){Game.SetResearch('Underworld ovens');});Game.last.pool='tech';
 		new Game.Upgrade('Underworld ovens',getStrCookieProductionMultiplierPlus(3)+'<q>Powered by science, of course!</q>',8000000000000000,[3,9],function(){Game.SetResearch('One mind');});Game.last.pool='tech';
 		new Game.Upgrade('One mind',loc("Each %1 gains <b>+%2 base CpS per %3</b>.",[loc("grandma"),'0.0<span></span>2',loc("grandma")])+'<div class="warning">'+loc("Note: the grandmothers are growing restless. Do not encourage them.")+'</div><q>We are one. We are many.</q>',16000000000000000,[4,9],function(){Game.elderWrath=1;Game.SetResearch('Exotic nuts');Game.storeToRefresh=1;});Game.last.pool='tech';
-		//Game.last.clickFunction=function(){return confirm('Warning : purchasing this will have unexpected, and potentially undesirable results!\nIt\'s all downhill from here. You have been warned!\nPurchase anyway?');};
+		//Game.last.clickFunction=function(){return confirm('Warning: purchasing this will have unexpected, and potentially undesirable results!\nIt\'s all downhill from here. You have been warned!\nPurchase anyway?');};
 		Game.RequiresConfirmation(Game.last,'<div class="block">'+loc("<b>Warning:</b> purchasing this will have unexpected, and potentially undesirable results!<br><small>It's all downhill from here. You have been warned!</small><br><br>Purchase anyway?")+'</div>');
 		new Game.Upgrade('Exotic nuts',getStrCookieProductionMultiplierPlus(4)+'<q>You\'ll go crazy over these!</q>',32000000000000000,[5,9],function(){Game.SetResearch('Communal brainsweep');});Game.last.pool='tech';
 		new Game.Upgrade('Communal brainsweep',(EN?'Each grandma gains another <b>+0.0<span></span>2 base CpS per grandma</b>.':loc("Each %1 gains <b>+%2 base CpS per %3</b>.",[loc("grandma"),'0.0<span></span>2',loc("grandma")]))+'<div class="warning">'+loc("Note: proceeding any further in scientific research may have unexpected results. You have been warned.")+'</div><q>We fuse. We merge. We grow.</q>',64000000000000000,[6,9],function(){Game.elderWrath=2;Game.SetResearch('Arcane sugar');Game.storeToRefresh=1;});Game.last.pool='tech';
@@ -10265,7 +10272,7 @@ Game.Launch=function()
 		new Game.Upgrade('Increased merriness',getStrCookieProductionMultiplierPlus(15)+'<br>'+loc("Cost scales with Santa level.")+'<q>It turns out that the key to increased merriness, strangely enough, happens to be a good campfire and some s\'mores.<br>You know what they say, after all; the s\'more, the merrier.</q>',2525,[17,9]);
 		new Game.Upgrade('Improved jolliness',getStrCookieProductionMultiplierPlus(15)+'<br>'+loc("Cost scales with Santa level.")+'<q>A nice wobbly belly goes a long way.<br>You jolly?</q>',2525,[17,9]);
 		new Game.Upgrade('A lump of coal',getStrCookieProductionMultiplierPlus(1)+'<br>'+loc("Cost scales with Santa level.")+'<q>Some of the world\'s worst stocking stuffing.<br>I guess you could try starting your own little industrial revolution, or something?...</q>',2525,[13,9]);
-		new Game.Upgrade('An itchy sweater',getStrCookieProductionMultiplierPlus(1)+'<br>'+loc("Cost scales with Santa level.")+'<q>You don\'t know what\'s worse : the embarrassingly quaint "elf on reindeer" motif, or the fact that wearing it makes you feel like you\'re wrapped in a dead sasquatch.</q>',2525,[14,9]);
+		new Game.Upgrade('An itchy sweater',getStrCookieProductionMultiplierPlus(1)+'<br>'+loc("Cost scales with Santa level.")+'<q>You don\'t know what\'s worse: the embarrassingly quaint "elf on reindeer" motif, or the fact that wearing it makes you feel like you\'re wrapped in a dead sasquatch.</q>',2525,[14,9]);
 		new Game.Upgrade('Reindeer baking grounds',loc("Reindeer appear <b>twice as frequently</b>.")+'<br>'+loc("Cost scales with Santa level.")+'<q>Male reindeer are from Mars; female reindeer are from venison.</q>',2525,[12,9]);
 		new Game.Upgrade('Weighted sleighs',loc("Reindeer are <b>twice as slow</b>.")+'<br>'+loc("Cost scales with Santa level.")+'<q>Hope it was worth the weight.<br>(Something something forced into cervidude)</q>',2525,[12,9]);
 		new Game.Upgrade('Ho ho ho-flavored frosting',loc("Reindeer give <b>twice as much</b>.")+'<br>'+loc("Cost scales with Santa level.")+'<q>It\'s time to up the antler.</q>',2525,[12,9]);
@@ -10316,8 +10323,8 @@ Game.Launch=function()
 		order=1100;
 		Game.TieredUpgrade('Gem polish','<q>Get rid of the grime and let more light in.<br>Truly, truly outrageous.</q>','Prism',1);
 		Game.TieredUpgrade('9th color','<q>Delve into untouched optical depths where even the mantis shrimp hasn\'t set an eye!</q>','Prism',2);
-		Game.TieredUpgrade('Chocolate light','<q>Bask into its cocoalescence.<br>(Warning : may cause various interesting albeit deadly skin conditions.)</q>','Prism',3);
-		Game.TieredUpgrade('Grainbow','<q>Remember the different grains using the handy Roy G. Biv mnemonic : R is for rice, O is for oats... uh, B for barley?...</q>','Prism',4);
+		Game.TieredUpgrade('Chocolate light','<q>Bask into its cocoalescence.<br>(Warning: may cause various interesting albeit deadly skin conditions.)</q>','Prism',3);
+		Game.TieredUpgrade('Grainbow','<q>Remember the different grains using the handy Roy G. Biv mnemonic: R is for rice, O is for oats... uh, B for barley?...</q>','Prism',4);
 		Game.TieredUpgrade('Pure cosmic light','<q>Your prisms now receive pristine, unadulterated photons from the other end of the universe.</q>','Prism',5);
 
 		order=255;
@@ -10463,7 +10470,7 @@ Game.Launch=function()
 		order=525;
 		Game.TieredUpgrade('Taller tellers','<q>Able to process a higher amount of transactions. Careful though, as taller tellers tell tall tales.</q>','Bank',1);
 		Game.TieredUpgrade('Scissor-resistant credit cards','<q>For those truly valued customers.</q>','Bank',2);
-		Game.TieredUpgrade('Acid-proof vaults','<q>You know what they say : better safe than sorry.</q>','Bank',3);
+		Game.TieredUpgrade('Acid-proof vaults','<q>You know what they say: better safe than sorry.</q>','Bank',3);
 		Game.TieredUpgrade('Chocolate coins','<q>This revolutionary currency is much easier to melt from and into ingots - and tastes much better, for a change.</q>','Bank',4);
 		Game.TieredUpgrade('Exponential interest rates','<q>Can\'t argue with mathematics! Now fork it over.</q>','Bank',5);
 		Game.TieredUpgrade('Financial zen','<q>The ultimate grail of economic thought; the feng shui of big money, the stock market yoga - the Heimlich maneuver of dimes and nickels.</q>','Bank',6);
@@ -10481,7 +10488,7 @@ Game.Launch=function()
 		Game.TieredUpgrade('Beardlier beards','<q>Haven\'t you heard? The beard is the word.</q>','Wizard tower',2);
 		Game.TieredUpgrade('Ancient grimoires','<q>Contain interesting spells such as "Turn Water To Drool", "Grow Eyebrows On Furniture" and "Summon Politician".</q>','Wizard tower',3);
 		Game.TieredUpgrade('Kitchen curses','<q>Exotic magic involved in all things pastry-related. Hexcellent!</q>','Wizard tower',4);
-		Game.TieredUpgrade('School of sorcery','<q>This cookie-funded academy of witchcraft is home to the 4 prestigious houses of magic : the Jocks, the Nerds, the Preps, and the Deathmunchers.</q>','Wizard tower',5);
+		Game.TieredUpgrade('School of sorcery','<q>This cookie-funded academy of witchcraft is home to the 4 prestigious houses of magic: the Jocks, the Nerds, the Preps, and the Deathmunchers.</q>','Wizard tower',5);
 		Game.TieredUpgrade('Dark formulas','<q>Eldritch forces are at work behind these spells - you get the feeling you really shouldn\'t be messing with those. But I mean, free cookies, right?</q>','Wizard tower',6);
 
 		
@@ -10640,7 +10647,7 @@ Game.Launch=function()
 		order=575;Game.TieredUpgrade('Rabbit trick','<q>Using nothing more than a fancy top hat, your wizards have found a way to simultaneously curb rabbit population and produce heaps of extra cookies for basically free!<br>Resulting cookies may or may not be fit for vegans.</q>','Wizard tower',8);
 		order=600;Game.TieredUpgrade('The final frontier','<q>It\'s been a long road, getting from there to here. It\'s all worth it though - the sights are lovely and the oil prices slightly more reasonable.</q>','Shipment',8);
 		order=700;Game.TieredUpgrade('Beige goo','<q>Well now you\'ve done it. Good job. Very nice. That\'s 3 galaxies you\'ve just converted into cookies. Good thing you can hop from universe to universe.</q>','Alchemy lab',8);
-		order=800;Game.TieredUpgrade('Maddening chants','<q>A popular verse goes like so : "jau\'hn madden jau\'hn madden aeiouaeiouaeiou brbrbrbrbrbrbr"</q>','Portal',8);
+		order=800;Game.TieredUpgrade('Maddening chants','<q>A popular verse goes like so: "jau\'hn madden jau\'hn madden aeiouaeiouaeiou brbrbrbrbrbrbr"</q>','Portal',8);
 		order=900;Game.TieredUpgrade('Cookietopian moments of maybe','<q>Reminiscing how things could have been, should have been, will have been.</q>','Time machine',8);
 		order=1000;Game.TieredUpgrade('Some other super-tiny fundamental particle? Probably?','<q>When even the universe is running out of ideas, that\'s when you know you\'re nearing the end.</q>','Antimatter condenser',8);
 		order=1100;
@@ -11057,7 +11064,7 @@ Game.Launch=function()
 		Game.last.pool='debug';
 		
 		order=150;
-		new Game.Upgrade('Technobsidian mouse',getStrClickingGains(1)+'<q>A highly advanced mouse of a sophisticated design. Only one thing on its mind : to click.</q>',5000000000000000000000000,[11,28]);Game.MakeTiered(Game.last,11,11);
+		new Game.Upgrade('Technobsidian mouse',getStrClickingGains(1)+'<q>A highly advanced mouse of a sophisticated design. Only one thing on its mind: to click.</q>',5000000000000000000000000,[11,28]);Game.MakeTiered(Game.last,11,11);
 		new Game.Upgrade('Plasmarble mouse',getStrClickingGains(1)+'<q>A shifting blur in the corner of your eye, this mouse can trigger a flurry of clicks when grazed by even the slightest breeze.</q>',500000000000000000000000000,[11,30]);Game.MakeTiered(Game.last,12,11);
 		
 		order=20000;
@@ -11154,7 +11161,7 @@ Game.Launch=function()
 		order=300;Game.TieredUpgrade('Lindworms','<q>You have to import these from far up north, but they really help aerate the soil!</q>','Farm',11);
 		order=400;Game.TieredUpgrade('Bore again','<q>After extracting so much sediment for so long, you\'ve formed some veritable mountains of your own from the accumulated piles of rock and dirt. Time to dig through those and see if you find anything fun!</q>','Mine',11);
 		order=500;Game.TieredUpgrade('"Volunteer" interns','<q>If you\'re bad at something, always do it for free.</q>','Factory',11);
-		order=525;Game.TieredUpgrade('Rules of acquisition','<q>Rule 387 : a cookie baked is a cookie kept.</q>','Bank',11);
+		order=525;Game.TieredUpgrade('Rules of acquisition','<q>Rule 387: a cookie baked is a cookie kept.</q>','Bank',11);
 		order=550;Game.TieredUpgrade('War of the gods','<q>An interesting game; the only winning move is not to pray.</q>','Temple',11);
 		order=575;Game.TieredUpgrade('Electricity','<q>Ancient magicks and forbidden hexes shroud this arcane knowledge, whose unfathomable power can mysteriously turn darkness into light and shock an elephant to death.</q>','Wizard tower',11);
 		order=600;Game.TieredUpgrade('Universal alphabet','<q>You\'ve managed to chart a language that can be understood by any sentient species in the galaxy; its exciting vocabulary contains over 56 trillion words that sound and look like sparkly burps, forming intricate sentences that usually translate to something like "give us your cookies, or else".</q>','Shipment',11);
@@ -11174,7 +11181,7 @@ Game.Launch=function()
 		order=1300;
 		Game.TieredUpgrade('Metabakeries','<q>They practically bake themselves!</q>','Fractal engine',1);
 		Game.TieredUpgrade('Mandelbrown sugar','<q>A substance that displays useful properties such as fractal sweetness and instant contact lethality.</q>','Fractal engine',2);
-		Game.TieredUpgrade('Fractoids','<q>Here\'s a frun fract : all in all, these were a terrible idea.</q>','Fractal engine',3);
+		Game.TieredUpgrade('Fractoids','<q>Here\'s a frun fract: all in all, these were a terrible idea.</q>','Fractal engine',3);
 		Game.TieredUpgrade('Nested universe theory','<q>Asserts that each subatomic particle is host to a whole new universe, and therefore, another limitless quantity of cookies.<br>This somehow stacks with the theory of nanocosmics, because physics.</q>','Fractal engine',4);
 		Game.TieredUpgrade('Menger sponge cake','<q>Frighteningly absorbent thanks to its virtually infinite surface area. Keep it isolated in a dry chamber, never handle it with an open wound, and do not ever let it touch a body of water.</q>','Fractal engine',5);
 		Game.TieredUpgrade('One particularly good-humored cow','<q>This unassuming bovine was excruciatingly expensive and it may seem at first like you were ripped off. On closer inspection however, you notice that its earrings (it\'s wearing earrings) are actually fully functional copies of itself, each of which also wearing their own cow earrings, and so on, infinitely. It appears your dairy concerns will be taken care of for a while, although you\'ll have to put up with the cow\'s annoying snickering.</q>','Fractal engine',6);
@@ -11185,7 +11192,7 @@ Game.Launch=function()
 		if (EN)
 		{
 			Game.last.descFunc=function(){
-				var str='"There once was a baker named '+Game.bakeryName+'. One day, there was a knock at the door; '+Game.bakeryName+' opened it and was suddenly face-to-face with a strange and menacing old grandma. The grandma opened her mouth and, in a strange little voice, started reciting this strange little tale : ';
+				var str='"There once was a baker named '+Game.bakeryName+'. One day, there was a knock at the door; '+Game.bakeryName+' opened it and was suddenly face-to-face with a strange and menacing old grandma. The grandma opened her mouth and, in a strange little voice, started reciting this strange little tale: ';
 				var n=35;
 				var i=Math.floor(Game.T*0.1);
 				return this.desc+'<q style="font-family:Courier;">'+(str.substr(i%str.length,n)+(i%str.length>(str.length-n)?str.substr(0,i%str.length-(str.length-n)):''))+'</q>';
@@ -11368,7 +11375,7 @@ Game.Launch=function()
 		
 		
 		order=255;
-		Game.GrandmaSynergy('Binary grandmas','A digital grandma to transfer more cookies.<br>(See also : boolean grandmas, string grandmas, and not-a-number grandmas, also known as "NaNs".)','Javascript console');
+		Game.GrandmaSynergy('Binary grandmas','A digital grandma to transfer more cookies.<br>(See also: boolean grandmas, string grandmas, and not-a-number grandmas, also known as "NaNs".)','Javascript console');
 		
 		order=1400;
 		Game.TieredUpgrade('The JavaScript console for dummies','<q>This should get you started. The first line reads: "To open the javascript console, press-"<br>...the rest of the book is soaked in chocolate milk. If only there was a way to look up this sort of information...</q>','Javascript console',1);
@@ -11427,7 +11434,7 @@ Game.Launch=function()
 		Game.NewUpgradeCookie({name:'Dim Dams',desc:'Two biscuits joined by chocolate and coated in even more chocolate.<br>You wonder - which one is the dim, and which one is the dam?',icon:[31,10],require:'Box of brand biscuits',power:												2,	price:	999999999999999999999999999999999*5});
 		
 		order=10060;
-		Game.NewUpgradeCookie({name:'Candy',desc:'There are two pillars to the world of sweets : pastries, of course - and candy.<br>You could make a whole new game just about these, but for now, please enjoy these assorted generic treats.',icon:[30,10],require:'Box of not cookies',		power:5,price: Math.pow(10,46)});
+		Game.NewUpgradeCookie({name:'Candy',desc:'There are two pillars to the world of sweets: pastries, of course - and candy.<br>You could make a whole new game just about these, but for now, please enjoy these assorted generic treats.',icon:[30,10],require:'Box of not cookies',		power:5,price: Math.pow(10,46)});
 		
 		
 		order=19000;
@@ -11451,7 +11458,7 @@ Game.Launch=function()
 		
 		
 		order=19100;
-		//note : price for these capped to base price OR 1 day of unbuffed CpS
+		//note: price for these capped to base price OR 1 day of unbuffed CpS
 		new Game.Upgrade('Fortune #100',loc("All buildings and upgrades are <b>%1% cheaper</b>.",1)+' '+loc("Cookie production multiplier <b>+%1%</b>.",1)+'<q>True wealth is counted in gifts.</q>',
 		Game.Tiers['fortune'].price*100000,[0,0]);Game.MakeTiered(Game.last,'fortune',10);
 		Game.last.priceFunc=function(me){return Math.min(me.basePrice,Game.unbuffedCps*60*60*24);}
@@ -12689,7 +12696,7 @@ Game.Launch=function()
 		}
 		
 		//define achievements
-		//WARNING : do NOT add new achievements in between, this breaks the saves. Add them at the end !
+		//WARNING: do NOT add new achievements in between, this breaks the saves. Add them at the end !
 		
 		var order=0;//this is used to set the order in which the items are listed
 		
@@ -12913,7 +12920,7 @@ Game.Launch=function()
 		Game.TieredAchievement('Unending glow','','Prism',4);
 		
 		order=5000;
-		new Game.Achievement('Lord of Constructs',loc("Own <b>%1</b>.",loc("%1 building",LBeautify(2500)))+'<q>He saw the vast plains stretching ahead of him, and he said : let there be civilization.</q>',[5,6]);
+		new Game.Achievement('Lord of Constructs',loc("Own <b>%1</b>.",loc("%1 building",LBeautify(2500)))+'<q>He saw the vast plains stretching ahead of him, and he said: let there be civilization.</q>',[5,6]);
 		order=6000;
 		new Game.Achievement('Lord of Progress',loc("Purchase <b>%1</b>.",loc("%1 upgrade",LBeautify(200)))+'<q>One can always do better. But should you?</q>',[9,14]);
 		order=7002;
@@ -12980,7 +12987,7 @@ Game.Launch=function()
 		
 		order=30050;
 		new Game.Achievement('Dematerialize',loc("Ascend with <b>%1</b> baked.",loc("%1 cookie",LBeautify(1e18)))+'<q>Presto!<br>...where\'d the cookies go?</q>',[11,7]);
-		new Game.Achievement('Nil zero zilch',loc("Ascend with <b>%1</b> baked.",loc("%1 cookie",LBeautify(1e21)))+'<q>To summarize : really not very much at all.</q>',[11,7]);
+		new Game.Achievement('Nil zero zilch',loc("Ascend with <b>%1</b> baked.",loc("%1 cookie",LBeautify(1e21)))+'<q>To summarize: really not very much at all.</q>',[11,7]);
 		new Game.Achievement('Transcendence',loc("Ascend with <b>%1</b> baked.",loc("%1 cookie",LBeautify(1e24)))+'<q>Your cookies are now on a higher plane of being.</q>',[11,8]);
 		new Game.Achievement('Obliterate',loc("Ascend with <b>%1</b> baked.",loc("%1 cookie",LBeautify(1e27)))+'<q>Resistance is futile, albeit entertaining.</q>',[11,8]);
 		new Game.Achievement('Negative void',loc("Ascend with <b>%1</b> baked.",loc("%1 cookie",LBeautify(1e30)))+'<q>You now have so few cookies that it\'s almost like you have a negative amount of them.</q>',[11,8]);
@@ -13098,7 +13105,7 @@ Game.Launch=function()
 		Game.CpsAchievement('A world filled with cookies');
 		Game.CpsAchievement('When this baby hits '+Beautify(10000000000000*60*60)+' cookies per hour');
 		Game.CpsAchievement('Fast and delicious');
-		Game.CpsAchievement('Cookiehertz : a really, really tasty hertz','Tastier than a hertz donut, anyway.');
+		Game.CpsAchievement('Cookiehertz: a really, really tasty hertz','Tastier than a hertz donut, anyway.');
 		Game.CpsAchievement('Woops, you solved world hunger');
 		Game.CpsAchievement('Turbopuns','Mother Nature will be like "slowwwww dowwwwwn".');
 		Game.CpsAchievement('Faster menner');
@@ -13841,13 +13848,11 @@ Game.Launch=function()
 		}
 		
 		/*
-		basic buff parameters :
-			name:'Kitten rain',
+		basic buff parameters: 			name:'Kitten rain',
 			desc:'It\'s raining kittens!',
 			icon:[0,0],
 			time:30*Game.fps
-		other parameters :
-			visible:false - will hide the buff from the buff list
+		other parameters: 			visible:false - will hide the buff from the buff list
 			add:true - if this buff already exists, add the new duration to the old one
 			max:true - if this buff already exists, set the new duration to the max of either
 			onDie:function(){} - function will execute when the buff runs out
@@ -14578,7 +14583,7 @@ Game.Launch=function()
 					ctx.drawImage(Pic(pic),-sw/2,-10,sw,sh);
 					if (!Game.WINKLERS && Game.prefs.notScary) ctx.drawImage(Pic(Math.sin(Game.T*0.003+i*11+137+Math.sin(Game.T*0.017+i*13))>0.9997?'wrinklerBlink.png':'wrinklerGooglies.png'),-sw/2,-10+1*Math.sin(Game.T*0.2+i*3+1.2),sw,sh);
 					//ctx.drawImage(Pic(pic),-50,-10);
-					//ctx.fillText(me.id+' : '+me.sucked,0,0);
+					//ctx.fillText(me.id+': '+me.sucked,0,0);
 					if (me.type==1 && Math.random()<0.3 && Game.prefs.particles)//sparkle
 					{
 						ctx.globalAlpha=Math.random()*0.65+0.1;
@@ -16618,7 +16623,7 @@ Game.Launch=function()
 		
 		if ((Game.toSave || (Game.T%(Game.fps*60)==0 && Game.T>Game.fps*10 && Game.prefs.autosave)) && !Game.OnAscend)
 		{
-			//check if we can save : no minigames are loading
+			//check if we can save: no minigames are loading
 			var canSave=true;
 			for (var i in Game.Objects)
 			{
@@ -16846,10 +16851,124 @@ LAUNCH THIS THING
 
 
 //try {Game.Launch();}
-//catch(err) {console.log('ERROR : '+err.message);}
+//catch(err) {console.log('ERROR: '+err.message);}
 
 window.onload=function()
 {
+	setTimeout(function() {
+		if (Game.prefs.mobileMode) {
+			Game.mobile=1;
+			// Sources from the Japanese wiki; pretty useful
+				(() => {
+					AddEvent(document, 'touchstart', e => {
+						Game.mouseX = (e.touches[0].pageX) / Game.scale;
+						Game.mouseY = (e.touches[0].pageY - TopBarOffset) / Game.scale;
+						Game.lastActivity = Game.time;
+						Game.mouseDown = 1;
+						Game.clickFrom = event.target;
+					});
+					AddEvent(document, 'touchmove', e => {
+						Game.mouseX = (e.changedTouches[0].pageX) / Game.scale;
+						Game.mouseY = (e.changedTouches[0].pageY - TopBarOffset) / Game.scale;
+						Game.mouseMoved = 1;
+						Game.lastActivity = Game.time;
+					});
+					AddEvent(document, 'touchend', () => {
+						Game.lastActivity = Game.time;
+						Game.mouseDown = 0;
+						Game.clickFrom = 0;
+					});
+				})();
+			(() => {
+				// we try to fix temples once every second, as it will throw an error if the minigame isn't shown
+				const M = Game.Objects['Temple'].minigame;
+				const testMinigameInterval = setInterval(function() {
+					if (!M) {
+						return
+					}
+					clearInterval(testMinigameInterval)
+					M.godSelected = -1, M.slotSelected = -1;
+					const id = () => M.gods[M.godSelected].id;
+					const name = n => {
+						for (let i in M.gods) if (M.gods[i].id === n) return i;
+						return -1;
+					};
+					const on = (g, s = -1) => {
+						M.godSelected = g, M.slotSelected = s;
+						if (s === -1) l('templeGod' + id()).classList.add('godSelected');
+						else l('templeSlot' + s).classList.add('godSelected');
+						PlaySound('snd/toneTick.mp3');
+					};
+					const off = () => {
+						const s = M.slotSelected;
+						if (s === -1) l('templeGod' + id()).classList.remove('godSelected');
+						else l('templeSlot' + s).classList.remove('godSelected');
+						M.godSelected = -1, M.slotSelected = -1;
+					};
+					const set = n => {
+						M.dragGod({ 'id': id() });
+						M.dragging = M.gods[M.godSelected];
+						M.slotHovered = n;
+						M.dropGod();
+						if (id() !== -1) l('templeGodPlaceholder' + id()).style.display = 'none';
+						off();
+					};
+					let el = document.createElement('style');
+					el.innerHTML = `
+					.templeGod:hover,.temple:active{
+						box-shadow:4px 4px 4px #000;
+						background-position:0 0;
+						z-index:auto;
+					}
+					.templeGod.ready:hover .templeIcon{
+						animation-name:none;
+						animation-iteration-count:0;
+						animation-duration:0s;
+					}
+					.templeGod.godSelected{
+						box-shadow:6px 6px 6px 2px #000;
+						background-position:0px 74px;
+						z-index:1000000001;
+						transform:scale(1.2)!important;
+					}
+					.templeGod.ready.godSelected .templeIcon{
+						animation-name:bounce;
+						animation-iteration-count:infinite;
+						animation-duration:0.8s;
+					}
+				`;
+					l('templeContent').appendChild(el);
+					for (let i in M.gods) {
+						const me = M.gods[i];
+						l('templeGod' + me.id).addEventListener('click', (g => () => {
+							if (M.gods[g].slot !== -1 || M.slotSelected !== -1) return;
+							if (M.godSelected === g) off();
+							else { if (M.godSelected != -1) off(); on(g); }
+						})(i));
+						for (let j of ['mousedown', 'mouseup']) {
+							l('templeGod' + me.id).addEventListener(j, e => { e.stopPropagation() }, true);
+						}
+					}
+					for (let i in M.slot) {
+						l('templeSlot' + i).addEventListener('click', (i => () => {
+							if (M.godSelected === -1) {
+								const n = M.slot[i];
+								if (n === -1) return;
+								on(name(n), i);
+							} else {
+								if (M.slot[i] === id()) { off(); return; }
+								set(i);
+							}
+						})(i));
+					}
+					l('templeGods').addEventListener('click', () => {
+						if (M.godSelected === -1 || M.slotSelected === -1) return;
+						set(-1);
+					});
+				}, 1000);
+			})()
+		}
+	}, 1000)
 	if (!Game.ready)
 	{
 		var loadLangAndLaunch=function(lang,firstLaunch)
@@ -16869,12 +16988,12 @@ window.onload=function()
 								'Oh, hello!',
 								'hey, how\'s it hangin',
 								'About to cheat in some cookies or just checking for bugs?',
-								'Remember : cheated cookies taste awful!',
+								'Remember: cheated cookies taste awful!',
 								'Hey, Orteil here. Cheated cookies taste awful... or do they?',
 							])+' ===]');
 							Game.Load(function(){Game.Init();if (firstLaunch) Game.showLangSelection(true);});
 							//try {Game.Load(Game.Init);}
-							//catch(err) {console.log('ERROR : '+err.message);}
+							//catch(err) {console.log('ERROR: '+err.message);}
 						}
 					}
 					if (App && App.loadMods) App.loadMods(launch);
@@ -16909,3 +17028,8 @@ window.onload=function()
 		else loadLangAndLaunch(lang);
 	}
 };
+
+// Ctrl+X shortcut for exporting
+AddEvent(window,'keydown',function(e){
+	if (!Game.OnAscend && Game.AscendTimer==0 && e.ctrlKey && e.keyCode==88) {Game.ExportSave();e.preventDefault();}
+});

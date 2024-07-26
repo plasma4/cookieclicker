@@ -3,8 +3,7 @@ Orteil's crappy dungeon generation library, 2013
 Unfinished and buggy, use at your own risk (please credit)
 http://orteil.dashnet.org
 
-Rough process (might or might not be what actually happens) :
-1 make a room in the middle
+Rough process (might or might not be what actually happens): 1 make a room in the middle
 2 pick one of its walls (not corners)
 3 select a free tile on the other side of that wall
 4 iteratively expand the selection in one (corridors) or two (rooms) directions, stopping when we meet a wall or when we're above the size threshold
@@ -15,7 +14,7 @@ Rough process (might or might not be what actually happens) :
 9 carve the room into the map, and set the initially selected wall as a door - set the new room's parent to the previous room, and add it to its parent's children
 10 repeat step 2 with any free wall on the map until the amount of tiles dug is above the desired fill ratio
 
-Note : I should probably switch the rendering to canvas to allow stuff like occlusion shadows and lights
+Note: I should probably switch the rendering to canvas to allow stuff like occlusion shadows and lights
 */
 
 if (1==1 || undefined==Math.seedrandom)
@@ -116,7 +115,7 @@ var DungeonGen=function()
 		//create a new map
 		//leave the seed out for a random seed
 		//params is an object that contains custom parameters as defined in defaultGenerator
-		//example : MyMap=new DungeonGen.Map(30,30,MySeed,{waterRatio:0.8}); (80 percent of the rooms will contain water)
+		//example: MyMap=new DungeonGen.Map(30,30,MySeed,{waterRatio:0.8}); (80 percent of the rooms will contain water)
 		if (undefined!=seed) this.seed=seed; else {Math.seedrandom();this.seed=Math.random();}
 		Math.seedrandom(this.seed);
 		this.seedState=Math.random;
@@ -181,8 +180,8 @@ var DungeonGen=function()
 	this.Map.prototype.fill=function(what)
 	{
 		//fill with something (either a set value, or a function that takes the map, a position X and a position Y as arguments)
-		//NOTE : this also resets the rooms!
-		//example : MyMap.fill(function(m,x,y){return Math.floor((Math.random());});
+		//NOTE: this also resets the rooms!
+		//example: MyMap.fill(function(m,x,y){return Math.floor((Math.random());});
 		//...will fill the map with 0s and 1s
 		var func=0;
 		if (typeof(what)=='function') func=1;
@@ -511,7 +510,7 @@ var DungeonGen=function()
 		
 		var badDig=0;
 		
-		if (this.digs==0)//first dig : build a starting room in the middle of the map
+		if (this.digs==0)//first dig: build a starting room in the middle of the map
 		{
 			var w=rand(3,7);
 			var h=rand(3,7);
@@ -532,7 +531,7 @@ var DungeonGen=function()
 		if (this.tilesDug>=this.tiles*this.fillRatio) finished=1;
 		if (this.stuck>100) finished=1;
 		
-		if (finished==1)//last touch : try to add a whole room at the end
+		if (finished==1)//last touch: try to add a whole room at the end
 		{
 			for (var i=0;i<10;i++)
 			{
@@ -547,7 +546,7 @@ var DungeonGen=function()
 	
 	this.Map.prototype.finish=function()
 	{
-		//touch up the map : add pillars in corners etc
+		//touch up the map: add pillars in corners etc
 		/*
 		//set paths
 		for (var i in this.rooms)
@@ -829,7 +828,7 @@ var DungeonGen=function()
 				{
 					opacity=Math.max(0.1,1-room.gen/5);
 					if (this.data[x][y][0]==TILE_ENTRANCE || this.data[x][y][0]==TILE_EXIT) opacity=1;
-					title=(room.corridor?'corridor':'room')+' '+room.id+' | depth : '+room.gen+' | children : '+room.children.length;
+					title=(room.corridor?'corridor':'room')+' '+room.id+' | depth: '+room.gen+' | children: '+room.children.length;
 				}
 				var pic=this.getPic(x,y);
 				str+='<div style="opacity:'+opacity+';width:'+size+'px;height:'+size+'px;position:absolute;left:'+(x*size)+'px;top:'+(y*size)+'px;display:block;padding:0px;margin:0px;background:#'+colors[this.data[x][y][0]]+' url(img/dungeonTiles.png) '+(-pic[0]*16)+'px '+(-pic[1]*16)+'px;color:#999;" title="'+title+'"></div>';
@@ -859,7 +858,7 @@ var DungeonGen=function()
 					if (this.data[x][y][0]==TILE_ENTRANCE || this.data[x][y][0]==TILE_EXIT) opacity=1;
 					*/
 					if (room.hidden) pic=[0,0];
-					title=(room.corridor?'corridor':'room')+' '+room.id+' | depth : '+room.gen+' | children : '+room.children.length;
+					title=(room.corridor?'corridor':'room')+' '+room.id+' | depth: '+room.gen+' | children: '+room.children.length;
 				}
 				str+='<div style="opacity:'+opacity+';width:'+size+'px;height:'+size+'px;position:absolute;left:'+(x*size)+'px;top:'+(y*size)+'px;display:block;padding:0px;margin:0px;background:#'+colors[this.data[x][y][0]]+' url(img/dungeonTiles.png) '+(-pic[0]*16)+'px '+(-pic[1]*16)+'px;color:#999;" title="'+title+'"></div>';
 			}
