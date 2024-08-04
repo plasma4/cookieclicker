@@ -2493,7 +2493,7 @@ Game.Launch=function()
 		
 		Game.grandmaNames=['Granny','Gusher','Ethel','Edna','Doris','Maud','Hilda','Gladys','Michelle','Michele','Phyllis','Millicent','Muriel','Myrtle','Mildred','Mavis','Helen','Gloria','Sheila','Betty','Gertrude','Agatha','Beryl','Agnes','Pearl','Precious','Ruby','Vera','Bonnie','Ada','Bunny','Cookie','Darling','Gaga','GamGam','Memaw','Mimsy','Peanut','Nana','Nan','Tootsie','Warty','Stinky','Heinous'];
 		Game.customGrandmaNames=[];
-		Game.heralds=42;
+		Game.heralds=41;
 		
 		Game.GrabData=function()
 		{
@@ -2501,7 +2501,7 @@ Game.Launch=function()
 			// else App.grabData(function(res){
 			// 	Game.heralds=res?(res.playersN||1):1;
 			// 	Game.heralds=Math.max(0,Math.min(100,Math.ceil(Game.heralds/100*100)/100));
-				l('heraldsAmount').textContent=42;
+				l('heraldsAmount').textContent=41;
 			// });
 		}
 		Game.GrabDataResponse=function(response)
