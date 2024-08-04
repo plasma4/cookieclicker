@@ -1182,7 +1182,11 @@ var Game={};
 		}
 		if (modsN==0) str+=loc("No mod data present.");
 		else str+='<div><a class="option warning" style="font-size:11px;margin-top:4px;" '+Game.clickStr+'="Game.deleteAllModData();PlaySound(\'snd/tick.mp3\');Game.ClosePrompt();Game.CheckModData();">'+loc("Delete all")+'</a></div>';
-		Game.Prompt('<id ModData><h3>'+loc("Mod data")+'</h3><div class="block">'+tinyIcon([16,5])+'<div></div>'+loc("These are the mods present in your save data. You may delete some of this data to make your save file smaller.")+'</div><div class="block" style="font-size:11px;">'+str+'</div>',[loc("Back")]);
+		if (localStorage.getItem("CookieClickerScript")) {
+			Game.Prompt('<id ModData><h3>'+loc("Mod data")+'</h3><div class="block">'+tinyIcon([16,5])+'<div></div>'+loc("These are the mods present in your save data. You may delete some of this data to make your save file smaller.")+'</div><div class="block" style="font-size:11px;">'+str+'</div>',[[loc("Clear auto-loaded mods"),'localStorage.removeItem("CookieClickerScript")'],loc("Back")]);
+		} else {
+			Game.Prompt('<id ModData><h3>'+loc("Mod data")+'</h3><div class="block">'+tinyIcon([16,5])+'<div></div>'+loc("These are the mods present in your save data. You may delete some of this data to make your save file smaller.")+'</div><div class="block" style="font-size:11px;">'+str+'</div>',[loc("Back")]);
+		}
 	}
 	
 	Game.LoadMod=LoadScript;//loads the mod at the given URL
@@ -2617,13 +2621,17 @@ Game.Launch=function()
 		Game.ImportSave=function(def)
 		{
 			//if (App) return false;
-		Game.Prompt('<id ImportSave><h3>'+loc("Import save")+'</h3><div class="block">'+loc("Please paste in the code that was given to you on save export.")+'<div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div></div><div class="block"><textarea id="textareaPrompt" style="width:100%;height:128px;">'+(def||'')+'</textarea></div>',[[loc("Load"),'if (l(\'textareaPrompt\').value.trim().length==0){return false;}if (Game.ImportSaveCode(l(\'textareaPrompt\').value)){Game.ClosePrompt();}else{l(\'importError\').innerHTML=\'(\'+loc("Error importing save")+\')\';}'],loc("Nevermind")]);//prompt('Please paste in the text that was given to you on save export.','');
+			Game.Prompt('<id ImportSave><h3>'+loc("Import save")+'</h3><div class="block">'+loc("Please paste in the code that was given to you on save export.")+'<div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div></div><div class="block"><textarea id="textareaPrompt" style="width:100%;height:128px;">'+(def||'')+'</textarea></div>',[[loc("Load"),'if (l(\'textareaPrompt\').value.trim().length==0){return false;}if (Game.ImportSaveCode(l(\'textareaPrompt\').value)){Game.ClosePrompt();}else{l(\'importError\').innerHTML=\'(\'+loc("Error importing save")+\')\';}'],loc("Nevermind")]);//prompt('Please paste in the text that was given to you on save export.','');
 			l('textareaPrompt').focus();
 		}
 		Game.InjectMod=function(def)
 		{
 			//if (App) return false;
-		Game.Prompt('<id InjectMod><h3>'+loc("Inject script")+'</h3><div class="block">'+loc("Please paste in the script to use to load the mod. This mod will be unloaded upon reloading! (Go to the Check Mod Data option to disable permanent mod loading; note that only one mod script can be loaded at a time, so you may have to combine the scripts of mods to load.)")+'<div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div></div><div class="block"><textarea id="textareaPrompt" style="width:100%;height:128px;">'+(def||'')+'</textarea></div>',[[loc("Load"),'if (l(\'textareaPrompt\').value.trim().length==0){return false;}try{eval(l(\'textareaPrompt\').value);Game.ClosePrompt()}catch(e){l(\'importError\').innerHTML=\'(\'+loc("Error importing script")+\')\';}'],[loc("Load every time"),'if (l(\'textareaPrompt\').value.trim().length==0){return false;}try{Game.permaLoad(l(\'textareaPrompt\').value);Game.ClosePrompt()}catch(e){l(\'importError\').innerHTML=\'(\'+loc("Error importing script")+\')\';}'],loc("Nevermind")]);
+			if (localStorage.getItem("CookieClickerScript")) {
+			Game.Prompt('<id InjectMod><h3>'+loc("Inject script")+'</h3><div class="block">'+loc("Please paste in the script to use to load the mod. This mod will be unloaded upon reloading! (Go to the Check Mod Data option to disable permanent mod loading. Because you have already imported a script, it will be overridden if you chose to load the mod every time; you may need to reload.)")+'<div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div></div><div class="block"><textarea id="textareaPrompt" style="width:100%;height:128px;">'+(def||'')+'</textarea></div>',[[loc("Actually, just load an autoclicker for now"),'Game.LoadMod("autoclicker.js");Game.ClosePrompt()'],[loc("Load"),'if (l(\'textareaPrompt\').value.trim().length==0){return false;}try{eval(l(\'textareaPrompt\').value);Game.ClosePrompt()}catch(e){l(\'importError\').innerHTML=\'(\'+loc("Error importing script")+\')\';}'],[loc("Load every time"),'if (l(\'textareaPrompt\').value.trim().length==0){return false;}try{Game.permaLoad(l(\'textareaPrompt\').value);Game.ClosePrompt()}catch(e){l(\'importError\').innerHTML=\'(\'+loc("Error importing script")+\')\';}'],loc("Nevermind")]);
+			} else {
+				Game.Prompt('<id InjectMod><h3>'+loc("Inject script")+'</h3><div class="block">'+loc("Please paste in the script to use to load the mod. This mod will be unloaded upon reloading! (Go to the Check Mod Data option to disable permanent mod loading if you choose to load the mod every time.)")+'<div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div></div><div class="block"><textarea id="textareaPrompt" style="width:100%;height:128px;">'+(def||'')+'</textarea></div>',[[loc("Actually, just load an autoclicker for now"),'Game.LoadMod("autoclicker.js");Game.ClosePrompt()'],[loc("Load"),'if (l(\'textareaPrompt\').value.trim().length==0){return false;}try{eval(l(\'textareaPrompt\').value);Game.ClosePrompt()}catch(e){l(\'importError\').innerHTML=\'(\'+loc("Error importing script")+\')\';}'],[loc("Load every time"),'if (l(\'textareaPrompt\').value.trim().length==0){return false;}try{Game.permaLoad(l(\'textareaPrompt\').value);Game.ClosePrompt()}catch(e){l(\'importError\').innerHTML=\'(\'+loc("Error importing script")+\')\';}'],loc("Nevermind")]);
+			}
 			l('textareaPrompt').focus();
 		}
 		Game.ImportSaveCode=function(save)
@@ -3665,7 +3673,11 @@ Game.Launch=function()
 			}
 			else if (bypass==1)
 			{
-				Game.Prompt('<id ReallyWipeSave><h3>'+loc("Wipe save")+'</h3><div class="block">'+tinyIcon([15,5])+'<div class="line"></div>'+loc("Whoah now, are you really, <b><i>REALLY</i></b> sure you want to go through with this?<br><small>Don't say we didn't warn you!</small>")+'</div>',[[EN?'Do it!':loc("Yes"),'Game.ClosePrompt();Game.HardReset(2);','float:left'],[loc("No"),0,'float:right']]);
+				if (localStorage.getItem("CookieClickerScript")) {
+					Game.Prompt('<id ReallyWipeSave><h3>'+loc("Wipe save")+'</h3><div class="block">'+tinyIcon([15,5])+'<div class="line"></div>'+loc("Whoah now, are you really, <b><i>REALLY</i></b> sure you want to go through with this?<br><small>Don't say we didn't warn you!</small>")+'</div>',[[EN?'Do it!':loc("Yes"),'Game.ClosePrompt();Game.HardReset(2);','float:left'],[EN?'Do it, and clear mods!':loc("Yes, and clear mods"),'localStorage.removeItem(Game.SaveTo);localStorage.removeItem("CookieClickerScript");window.onbeforeunload=null;location.reload()','float:left'],[loc("No"),0,'float:right']]);
+				} else {
+					Game.Prompt('<id ReallyWipeSave><h3>'+loc("Wipe save")+'</h3><div class="block">'+tinyIcon([15,5])+'<div class="line"></div>'+loc("Whoah now, are you really, <b><i>REALLY</i></b> sure you want to go through with this?<br><small>Don't say we didn't warn you!</small>")+'</div>',[[EN?'Do it!':loc("Yes"),'Game.ClosePrompt();Game.HardReset(2);','float:left'],[loc("No"),0,'float:right']]);
+				}
 			}
 			else
 			{
@@ -16920,7 +16932,7 @@ window.onload=function()
 	}
 	var inject=localStorage.getItem("CookieClickerScript");
 	if (inject) {
-		eval(inject);
+		setTimeout(function(){eval(inject)},250);
 	}
 };
 
