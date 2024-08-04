@@ -2695,7 +2695,7 @@ Game.Launch=function()
 			(Game.prefs.crates?'1':'0')+
 			(Game.prefs.showBackupWarning?'1':'0')+
 			(Game.prefs.extraButtons?'1':'0')+
-			(Game.prefs.mobileMode*2+Game.prefs.askLumps)+ // slide stuff in here
+			(Game.prefs.hideRightClick*2+Game.prefs.askLumps)+ // slide stuff in here
 			(Game.prefs.customGrandmas?'1':'0')+
 			(Game.prefs.timeout?'1':'0')+
 			(Game.prefs.cloudSave?'1':'0')+
@@ -2998,7 +2998,7 @@ Game.Launch=function()
 						Game.prefs.crates=spl[15]?parseInt(spl[15]):0;
 						Game.prefs.showBackupWarning=spl[16]?parseInt(spl[16]):1;
 						Game.prefs.extraButtons=spl[17]?parseInt(spl[17]):1;if (!Game.prefs.extraButtons) Game.removeClass('extraButtons'); else if (Game.prefs.extraButtons) Game.addClass('extraButtons');
-						Game.prefs.mobileMode=spl[18]?Math.floor(parseInt(spl[18])/2):0;
+						Game.prefs.hideRightClick=spl[18]?Math.floor(parseInt(spl[18])/2):0;
 						Game.prefs.askLumps=spl[18]?parseInt(spl[18])%2:0;
 						Game.prefs.customGrandmas=spl[19]?parseInt(spl[19]):1;
 						Game.prefs.timeout=spl[20]?parseInt(spl[20]):0;
@@ -6625,7 +6625,7 @@ Game.Launch=function()
 							'<div class="listing"><a class="option smallFancyButton" '+Game.clickStr+'="Game.toSave=true;PlaySound(\'snd/tick.mp3\');">'+loc("Save")+'</a><label>'+loc("Save manually (the game autosaves every 60 seconds; shortcut: ctrl+S)")+'</label></div>'+
 							'<div class="listing"><a class="option smallFancyButton" '+Game.clickStr+'="Game.ExportSave();PlaySound(\'snd/tick.mp3\');">'+loc("Export save")+'</a><a class="option smallFancyButton" '+Game.clickStr+'="Game.ImportSave();PlaySound(\'snd/tick.mp3\');">'+loc("Import save")+'</a><label>'+loc("You can use this to backup your save or to transfer it to another computer (shortcut for import: ctrl+O)")+'</label></div>'+
 							(!App?('<div class="listing"><a class="option smallFancyButton" '+Game.clickStr+'="Game.FileSave();PlaySound(\'snd/tick.mp3\');">'+loc("Save to file")+'</a><a class="option smallFancyButton" style="position:relative;"><input id="FileLoadInput" type="file" style="cursor:pointer;opacity:0;position:absolute;left:0px;top:0px;width:100%;height:100%;" onchange="Game.FileLoad(event);" '+Game.clickStr+'="PlaySound(\'snd/tick.mp3\');"/>'+loc("Load from file")+'</a><label>'+loc("Use this to keep backups on your computer")+'</label></div>'):'')+
-							'<div class="listing"><a class="option smallFancyButton" '+Game.clickStr+'="Game.InjectMod();PlaySound(\'snd/tick.mp3\');">'+loc("Inject script")+'</a><label>'+loc("Inject a script; can be used for modding")+'</label></div>'+
+							'<div class="listing"><a class="option smallFancyButton" '+Game.clickStr+'="Game.InjectMod();PlaySound(\'snd/tick.mp3\');">'+loc("Inject script")+'</a><label>'+loc("Inject a script; can be used for loading a mod or modding")+'</label></div>'+
 							'<div class="listing" style="text-align:right;"><label>'+loc("Delete all your progress, including your achievements")+'</label><a class="option smallFancyButton warning" '+Game.clickStr+'="Game.HardReset();PlaySound(\'snd/tick.mp3\');">'+loc("Wipe save")+'</a></div>'+
 							
 						'</div>'+
@@ -6642,7 +6642,7 @@ Game.Launch=function()
 							'<br>'+
 							(App?Game.WritePrefButton('bgMusic','bgMusicButton',loc("Music in background")+ON,loc("Music in background")+OFF,'')+'<label>('+loc("music will keep playing even when the game window isn't focused")+')</label><br>':'')+
 							(App?Game.WritePrefButton('fullscreen','fullscreenButton',loc("Fullscreen")+ON,loc("Fullscreen")+OFF,'Game.ToggleFullscreen();')+'<br>':'')+
-							Game.WritePrefButton('mobileMode','mobileModeButton',loc("Mobile mode")+ON,loc("Mobile mode")+OFF)+'<label>('+loc("the game will be treated as mobile")+')</label><br>'+
+							Game.WritePrefButton('hideRightClick','rightClickButton',loc("Ignore right clicks")+ON,loc("Ignore right clicks")+OFF)+'<label>('+loc("the game will hide the context menu when you right click")+')</label><br>'+
 							Game.WritePrefButton('fancy','fancyButton',loc("Fancy graphics")+ON,loc("Fancy graphics")+OFF,'Game.ToggleFancy();')+'<label>('+loc("visual improvements; disabling may improve performance")+')</label><br>'+
 							Game.WritePrefButton('filters','filtersButton',loc("CSS filters")+ON,loc("CSS filters")+OFF,'Game.ToggleFilters();')+'<label>('+(EN?'cutting-edge visual improvements; disabling may improve performance':loc("visual improvements; disabling may improve performance"))+')</label><br>'+
 							Game.WritePrefButton('particles','particlesButton',loc("Particles")+ON,loc("Particles")+OFF)+(EN?'<label>(cookies falling down, etc; disabling may improve performance)</label>':'')+'<br>'+
@@ -16855,120 +16855,6 @@ LAUNCH THIS THING
 
 window.onload=function()
 {
-	setTimeout(function() {
-		if (Game.prefs.mobileMode) {
-			Game.mobile=1;
-			// Sources from the Japanese wiki; pretty useful
-				(() => {
-					AddEvent(document, 'touchstart', e => {
-						Game.mouseX = (e.touches[0].pageX) / Game.scale;
-						Game.mouseY = (e.touches[0].pageY - TopBarOffset) / Game.scale;
-						Game.lastActivity = Game.time;
-						Game.mouseDown = 1;
-						Game.clickFrom = event.target;
-					});
-					AddEvent(document, 'touchmove', e => {
-						Game.mouseX = (e.changedTouches[0].pageX) / Game.scale;
-						Game.mouseY = (e.changedTouches[0].pageY - TopBarOffset) / Game.scale;
-						Game.mouseMoved = 1;
-						Game.lastActivity = Game.time;
-					});
-					AddEvent(document, 'touchend', () => {
-						Game.lastActivity = Game.time;
-						Game.mouseDown = 0;
-						Game.clickFrom = 0;
-					});
-				})();
-			(() => {
-				// we try to fix temples once every second, as it will throw an error if the minigame isn't shown
-				const M = Game.Objects['Temple'].minigame;
-				const testMinigameInterval = setInterval(function() {
-					if (!M) {
-						return
-					}
-					clearInterval(testMinigameInterval)
-					M.godSelected = -1, M.slotSelected = -1;
-					const id = () => M.gods[M.godSelected].id;
-					const name = n => {
-						for (let i in M.gods) if (M.gods[i].id === n) return i;
-						return -1;
-					};
-					const on = (g, s = -1) => {
-						M.godSelected = g, M.slotSelected = s;
-						if (s === -1) l('templeGod' + id()).classList.add('godSelected');
-						else l('templeSlot' + s).classList.add('godSelected');
-						PlaySound('snd/toneTick.mp3');
-					};
-					const off = () => {
-						const s = M.slotSelected;
-						if (s === -1) l('templeGod' + id()).classList.remove('godSelected');
-						else l('templeSlot' + s).classList.remove('godSelected');
-						M.godSelected = -1, M.slotSelected = -1;
-					};
-					const set = n => {
-						M.dragGod({ 'id': id() });
-						M.dragging = M.gods[M.godSelected];
-						M.slotHovered = n;
-						M.dropGod();
-						if (id() !== -1) l('templeGodPlaceholder' + id()).style.display = 'none';
-						off();
-					};
-					let el = document.createElement('style');
-					el.innerHTML = `
-					.templeGod:hover,.temple:active{
-						box-shadow:4px 4px 4px #000;
-						background-position:0 0;
-						z-index:auto;
-					}
-					.templeGod.ready:hover .templeIcon{
-						animation-name:none;
-						animation-iteration-count:0;
-						animation-duration:0s;
-					}
-					.templeGod.godSelected{
-						box-shadow:6px 6px 6px 2px #000;
-						background-position:0px 74px;
-						z-index:1000000001;
-						transform:scale(1.2)!important;
-					}
-					.templeGod.ready.godSelected .templeIcon{
-						animation-name:bounce;
-						animation-iteration-count:infinite;
-						animation-duration:0.8s;
-					}
-				`;
-					l('templeContent').appendChild(el);
-					for (let i in M.gods) {
-						const me = M.gods[i];
-						l('templeGod' + me.id).addEventListener('click', (g => () => {
-							if (M.gods[g].slot !== -1 || M.slotSelected !== -1) return;
-							if (M.godSelected === g) off();
-							else { if (M.godSelected != -1) off(); on(g); }
-						})(i));
-						for (let j of ['mousedown', 'mouseup']) {
-							l('templeGod' + me.id).addEventListener(j, e => { e.stopPropagation() }, true);
-						}
-					}
-					for (let i in M.slot) {
-						l('templeSlot' + i).addEventListener('click', (i => () => {
-							if (M.godSelected === -1) {
-								const n = M.slot[i];
-								if (n === -1) return;
-								on(name(n), i);
-							} else {
-								if (M.slot[i] === id()) { off(); return; }
-								set(i);
-							}
-						})(i));
-					}
-					l('templeGods').addEventListener('click', () => {
-						if (M.godSelected === -1 || M.slotSelected === -1) return;
-						set(-1);
-					});
-				}, 1000);
-			})()
-		}
-	}, 1000)
 	if (!Game.ready)
 	{
 		var loadLangAndLaunch=function(lang,firstLaunch)
@@ -17032,4 +16918,30 @@ window.onload=function()
 // Ctrl+X shortcut for exporting
 AddEvent(window,'keydown',function(e){
 	if (!Game.OnAscend && Game.AscendTimer==0 && e.ctrlKey && e.keyCode==88) {Game.ExportSave();e.preventDefault();}
+});
+
+// Sourced from the Japanese wiki; pretty useful
+AddEvent(document, 'touchstart', e => {
+	Game.mouseX = (e.touches[0].pageX) / Game.scale;
+	Game.mouseY = (e.touches[0].pageY - TopBarOffset) / Game.scale;
+	Game.lastActivity = Game.time;
+	Game.mouseDown = 1;
+	Game.clickFrom = event.target;
+});
+AddEvent(document, 'touchmove', e => {
+	Game.mouseX = (e.changedTouches[0].pageX) / Game.scale;
+	Game.mouseY = (e.changedTouches[0].pageY - TopBarOffset) / Game.scale;
+	Game.mouseMoved = 1;
+	Game.lastActivity = Game.time;
+});
+AddEvent(document, 'touchend', () => {
+	Game.lastActivity = Game.time;
+	Game.mouseDown = 0;
+	Game.clickFrom = 0;
+});
+
+AddEvent(document, 'contextmenu', e => {
+	if (Game.prefs && Game.prefs.hideRightClick) {
+		e.preventDefault();
+	}
 });
