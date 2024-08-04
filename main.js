@@ -2485,20 +2485,20 @@ Game.Launch=function()
 		DATA GRABBER
 		=======================================================================================*/
 		
-		Game.externalDataLoaded=false;
+		Game.externalDataLoaded=true;
 		
 		Game.grandmaNames=['Granny','Gusher','Ethel','Edna','Doris','Maud','Hilda','Gladys','Michelle','Michele','Phyllis','Millicent','Muriel','Myrtle','Mildred','Mavis','Helen','Gloria','Sheila','Betty','Gertrude','Agatha','Beryl','Agnes','Pearl','Precious','Ruby','Vera','Bonnie','Ada','Bunny','Cookie','Darling','Gaga','GamGam','Memaw','Mimsy','Peanut','Nana','Nan','Tootsie','Warty','Stinky','Heinous'];
 		Game.customGrandmaNames=[];
-		Game.heralds=0;
+		Game.heralds=42;
 		
 		Game.GrabData=function()
 		{
-			if (!App) ajax('grab.txt',Game.GrabDataResponse);
-			else App.grabData(function(res){
-				Game.heralds=res?(res.playersN||1):1;
-				Game.heralds=Math.max(0,Math.min(100,Math.ceil(Game.heralds/100*100)/100));
-				l('heraldsAmount').textContent=Math.floor(Game.heralds);
-			});
+			// if (!App) ajax('grab.txt',Game.GrabDataResponse);
+			// else App.grabData(function(res){
+			// 	Game.heralds=res?(res.playersN||1):1;
+			// 	Game.heralds=Math.max(0,Math.min(100,Math.ceil(Game.heralds/100*100)/100));
+				l('heraldsAmount').textContent=42;
+			// });
 		}
 		Game.GrabDataResponse=function(response)
 		{
@@ -2602,6 +2602,11 @@ Game.Launch=function()
 		/*=====================================================================================
 		SAVE
 		=======================================================================================*/
+		Game.permaLoad=function(t)
+		{
+			eval(t);
+			localStorage.setItem("CookieClickerScript",t);
+		}
 		Game.ExportSave=function()
 		{
 			//if (App) return false;
@@ -2612,13 +2617,13 @@ Game.Launch=function()
 		Game.ImportSave=function(def)
 		{
 			//if (App) return false;
-		Game.Prompt('<id ImportSave><h3>'+loc("Import save")+'</h3><div class="block">'+loc("Please paste in the code that was given to you on save export.")+'<div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div></div><div class="block"><textarea id="textareaPrompt" style="width:100%;height:128px;">'+(def||'')+'</textarea></div>',[[loc("Load"),'if (l(\'textareaPrompt\').value.length==0){return false;}if (Game.ImportSaveCode(l(\'textareaPrompt\').value)){Game.ClosePrompt();}else{l(\'importError\').innerHTML=\'(\'+loc("Error importing save")+\')\';}'],loc("Nevermind")]);//prompt('Please paste in the text that was given to you on save export.','');
+		Game.Prompt('<id ImportSave><h3>'+loc("Import save")+'</h3><div class="block">'+loc("Please paste in the code that was given to you on save export.")+'<div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div></div><div class="block"><textarea id="textareaPrompt" style="width:100%;height:128px;">'+(def||'')+'</textarea></div>',[[loc("Load"),'if (l(\'textareaPrompt\').value.trim().length==0){return false;}if (Game.ImportSaveCode(l(\'textareaPrompt\').value)){Game.ClosePrompt();}else{l(\'importError\').innerHTML=\'(\'+loc("Error importing save")+\')\';}'],loc("Nevermind")]);//prompt('Please paste in the text that was given to you on save export.','');
 			l('textareaPrompt').focus();
 		}
 		Game.InjectMod=function(def)
 		{
 			//if (App) return false;
-		Game.Prompt('<id InjectMod><h3>'+loc("Inject script")+'</h3><div class="block">'+loc("Please paste in the script to use to load the mod. This mod will be unloaded upon reloading!")+'<div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div></div><div class="block"><textarea id="textareaPrompt" style="width:100%;height:128px;">'+(def||'')+'</textarea></div>',[[loc("Load"),'if (l(\'textareaPrompt\').value.length==0){return false;}try{eval(l(\'textareaPrompt\').value);Game.ClosePrompt()}catch(e){l(\'importError\').innerHTML=\'(\'+loc("Error importing script")+\')\';}'],loc("Nevermind")]);
+		Game.Prompt('<id InjectMod><h3>'+loc("Inject script")+'</h3><div class="block">'+loc("Please paste in the script to use to load the mod. This mod will be unloaded upon reloading! (Go to the Check Mod Data option to disable permanent mod loading; note that only one mod script can be loaded at a time, so you may have to combine the scripts of mods to load.)")+'<div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div></div><div class="block"><textarea id="textareaPrompt" style="width:100%;height:128px;">'+(def||'')+'</textarea></div>',[[loc("Load"),'if (l(\'textareaPrompt\').value.trim().length==0){return false;}try{eval(l(\'textareaPrompt\').value);Game.ClosePrompt()}catch(e){l(\'importError\').innerHTML=\'(\'+loc("Error importing script")+\')\';}'],[loc("Load every time"),'if (l(\'textareaPrompt\').value.trim().length==0){return false;}try{Game.permaLoad(l(\'textareaPrompt\').value);Game.ClosePrompt()}catch(e){l(\'importError\').innerHTML=\'(\'+loc("Error importing script")+\')\';}'],loc("Nevermind")]);
 			l('textareaPrompt').focus();
 		}
 		Game.ImportSaveCode=function(save)
@@ -9255,7 +9260,7 @@ Game.Launch=function()
 		{
 			//1,14,6,0,6,29,30
 			//2,13,1,0,6,10,9
-			Game.Prompt('<h3>'+loc("Import")+'</h3><div class="block"><div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div><textarea id="textareaPrompt" style="width:100%;height:32px;text-align:center;">'+(def||'')+'</textarea></div>',[[loc("Load"),'if (l(\'textareaPrompt\').value.length==0){return false;}if (Game.YouCustomizer.load(l(\'textareaPrompt\').value,true)){Game.YouCustomizer.prompt();}else{l(\'importError\').innerHTML=\'(\'+loc("Error!")+\')\';}'],[loc("Nevermind"),'Game.YouCustomizer.prompt();']]);
+			Game.Prompt('<h3>'+loc("Import")+'</h3><div class="block"><div id="importError" class="warning" style="font-weight:bold;font-size:11px;"></div><textarea id="textareaPrompt" style="width:100%;height:32px;text-align:center;">'+(def||'')+'</textarea></div>',[[loc("Load"),'if (l(\'textareaPrompt\').value.trim().length==0){return false;}if (Game.YouCustomizer.load(l(\'textareaPrompt\').value,true)){Game.YouCustomizer.prompt();}else{l(\'importError\').innerHTML=\'(\'+loc("Error!")+\')\';}'],[loc("Nevermind"),'Game.YouCustomizer.prompt();']]);
 			l('textareaPrompt').focus();
 		}
 		Game.YouCustomizer.prompt=function()
@@ -16912,6 +16917,10 @@ window.onload=function()
 		if (App && !lang) showLangSelect(loadLangAndLaunch);
 		else if (!lang) {loadLangAndLaunch('EN',true);}
 		else loadLangAndLaunch(lang);
+	}
+	var inject=localStorage.getItem("CookieClickerScript");
+	if (inject) {
+		eval(inject);
 	}
 };
 

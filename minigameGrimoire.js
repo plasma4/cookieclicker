@@ -281,7 +281,6 @@ M.launch=function()
 				x=top+200;
 				M.magicM=x;
 			}
-			*/
 			M.magic=Math.min(M.magicM,M.magic);
 		}
 		

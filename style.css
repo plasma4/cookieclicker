@@ -1063,7 +1063,6 @@ input[type=range]:active::-ms-thumb,input[type=range]:hover::-ms-thumb {backgrou
 	position:absolute;
 	z-index:1000000000;
 	display:none;
-	//transition:left 0.1s ease-out,right 0.1s ease-out,top 0.1s ease-out,bottom 0.1s ease-out;
 }
 #tooltip
 {
@@ -1686,7 +1685,7 @@ q:after
 .meter.filling
 {
 /* this tiny thing is actually an enormous resource hog */
--/*webkit-animation:fluidMotion 10s infinite linear;
+/*webkit-animation:fluidMotion 10s infinite linear;
    -moz-animation:fluidMotion 10s infinite linear;
         animation:fluidMotion 10s infinite linear;*/
 	/*-webkit-transition:right 0.5s linear;
@@ -3160,7 +3159,7 @@ a.smallWhiteButton
 	pointer-events:none;
 }
 
-.crisp
+.crisp,.crate
 {
 	image-rendering: optimizeSpeed;             /* Older versions of FF          */
 	image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
