@@ -1183,7 +1183,7 @@ var Game={};
 		if (modsN==0) str+=loc("No mod data present.");
 		else str+='<div><a class="option warning" style="font-size:11px;margin-top:4px;" '+Game.clickStr+'="Game.deleteAllModData();PlaySound(\'snd/tick.mp3\');Game.ClosePrompt();Game.CheckModData();">'+loc("Delete all")+'</a></div>';
 		if (localStorage.getItem("CookieClickerScript")) {
-			Game.Prompt('<id ModData><h3>'+loc("Mod data")+'</h3><div class="block">'+tinyIcon([16,5])+'<div></div>'+loc("These are the mods present in your save data. You may delete some of this data to make your save file smaller.")+'</div><div class="block" style="font-size:11px;">'+str+'</div>',[[loc("Clear auto-loaded mods"),'localStorage.removeItem("CookieClickerScript")'],loc("Back")]);
+			Game.Prompt('<id ModData><h3>'+loc("Mod data")+'</h3><div class="block">'+tinyIcon([16,5])+'<div></div>'+loc("These are the mods present in your save data. You may delete some of this data to make your save file smaller.")+'</div><div class="block" style="font-size:11px;">'+str+'</div>',[[loc("Clear auto-loaded mods and reload"),'localStorage.removeItem("CookieClickerScript");location.reload()'],loc("Back")]);
 		} else {
 			Game.Prompt('<id ModData><h3>'+loc("Mod data")+'</h3><div class="block">'+tinyIcon([16,5])+'<div></div>'+loc("These are the mods present in your save data. You may delete some of this data to make your save file smaller.")+'</div><div class="block" style="font-size:11px;">'+str+'</div>',[loc("Back")]);
 		}
@@ -16936,12 +16936,17 @@ window.onload=function()
 	}
 };
 
-// Ctrl+X shortcut for exporting
+// Ctrl+X shortcut for exporting and context menu hiding fixes
 AddEvent(window,'keydown',function(e){
 	if (!Game.OnAscend && Game.AscendTimer==0 && e.ctrlKey && e.keyCode==88) {Game.ExportSave();e.preventDefault();}
 });
+AddEvent(document, 'contextmenu', e => {
+	if (Game.prefs && Game.prefs.hideRightClick) {
+		e.preventDefault();
+	}
+});
 
-// Sourced from the Japanese wiki; pretty useful
+// Sourced from the Japanese wiki and pretty useful!
 AddEvent(document, 'touchstart', e => {
 	Game.mouseX = (e.touches[0].pageX) / Game.scale;
 	Game.mouseY = (e.touches[0].pageY - TopBarOffset) / Game.scale;
@@ -16959,10 +16964,4 @@ AddEvent(document, 'touchend', () => {
 	Game.lastActivity = Game.time;
 	Game.mouseDown = 0;
 	Game.clickFrom = 0;
-});
-
-AddEvent(document, 'contextmenu', e => {
-	if (Game.prefs && Game.prefs.hideRightClick) {
-		e.preventDefault();
-	}
 });

@@ -532,7 +532,7 @@ M.launch=function()
 				detailsStr:cap(loc("the unfortunate result of some plant combinations")),
 				children:['shriekbulb'],
 				effsStr:'<div class="red">&bull; '+loc("CpS")+' -2%</div><div class="red">&bull; '+loc("surrounding plants (%1x%1) are %2% less efficient",[3,5])+'</div>',
-				q:'A nasty vegetable with a dreadful quirk: its flesh resonates with a high-pitched howl whenever it is hit at the right angle by sunlight, moonlight, or even a slight breeze.',
+				q:'A nasty vegetable with a dreadful quirk : its flesh resonates with a high-pitched howl whenever it is hit at the right angle by sunlight, moonlight, or even a slight breeze.',
 			},
 			'tidygrass':{
 				name:'Tidygrass',
