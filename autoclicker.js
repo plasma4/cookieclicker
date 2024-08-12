@@ -14,10 +14,7 @@ function gold() {
     golden = setInterval(() => {
         var t = Game.shimmers[0]
         if (t != null) {
-            var type = t.type
-            if (type === "golden" || type === "reindeer") {
-                t.pop()
-            }
+            t.pop()
         }
     }, 125) // yeah thanks Uncanny Clicker for ruining so many people's saves this works fine
 }
