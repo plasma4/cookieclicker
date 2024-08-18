@@ -16969,6 +16969,7 @@ AddEvent(document, 'touchmove', e => {
 });
 AddEvent(document, 'touchend', () => {
 	Game.lastActivity = Game.time;
+	Game.mobileDown = 0;
 	Game.mouseDown = 0;
 	Game.clickFrom = 0;
 });
