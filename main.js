@@ -16947,19 +16947,25 @@ AddEvent(document, 'contextmenu', e => {
 	}
 });
 
-// Sourced from the Japanese wiki and pretty useful!
+// Sourced from the Japanese wiki and modified somewhat; allows proper mouse detection.
+Game.mobileDown = 0;
 AddEvent(document, 'touchstart', e => {
-	Game.mouseX = (e.touches[0].pageX) / Game.scale;
-	Game.mouseY = (e.touches[0].pageY - TopBarOffset) / Game.scale;
-	Game.lastActivity = Game.time;
-	Game.mouseDown = 1;
-	Game.clickFrom = event.target;
+	if (!Game.mouseDown && e.touches.length === 1) {
+		Game.mouseX = (e.touches[0].pageX) / Game.scale;
+		Game.mouseY = (e.touches[0].pageY - TopBarOffset) / Game.scale;
+		Game.lastActivity = Game.time;
+		Game.mouseDown = 1;
+		Game.mobileDown = 1;
+		Game.clickFrom = event.target;
+	}
 });
 AddEvent(document, 'touchmove', e => {
-	Game.mouseX = (e.changedTouches[0].pageX) / Game.scale;
-	Game.mouseY = (e.changedTouches[0].pageY - TopBarOffset) / Game.scale;
-	Game.mouseMoved = 1;
-	Game.lastActivity = Game.time;
+	if ((!Game.mouseDown || Game.mobileDown) && e.touches.length === 1) {
+		Game.mouseX = (e.changedTouches[0].pageX) / Game.scale;
+		Game.mouseY = (e.changedTouches[0].pageY - TopBarOffset) / Game.scale;
+		Game.mouseMoved = 1;
+		Game.lastActivity = Game.time;
+	}
 });
 AddEvent(document, 'touchend', () => {
 	Game.lastActivity = Game.time;

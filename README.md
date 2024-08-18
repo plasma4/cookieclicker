@@ -10,5 +10,5 @@ This mirror for, errrr, like, important educational purposes, either for downloa
 - Allows you to easily change or manage mods that you want to add, including automated mod loading!
 - Fixes import corruption, a major bug in the game.
 - Adds a method to stop the context menu from appearing when you right click; useful if you do that by accident.
-- Pixelates the upgrade and achievement icons properly so they don't get blurred.
-- Allows the user to use the Pantheon and ascension menu properly on mobile easily.
+- Pixelates icons properly on high resolution; this is purely a graphics thing.
+- Allows the user to use the Pantheon and ascension menu properly on mobile.
