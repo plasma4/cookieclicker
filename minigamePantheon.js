@@ -204,7 +204,7 @@ M.launch=function()
 			if (slot!=-1 && M.slot[slot]!=-1)
 			{
 				M.godsById[M.slot[slot]].slot=god.slot;//swap
-				if (god.slot!=-1)M.slot[god.slot]=M.slot[slot];
+				if (god.slot!=-1) M.slot[god.slot]=M.slot[slot];
 			}
 			else if (god.slot!=-1) M.slot[god.slot]=-1;
 			if (slot!=-1) M.slot[slot]=god.id;
