@@ -187,7 +187,7 @@ function formatEveryThirdPower(notations)
 	};
 }
 
-function rawFormatter(val){return +(Math.round(val*1000)/1000).toFixed(3);}
+function rawFormatter(val){return val%1?Math.floor(val*1000)/1000:val;}
 
 var formatLong=[' thousand',' million',' billion',' trillion',' quadrillion',' quintillion',' sextillion',' septillion',' octillion',' nonillion'];
 var prefixes=['','un','duo','tre','quattuor','quin','sex','septen','octo','novem'];
