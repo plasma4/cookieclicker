@@ -255,8 +255,8 @@ var shortenNumber=function(val)
 
 var SimpleBeautify=function(val)
 {
-	var str=val.toString();
 	if (!isFinite(val)) return 'Infinity';
+	var str=val.toString();
 	var str2='';
 	for (var i in str)//add commas
 	{
