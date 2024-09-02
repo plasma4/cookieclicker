@@ -257,6 +257,7 @@ var SimpleBeautify=function(val)
 {
 	if (!isFinite(val)) return 'Infinity';
 	var str=val.toString();
+	if (str.indexOf('e')!=-1) return str;
 	var str2='';
 	for (var i in str)//add commas
 	{
