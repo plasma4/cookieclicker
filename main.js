@@ -16887,6 +16887,10 @@ window.onload=function()
 				LoadLang('loc/'+lang+'.js?v='+Game.version,function(){
 					var launch=function(){
 						Game.Launch();
+						var inject=localStorage.getItem("CookieClickerScript");
+						if (inject) {
+							setTimeout(function(){eval(inject)},250);
+						}
 						if (top!=self) Game.ErrorFrame();
 						else
 						{
@@ -16932,10 +16936,6 @@ window.onload=function()
 		if (App && !lang) showLangSelect(loadLangAndLaunch);
 		else if (!lang) {loadLangAndLaunch('EN',true);}
 		else loadLangAndLaunch(lang);
-	}
-	var inject=localStorage.getItem("CookieClickerScript");
-	if (inject) {
-		setTimeout(function(){eval(inject)},250);
 	}
 };
 
