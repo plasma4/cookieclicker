@@ -4,10 +4,8 @@ var golden = -1
 
 function auto() {
     interval = setInterval(() => {
-        Game.Win("Uncanny clicker") // whelp
-        Game.lastClick -= 1000
         document.getElementById("bigCookie").click()
-    }, 17)
+    }, 5)
 }
 
 function gold() {
