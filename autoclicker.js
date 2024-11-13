@@ -1,10 +1,25 @@
 // funny little script
 var interval = -1
 var golden = -1
+var hovering = false
+
+var bigCookie = document.getElementById("bigCookie")
+bigCookie.addEventListener("mouseover", () => {
+    hovering = true
+})
+
+bigCookie.addEventListener("mouseout", () => {
+    hovering = false
+})
+
+onblur = () => hovering = false
 
 function auto() {
     interval = setInterval(() => {
-        document.getElementById("bigCookie").click()
+        if (hovering) {
+            Game.lastClick -= 1000
+            bigCookie.click()
+        }
     }, 5)
 }
 
