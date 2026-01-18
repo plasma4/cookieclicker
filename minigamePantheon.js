@@ -523,5 +523,95 @@ M.launch=function()
 		if (Game.drawT%5==0) M.swapsL.innerHTML=loc("Worship swaps: %1",'<span class="titleFont" style="color:'+(M.swaps>0?'#fff':'#c00')+';">'+M.swaps+'/'+(3)+'</span>')+((M.swaps<3)?' ('+loc("next in %1",Game.sayTime((t2/1000+1)*Game.fps,-1))+')':'');
 	}
 	M.init(l('rowSpecial'+M.parent.id));
+
+	// Huge thanks to the Japanese wiki for this code for temple minigame support!
+	if (modsEnabled) (()=>{
+		var ptrUpped=false;
+		const M=Game.Objects['Temple'].minigame;
+		M.godSelected=-1,M.slotSelected=-1;
+		const id=()=>M.gods[M.godSelected].id;
+		const name=n=>{
+			for(let i in M.gods)if(M.gods[i].id===n)return i;
+			return -1;
+		};
+		const on = (g, s = -1) => {
+			M.godSelected=g,M.slotSelected=s;
+			if(s===-1)l('templeGod'+id()).classList.add('godSelected');
+			else l('templeSlot'+s).classList.add('godSelected');
+			PlaySound('snd/toneTick.mp3');
+		};
+		const off=()=>{
+			const s = M.slotSelected;
+			if(s===-1)l('templeGod'+id()).classList.remove('godSelected');
+			else l('templeSlot'+s).classList.remove('godSelected');
+			M.godSelected=-1,M.slotSelected=-1;
+		};
+		const set=n=>{
+			M.dragGod({'id':id()});
+			M.dragging=M.gods[M.godSelected];
+			M.slotHovered = n;
+			M.dropGod();
+			if(id()!==-1)l('templeGodPlaceholder'+id()).style.display='none';
+			off();
+		};
+		let el=document.createElement('style');
+		el.innerHTML=`
+			.templeGod:hover,.temple:active{
+				box-shadow:4px 4px 4px #000;
+				background-position:0 0;
+				z-index:auto;
+			}
+			.templeGod.ready:hover .templeIcon{
+				animation-name:none;
+				animation-iteration-count:0;
+				animation-duration:0s;
+			}
+			.templeGod.godSelected{
+				box-shadow:6px 6px 6px 2px #000;
+				background-position:0px 74px;
+				z-index:1000000001;
+				transform:scale(1.2)!important;
+			}
+			.templeGod.ready.godSelected .templeIcon{
+				animation-name:bounce;
+				animation-iteration-count:infinite;
+				animation-duration:0.8s;
+			}
+		`;
+		l('templeContent').appendChild(el);
+		for(let i in M.gods){
+			const me = M.gods[i];
+			l('templeGod'+me.id).addEventListener('pointerup',(g=>e=>{
+				if (e.pointerType !== "mouse") {
+					ptrUpped=true;
+					if(M.gods[g].slot!==-1||M.slotSelected!==-1)return;
+					if (M.godSelected === g) off ();
+					else{if(M.godSelected!=-1)off();on(g);}
+				}
+			})(i));
+			if (modsEnabled) for(let j of ['mousedown','mouseup']){
+				l('templeGod'+me.id).addEventListener(j,e=>{if (ptrUpped)e.stopPropagation()},true); // Fixes to the Japanese wiki's implementation so that they work on non-touchscreen devices as well
+			}
+		}
+		for(let i in M.slot){
+			l('templeSlot'+i).addEventListener('pointerup',(i=>e=>{
+				if (ptrUpped) {
+					ptrUpped=false;
+					if(M.godSelected===-1) {
+						const n = M.slot[i];
+						if ( n ===-1 ) return ;
+						on(name(n),i);
+					}else{
+						if(M.slot[i]===id()){off();return;}
+						set(i);
+					}
+				}
+			})(i));
+		}
+		l('templeGods').addEventListener('pointerup',e=>{
+			if(M.godSelected===-1||M.slotSelected===-1)return;
+			set(-1);
+		});
+	})();	
 }
 var M=0;

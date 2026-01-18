@@ -17397,4 +17397,32 @@ window.onload=function()
 		else if (!lang) {loadLangAndLaunch('EN',true);}
 		else loadLangAndLaunch(lang);
 	}
+	if (modsEnabled) {
+		// Sourced from the Japanese wiki and modified somewhat; allows proper mouse faking for mobile.
+		Game.mobileDown = 0;
+		AddEvent(document, 'touchstart', e => {
+			if (!Game.mouseDown && e.touches.length === 1) {
+				Game.mouseX = (e.touches[0].pageX) / Game.scale;
+				Game.mouseY = (e.touches[0].pageY - TopBarOffset) / Game.scale;
+				Game.lastActivity = Game.time;
+				Game.mouseDown = 1;
+				Game.mobileDown = 1;
+				Game.clickFrom = event.target;
+			}
+		});
+		AddEvent(document, 'touchmove', e => {
+			if ((!Game.mouseDown || Game.mobileDown) && e.touches.length === 1) {
+				Game.mouseX = (e.changedTouches[0].pageX) / Game.scale;
+				Game.mouseY = (e.changedTouches[0].pageY - TopBarOffset) / Game.scale;
+				Game.mouseMoved = 1;
+				Game.lastActivity = Game.time;
+			}
+		});
+		AddEvent(document, 'touchend', () => {
+			Game.lastActivity = Game.time;
+			Game.mobileDown = 0;
+			Game.mouseDown = 0;
+			Game.clickFrom = 0;
+		});
+	}
 };
