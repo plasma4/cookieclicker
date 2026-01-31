@@ -143,7 +143,6 @@ localStorageSet=function(key,str)
 	try {local=window.localStorage.setItem(key,str);} catch (exception) {}
 	return local;
 }
-var modsEnabled=localStorageGet('enableCCModFunctionality')!=null;
 
 var ajax=function(url,callback)
 {
@@ -168,6 +167,11 @@ var ajax=function(url,callback)
 	xhr.send();
 	return true;
 }
+
+// New features.
+var currentPathname=new URL(window.location.href).pathname;
+var mobileFeaturesEnabled=currentPathname.endsWith("/mobile")||currentPathname.endsWith("/mobile.html");
+var modsEnabled=mobileFeaturesEnabled||currentPathname.endsWith("/modded")||currentPathname.endsWith("/modded.html");
 
 var DataDir='';//'//orteil.dashnet.org/data/';
 DataDir='https://orteil.dashnet.org/data/';
@@ -204,6 +208,31 @@ var getJson=function(url,callback,error)
 	xhr.send();
 	return true;
 }
+
+/*
+Original function for reference:
+var getJson=function(url,callback,error)
+{
+	if (Game.local) return false;
+	var xhr=new XMLHttpRequest();
+	if (!xhr){return false;}
+	xhr.onreadystatechange=function()
+	{
+		try{
+			if (xhr.readyState===XMLHttpRequest.DONE && xhr.status===200)
+			{
+				var json=JSON.parse(xhr.responseText);
+				callback(json);
+			}
+		}catch(e){if (error) error(e);}
+	}
+	if (url.indexOf('?')==-1) url+='?'; else url+='&';
+	url+='nocache='+Math.floor(Date.now()/1000/60/30);//cache in 30-minute steps
+	xhr.open('GET',url,true);
+	xhr.send();
+	return true;
+}
+*/
 
 function toFixed(x)
 {
@@ -17397,7 +17426,7 @@ window.onload=function()
 		else if (!lang) {loadLangAndLaunch('EN',true);}
 		else loadLangAndLaunch(lang);
 	}
-	if (modsEnabled) {
+	if (mobileFeaturesEnabled) {
 		// Sourced from the Japanese wiki and modified somewhat; allows proper mouse faking for mobile.
 		Game.mobileDown = 0;
 		AddEvent(document, 'touchstart', e => {

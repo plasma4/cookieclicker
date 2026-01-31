@@ -525,7 +525,7 @@ M.launch=function()
 	M.init(l('rowSpecial'+M.parent.id));
 
 	// Huge thanks to the Japanese wiki for this code for temple minigame support!
-	if (modsEnabled) (()=>{
+	if (mobileFeaturesEnabled) (()=>{
 		var ptrUpped=false;
 		const M=Game.Objects['Temple'].minigame;
 		M.godSelected=-1,M.slotSelected=-1;
@@ -589,7 +589,7 @@ M.launch=function()
 					else{if(M.godSelected!=-1)off();on(g);}
 				}
 			})(i));
-			if (modsEnabled) for(let j of ['mousedown','mouseup']){
+			if (mobileFeaturesEnabled) for(let j of ['mousedown','mouseup']){
 				l('templeGod'+me.id).addEventListener(j,e=>{if (ptrUpped)e.stopPropagation()},true); // Fixes to the Japanese wiki's implementation so that they work on non-touchscreen devices as well
 			}
 		}
