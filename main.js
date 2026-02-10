@@ -2595,14 +2595,24 @@ Game.Launch=function()
 		Game.getTooltip=function(text,origin,isCrate)
 		{
 			origin=(origin?origin:'middle');
-			if (isCrate) return 'onMouseOut="Game.setOnCrate(0);Game.tooltip.shouldHide=1;" onMouseOver="if (!Game.mouseDown) {Game.setOnCrate(this);Game.tooltip.dynamic=0;Game.tooltip.draw(this,\''+escape(text)+'\',\''+origin+'\');Game.tooltip.wobble();}"';
-			else return 'onMouseOut="Game.tooltip.shouldHide=1;" onMouseOver="Game.tooltip.dynamic=0;Game.tooltip.draw(this,\''+escape(text)+'\',\''+origin+'\');Game.tooltip.wobble();"';
+			if (mobileFeaturesEnabled) {
+				if (isCrate) return 'onMouseOut="Game.setOnCrate(0);Game.tooltip.shouldHide=1;" onMouseOver="if (!Game.mouseDown) {Game.setOnCrate(this);Game.tooltip.dynamic=0;Game.tooltip.draw(this,\''+escape(text)+'\',\''+origin+'\');Game.tooltip.wobble();}" onTouchStart="if (!Game.mouseDown) {Game.setOnCrate(this);Game.tooltip.dynamic=0;Game.tooltip.draw(this,\''+escape(text)+'\',\''+origin+'\');Game.tooltip.wobble();}"';
+				else return 'onMouseOut="Game.tooltip.shouldHide=1;" onMouseOver="Game.tooltip.dynamic=0;Game.tooltip.draw(this,\''+escape(text)+'\',\''+origin+'\');Game.tooltip.wobble();" onTouchStart="Game.tooltip.dynamic=0;Game.tooltip.draw(this,\''+escape(text)+'\',\''+origin+'\');Game.tooltip.wobble();"';
+			} else {
+				if (isCrate) return 'onMouseOut="Game.setOnCrate(0);Game.tooltip.shouldHide=1;" onMouseOver="if (!Game.mouseDown) {Game.setOnCrate(this);Game.tooltip.dynamic=0;Game.tooltip.draw(this,\''+escape(text)+'\',\''+origin+'\');Game.tooltip.wobble();}"';
+				else return 'onMouseOut="Game.tooltip.shouldHide=1;" onMouseOver="Game.tooltip.dynamic=0;Game.tooltip.draw(this,\''+escape(text)+'\',\''+origin+'\');Game.tooltip.wobble();"';
+			}
 		}
 		Game.getDynamicTooltip=function(func,origin,isCrate)
 		{
 			origin=(origin?origin:'middle');
-			if (isCrate) return 'onMouseOut="Game.setOnCrate(0);Game.tooltip.shouldHide=1;" onMouseOver="if (!Game.mouseDown) {Game.setOnCrate(this);Game.tooltip.dynamic=1;Game.tooltip.draw(this,'+'function(){return '+func+'();}'+',\''+origin+'\');Game.tooltip.wobble();}"';
-			return 'onMouseOut="Game.tooltip.shouldHide=1;" onMouseOver="Game.tooltip.dynamic=1;Game.tooltip.draw(this,'+'function(){return '+func+'();}'+',\''+origin+'\');Game.tooltip.wobble();"';
+			if (mobileFeaturesEnabled) {
+				if (isCrate) return 'onMouseOut="Game.setOnCrate(0);Game.tooltip.shouldHide=1;" onMouseOver="if (!Game.mouseDown) {Game.setOnCrate(this);Game.tooltip.dynamic=1;Game.tooltip.draw(this,'+'function(){return '+func+'();}'+',\''+origin+'\');Game.tooltip.wobble();}" onTouchStart="if (!Game.mouseDown) {Game.setOnCrate(this);Game.tooltip.dynamic=1;Game.tooltip.draw(this,'+'function(){return '+func+'();}'+',\''+origin+'\');Game.tooltip.wobble();}"';
+				return 'onMouseOut="Game.tooltip.shouldHide=1;" onMouseOver="Game.tooltip.dynamic=1;Game.tooltip.draw(this,'+'function(){return '+func+'();}'+',\''+origin+'\');Game.tooltip.wobble();" onTouchStart="Game.tooltip.dynamic=1;Game.tooltip.draw(this,'+'function(){return '+func+'();}'+',\''+origin+'\');Game.tooltip.wobble();"';
+			} else {
+				if (isCrate) return 'onMouseOut="Game.setOnCrate(0);Game.tooltip.shouldHide=1;" onMouseOver="if (!Game.mouseDown) {Game.setOnCrate(this);Game.tooltip.dynamic=1;Game.tooltip.draw(this,'+'function(){return '+func+'();}'+',\''+origin+'\');Game.tooltip.wobble();}"';
+				return 'onMouseOut="Game.tooltip.shouldHide=1;" onMouseOver="Game.tooltip.dynamic=1;Game.tooltip.draw(this,'+'function(){return '+func+'();}'+',\''+origin+'\');Game.tooltip.wobble();"';
+			}
 		}
 		Game.attachTooltip=function(el,func,origin)
 		{
@@ -5150,6 +5160,10 @@ Game.Launch=function()
 			};
 			AddEvent(document,'DOMMouseScroll',Game.handleScroll);
 			AddEvent(document,'mousewheel',Game.handleScroll);
+			// extra mobile logic
+			if (mobileFeaturesEnabled) {
+				AddEvent(bigCookie,'touchstart',function(e){Game.BigCookieState=1;if (Game.prefs.cookiesound) {Game.playCookieClickSound();}});
+			}
 		}
 		else
 		{
@@ -17427,6 +17441,7 @@ window.onload=function()
 		else loadLangAndLaunch(lang);
 	}
 	if (mobileFeaturesEnabled) {
+		document.documentElement.style.touchAction = "manipulation"; // Disable double-tap zooming
 		// Sourced from the Japanese wiki and modified somewhat; allows proper mouse faking for mobile.
 		Game.mobileDown = 0;
 		AddEvent(document, 'touchstart', e => {
@@ -17436,7 +17451,7 @@ window.onload=function()
 				Game.lastActivity = Game.time;
 				Game.mouseDown = 1;
 				Game.mobileDown = 1;
-				Game.clickFrom = event.target;
+				Game.clickFrom = e.target;
 			}
 		});
 		AddEvent(document, 'touchmove', e => {

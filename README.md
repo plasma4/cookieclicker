@@ -2,7 +2,7 @@
 
 <img src="img/perfectCookie.png" width="128">
 
-Download the `.zip` with [this link](https://github.com/plasma4/cookieclicker/archive/refs/heads/main.zip). The original game can be found at http://orteil.dashnet.org/cookieclicker/. Please note that this is an unofficial host of cookieclicker and is not endorsed by Orteil or Playsaurus.
+Download the `.zip` with [this link](https://github.com/plasma4/cookieclicker/archive/refs/heads/main.zip). The original game can be found at http://orteil.dashnet.org/cookieclicker/. Please note that this is an unofficial file-only host of Cookie Clicker and is not endorsed by Orteil or Playsaurus. This repo contains a few improvements over the `ozh` repo (see Changes section below).
 
 - Normal link: [plasma4.github.io/cookieclicker/](https://plasma4.github.io/cookieclicker/)
 - Modded link: [plasma4.github.io/cookieclicker/modded](https://plasma4.github.io/cookieclicker/modded)
@@ -13,7 +13,7 @@ Download the `.zip` with [this link](https://github.com/plasma4/cookieclicker/ar
 
 When using `index.html`, **mods are disabled**. (In older versions, they would be enabled by default.) This acts identically to the normal version of Cookie Clicker (but without ads; these wouldn't work on a domain not owned by Orteil anyway).
 
-Mod options will **only show up** if you are visiting `modded.html` and **mobile functionality and mods** (not part of the base game, and not leaderboard-valid) will only be available in `mobile.html`. Mobile functionality allows using touchscreen for moving around in the ascend menu and using temple swaps, for example.
+Mod options will **only show up** if you are visiting `modded.html` and **mobile functionality and mods** (not part of the base game, see specific changes below) will only be available in `mobile.html`. Mobile functionality allows using touchscreen for moving around in the ascend menu and using temple swaps, for example.
 
 This mirror for, errrr, like, educational purpose, either to download for your own offline education or to be played online from http://plasma4.github.io/cookieclicker/ if you cannot "educate" yourself on the original URL. It should also fully work when opened as a `file://`.
 
@@ -21,23 +21,29 @@ This fork uses Cloudflare's API as a gateway to certain dynamic JSON files used 
 
 Note that `index.html`, `modded.html`, and `mobile.html` have **identical code**; they are only different to prevent users from accidentally selecting the wrong version. You can access from `modded`/`mobile` (without the `.html`) and automatic detection of if mods/mobile features should be enabled will still occur.
 
-## Changes compared to base Cookie Clicker (non-visual, shouldn't impact gameplay)
+## Changes compared to base Cookie Clicker/ozh repo (non-visual, no gameplay impact)
 
-- Removed ads and tracking (ads wouldn't work anyway)
+- Removed ads and tracking requests (ads wouldn't work anyway)
 - Hardcoded `<style>` into HTML, so some mods work properly
-- Replaced Cloudflare/Google fonts with local versions
-- Changed `getJson` to work (and minimize requests necessary by hardcoding some)
-- You customizer uses data URIs
+- Replaced Cloudflare/Google fonts with identical local versions (also reduces tracking)
+- Changed `getJson` to work (and minimize requests necessary by hardcoding some), getting around the standard `Access-Control-Allow-Origin` problem
+- Added `<meta charset="UTF-8">` tag (prevent ANSI encoding edge cases)
+- You customizer uses data URIs (allows for identical gameplay through a file)
 
-## Modded changes compared to base Cookie Clicker (`modded.html`)
+## Modded changes on top of changes above (`modded.html`)
 
 - Added a new button: "Inject script" (in the Options menu)
-- Allows basic management of script injection, such as autoloading and deletion management
+- Includes basic management of script injection, such as autoloading and deletion management
 
-## Mobile changes compared to modded (`mobile.html`)
+## Mobile changes on top of modded changes (`mobile.html`)
 
+- Double tap no longer zooms in; only pinching does
 - Pantheon/temple minigame allows you to tap to select/change slots
 - Ascend menu and some other touch functionality now works, as if using a mouse
+- Cookie now animates and plays sound with touchscreen
+- Tooltip "hovering" works by letting you put your finger over something and then moving it away to prevent clicking
+
+Note that these changes do not set `Game.mobile` to `1`, which means that playing with a mouse/touchpad will still fully function (and UI acts less weird). This is technically not leaderboard valid/an "official" way to play the game.
 
 ### How to update (from original ozh repo)
 
